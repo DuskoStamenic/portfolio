@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Duško Stamenić — Product Designer</title>
+<style>
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("instrument-serif/instrument-serif-latin-regular.woff2") format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("instrument-serif/instrument-serif-latin-italic.woff2") format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'IBM Plex Sans';
+    font-weight: 100 700;
+    font-stretch: 75% 100%;
+    font-display: swap;
+    src: url("ibm-plex-sans/ibm-plex-sans-latin-vf.woff2") format('woff2-variations');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("ibm-plex-mono/ibm-plex-mono-latin-regular.woff2") format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("ibm-plex-mono/ibm-plex-mono-latin-500.woff2") format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("ibm-plex-mono/ibm-plex-mono-latin-italic.woff2") format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: italic;
+    font-weight: 500;
+    font-display: swap;
+    src: url("ibm-plex-mono/ibm-plex-mono-latin-500italic.woff2") format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+</style>
+
+<style>
+  :root {
+    /* Mono palette */
+    --bg: oklch(0.96 0.002 80);
+    --bg-soft: oklch(0.93 0.003 80);
+    --bg-deep: oklch(0.18 0.004 60);
+    --bg-deep-2: oklch(0.13 0.004 60);
+    --ink: oklch(0.22 0.003 60);
+    --ink-soft: oklch(0.45 0.003 60);
+    --ink-faint: oklch(0.62 0.004 65);
+    --line: oklch(0.82 0.003 70);
+    --line-soft: oklch(0.88 0.002 70);
+    --clay: oklch(0.30 0.005 70);
+    --clay-deep: oklch(0.22 0.004 70);
+    --moss: oklch(0.52 0.048 130);
+    --off-white: oklch(0.985 0.006 80);
+
+    --pattern-opacity: 0.047;
+
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    --mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+    --max: 1240px;
+    --gutter: clamp(20px, 4vw, 56px);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'kern', 'liga', 'ss01';
+    scroll-behavior: smooth;
+  }
+
+  /* Faint hex tessellation pattern — sitewide blueprint */
+  .pattern-layer {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: var(--pattern-opacity);
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='83' viewBox='0 0 96 83'><g fill='none' stroke='%23000' stroke-width='0.7'><polygon points='24,1 72,1 96,41.5 72,82 24,82 0,41.5'/><polygon points='72,1 120,1 144,41.5 120,82 72,82 48,41.5' transform='translate(-48,0)'/></g></svg>");
+    background-size: 96px 83px;
+    will-change: transform, background-position;
+  }
+
+  /* Subtle grain */
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.04;
+    mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  main { position: relative; z-index: 2; }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* -------- Nav -------- */
+  nav.top {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 22px var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: oklch(0.85 0 0);
+    mix-blend-mode: difference;
+  }
+  nav.top .mark { display: flex; align-items: baseline; gap: 10px; }
+  nav.top .mark .sigil {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: oklch(0.98 0 0);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-style: italic;
+    line-height: 1;
+  }
+  nav.top .mark .role { color: oklch(0.7 0 0); }
+  nav.top ul { display: flex; gap: 28px; list-style: none; }
+  nav.top a {
+    color: oklch(0.85 0 0);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  nav.top a::after {
+    content: ''; position: absolute; left: 0; right: 100%; bottom: 0;
+    height: 1px; background: oklch(0.98 0 0);
+    transition: right 400ms cubic-bezier(.7,0,.2,1);
+  }
+  nav.top a:hover::after { right: 0; }
+
+  /* -------- Hero -------- */
+  section.hero {
+    min-height: 100vh;
+    padding: clamp(140px, 18vh, 220px) var(--gutter) 120px;
+    max-width: var(--max);
+    margin: 0 auto;
+    display: flex; flex-direction: column; justify-content: flex-start;
+    position: relative;
+  }
+  .hero-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: start;
+    gap: 40px;
+  }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .eyebrow::before {
+    content: ''; width: 28px; height: 1px; background: var(--ink-faint);
+    display: inline-block;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(52px, 8.8vw, 132px);
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-top: 24px;
+    max-width: 15ch;
+    text-wrap: balance;
+  }
+  .hero h1 .ital { font-style: italic; color: var(--clay-deep); }
+  .hero-foot {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 64px;
+    align-items: end;
+    margin-top: clamp(56px, 9vh, 96px);
+  }
+  .hero-sub {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2vw, 26px);
+    font-style: italic;
+    line-height: 1.35;
+    color: var(--ink-soft);
+    max-width: 36ch;
+    text-wrap: pretty;
+  }
+  .hero-sub em { font-style: normal; color: var(--ink); }
+  .cta-row { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+  .btn {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    padding: 16px 24px;
+    border: 1px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 14px;
+    text-decoration: none;
+    transition: background 300ms ease, color 300ms ease, border-color 300ms ease;
+    min-width: 220px;
+    justify-content: space-between;
+  }
+  .btn.primary { background: var(--ink); color: var(--bg); }
+  .btn:hover { background: var(--clay); border-color: var(--clay); color: var(--off-white); }
+  .btn.primary:hover { background: var(--clay-deep); border-color: var(--clay-deep); }
+  .btn .arrow { font-family: var(--mono); font-weight: 400; transition: transform 300ms ease; }
+  .btn:hover .arrow { transform: translateX(4px); }
+
+  .hero-meta {
+    position: absolute;
+    left: var(--gutter); right: var(--gutter);
+    bottom: 32px;
+    display: flex; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .hero-meta span::before { content: '◇'; margin-right: 10px; color: var(--clay); font-size: 9px; }
+
+  /* -------- Section scaffolding -------- */
+  section.band { padding: 140px 0; position: relative; }
+  .band-head {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 48px;
+    margin-bottom: 80px;
+    align-items: start;
+  }
+  .band-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+  .band-num b { color: var(--ink); font-weight: 500; margin-right: 10px; }
+  .band-title {
+    font-family: var(--serif);
+    font-size: clamp(34px, 4.2vw, 58px);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-wrap: balance;
+    max-width: 22ch;
+  }
+  .band-title .ital { font-style: italic; color: var(--clay-deep); }
+
+  /* -------- About -------- */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: clamp(40px, 6vw, 110px);
+    align-items: start;
+  }
+  .about-prose p {
+    font-family: var(--serif);
+    font-size: clamp(19px, 1.55vw, 22px);
+    line-height: 1.5;
+    color: var(--ink);
+    margin-bottom: 1.1em;
+    max-width: 38ch;
+    text-wrap: pretty;
+  }
+  .about-prose p.soft { color: var(--ink-soft); }
+  .about-prose p .mark { color: var(--clay-deep); font-style: italic; }
+  .about-prose p:last-of-type {
+    font-size: clamp(22px, 1.8vw, 28px);
+    font-style: italic;
+    color: var(--ink);
+    margin-top: 1.4em;
+    border-top: 1px solid var(--line);
+    padding-top: 1.2em;
+    max-width: 30ch;
+  }
+
+  .diagram {
+    position: sticky; top: 120px;
+    aspect-ratio: 4/5;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    overflow: hidden;
+  }
+  .diagram::before {
+    content: ''; position: absolute; inset: 0;
+    display: none;
+  }
+  .diagram svg { position: relative; width: 82%; height: 82%; }
+  .diagram-meta, .diagram-foot {
+    position: absolute; left: 18px; right: 18px;
+    display: flex; justify-content: space-between;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint);
+  }
+  .diagram-meta { top: 18px; }
+  .diagram-foot { bottom: 18px; }
+
+  .highlights {
+    margin-top: 96px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .highlight { background: var(--bg); padding: 28px 24px; }
+  .highlight .k {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-faint); margin-bottom: 10px;
+  }
+  .highlight .v {
+    font-family: var(--serif);
+    font-size: clamp(20px, 1.6vw, 24px);
+    line-height: 1.3; color: var(--ink);
+    text-wrap: pretty;
+  }
+
+  /* -------- Articles -------- */
+  .band.articles { background: var(--bg-soft); }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .card {
+    background: var(--bg);
+    padding: 36px 32px 32px;
+    display: flex; flex-direction: column;
+    text-decoration: none; color: inherit;
+    position: relative;
+    min-height: 440px;
+    transition: background 400ms ease, transform 400ms cubic-bezier(.7,0,.2,1);
+    overflow: hidden;
+  }
+  .card:nth-child(2) { background: oklch(from var(--bg) calc(l - 0.012) c h); }
+  .card:nth-child(3) { background: oklch(from var(--bg) calc(l - 0.022) c h); }
+
+  .card::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='55' viewBox='0 0 64 55'><g fill='none' stroke='%23000' stroke-width='0.5'><polygon points='16,1 48,1 64,27.5 48,54 16,54 0,27.5'/></g></svg>");
+    background-size: 64px 55px;
+    opacity: 0.04;
+    transition: opacity 500ms ease, background-size 500ms ease;
+    pointer-events: none;
+  }
+  .card:hover::before { opacity: 0.1; background-size: 48px 41px; }
+  .card:hover { transform: translateY(-4px); }
+
+  .card .num {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex; justify-content: space-between;
+  }
+  .card h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(26px, 2vw, 30px);
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-top: 32px;
+    text-wrap: balance;
+  }
+  .card h3 .ital { font-style: italic; color: var(--clay-deep); }
+  .card p {
+    font-family: var(--sans);
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin-top: 20px;
+    max-width: 32ch;
+  }
+  .card .foot {
+    margin-top: auto; padding-top: 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink);
+  }
+  .card .foot .arrow { transition: transform 400ms cubic-bezier(.7,0,.2,1); }
+  .card:hover .foot .arrow { transform: translateX(6px); }
+
+  .explore-all { margin-top: 56px; display: flex; justify-content: flex-end; }
+  .explore-all a {
+    font-family: var(--mono); font-size: 12px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  /* -------- Contact -------- */
+  section.contact {
+    background: var(--bg-deep);
+    color: var(--off-white);
+    padding: 160px 0 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  section.contact .pattern-local {
+    position: absolute; inset: 0;
+    opacity: 0.09;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='83' viewBox='0 0 96 83'><g fill='none' stroke='%23ffffff' stroke-width='0.8'><polygon points='24,1 72,1 96,41.5 72,82 24,82 0,41.5'/></g></svg>");
+    background-size: 96px 83px;
+    pointer-events: none;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 8vw, 120px);
+    position: relative;
+  }
+  .contact h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(44px, 6vw, 88px);
+    line-height: 1;
+    letter-spacing: -0.025em;
+    color: var(--off-white);
+    text-wrap: balance;
+    max-width: 12ch;
+  }
+  .contact h2 .ital { font-style: italic; color: oklch(0.72 0.09 42); }
+  .contact .sub {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.5;
+    color: oklch(0.78 0.015 70);
+    margin-top: 36px;
+    max-width: 36ch;
+  }
+  .contact .closing {
+    margin-top: 48px;
+    padding-top: 28px;
+    border-top: 1px solid oklch(0.35 0.015 60);
+    font-family: var(--sans);
+    font-size: 14px;
+    color: oklch(0.72 0.012 70);
+    max-width: 40ch;
+    line-height: 1.55;
+  }
+  .contact .closing b { color: var(--off-white); font-weight: 500; }
+
+  form.contact-form {
+    display: flex; flex-direction: column;
+    border-top: 1px solid oklch(0.42 0.015 60);
+  }
+  .field {
+    display: flex; flex-direction: column;
+    border-bottom: 1px solid oklch(0.42 0.015 60);
+    padding: 20px 0 16px;
+    position: relative;
+  }
+  .field label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: oklch(0.65 0.012 70);
+    margin-bottom: 8px;
+  }
+  .field input, .field textarea {
+    font-family: var(--serif);
+    font-size: 20px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--off-white);
+    resize: none;
+    line-height: 1.4;
+  }
+  .field textarea { min-height: 84px; }
+  .field input::placeholder, .field textarea::placeholder {
+    color: oklch(0.48 0.012 60);
+    font-style: italic;
+  }
+  .field.focused label { color: oklch(0.82 0.09 42); }
+  .field .num {
+    position: absolute; right: 0; top: 20px;
+    font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.14em; color: oklch(0.55 0.012 70);
+  }
+  .submit-row {
+    margin-top: 36px;
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 24px;
+  }
+  .submit-btn {
+    font-family: var(--sans);
+    font-size: 14px; font-weight: 500;
+    background: var(--off-white);
+    color: var(--bg-deep);
+    border: none;
+    padding: 18px 28px;
+    cursor: pointer;
+    display: inline-flex; gap: 16px; align-items: center;
+    transition: background 300ms ease, color 300ms ease;
+  }
+  .submit-btn:hover { background: oklch(0.78 0.11 42); color: var(--bg-deep); }
+  .form-status {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: oklch(0.68 0.015 70);
+  }
+  .form-status.ok { color: oklch(0.75 0.09 130); }
+  .form-status.err { color: oklch(0.72 0.12 30); }
+
+  footer {
+    background: var(--bg-deep-2);
+    color: oklch(0.62 0.015 60);
+    padding: 36px var(--gutter);
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    display: flex; justify-content: space-between; gap: 20px;
+    flex-wrap: wrap;
+    position: relative; z-index: 2;
+  }
+  footer a { color: oklch(0.82 0.015 60); text-decoration: none; }
+  footer a:hover { color: var(--off-white); }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 900ms cubic-bezier(.2,.6,.2,1), transform 900ms cubic-bezier(.2,.6,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: 80ms; }
+  .reveal.d2 { transition-delay: 160ms; }
+  .reveal.d3 { transition-delay: 240ms; }
+  .reveal.d4 { transition-delay: 320ms; }
+
+  .diagram svg path, .diagram svg polygon, .diagram svg line {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    transition: stroke-dashoffset 1800ms cubic-bezier(.6,.1,.2,1);
+  }
+  .diagram.in svg path, .diagram.in svg polygon, .diagram.in svg line {
+    stroke-dashoffset: 0;
+  }
+  .diagram.in svg .delay-1 { transition-delay: 300ms; }
+  .diagram.in svg .delay-2 { transition-delay: 600ms; }
+  .diagram.in svg .delay-3 { transition-delay: 900ms; }
+  .diagram.in svg .delay-4 { transition-delay: 1200ms; }
+
+  @media (max-width: 880px) {
+    .hero-head { grid-template-columns: 1fr; }
+    .hero-foot { grid-template-columns: 1fr; gap: 32px; }
+    .band-head { grid-template-columns: 1fr; gap: 20px; }
+    .about-grid { grid-template-columns: 1fr; }
+    .diagram { position: static; aspect-ratio: 1/1; margin-top: 24px; }
+    .diagram::before { display: none; }
+    .highlights { grid-template-columns: 1fr; }
+    .cards { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; }
+    nav.top ul { display: none; }
+    .hero-meta { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="pattern-layer" id="pattern"></div>
+<div class="grain"></div>
+
+<nav class="top">
+  <div class="mark">
+    <span class="sigil">Duško Stamenić</span>
+    <span class="role">— Product Designer</span>
+  </div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#writing">Writing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section class="hero wrap" id="top">
+  <div class="hero-head">
+    <div class="reveal">
+      <div class="eyebrow">Novi Sad, Serbia / Remote</div>
+      <h1>Designing systems where every <span class="ital">decision</span> compounds.</h1>
+    </div>
+  </div>
+
+  <div class="hero-foot">
+    <p class="hero-sub reveal d1">
+      <em>Seven years</em> shaping complex products — from design systems to team leadership. I focus on clarity, structure, and decisions that scale.
+    </p>
+    <div class="cta-row reveal d2">
+      <a href="#contact" class="btn primary">Contact me <span class="arrow">→</span></a>
+      <a href="#writing" class="btn">Decision Book <span class="arrow">→</span></a>
+    </div>
+  </div>
+
+  <div class="hero-meta reveal d3">
+    <span>Currently · Leading design at a PM platform</span>
+    <span>Scroll to begin — Section 01 / 03</span>
+  </div>
+</section>
+
+<section class="band" id="about">
+  <div class="wrap">
+    <div class="band-head">
+      <div class="band-num reveal"><b>01</b> About</div>
+      <h2 class="band-title reveal d1" style="max-width: 32ch;">I didn't start with <span class="ital">systems.</span> I started by fixing small inconsistencies.</h2>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-prose">
+        <p class="reveal">A button that felt off. A flow that didn't quite resolve. Over time, those small fixes started connecting. Patterns emerged. Decisions began to <span class="mark">compound.</span></p>
+        <p class="soft reveal d1">Today, I design and lead with structure in mind — whether it's a product surface, a design system, or a team. I'm interested in how things hold together over time.</p>
+        <p class="soft reveal d2">The past 7+ years have been spent inside complex product environments, mostly in project management tools. Leading design teams, owning systems, and making decisions that don't just solve for now — they reduce future friction.</p>
+        <p class="reveal d3">Good design, to me, isn't just clarity on the surface. It's <span class="mark">stability underneath.</span></p>
+      </div>
+
+      <div class="diagram reveal d2" id="diagram">
+        <div class="diagram-meta">
+          <span>Fig. 01</span>
+          <span>Decisions / Compounded</span>
+        </div>
+        <svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+          <g fill="none" stroke="currentColor" stroke-width="0.8" style="color: var(--ink-faint)">
+            <polygon points="100,50 160,50 190,102 160,154 100,154 70,102" class="delay-1"/>
+            <polygon points="220,50 280,50 310,102 280,154 220,154 190,102" class="delay-1"/>
+            <polygon points="160,154 220,154 250,206 220,258 160,258 130,206" class="delay-2"/>
+            <polygon points="40,154 100,154 130,206 100,258 40,258 10,206" class="delay-2"/>
+            <polygon points="280,154 340,154 370,206 340,258 280,258 250,206" class="delay-2"/>
+            <polygon points="100,258 160,258 190,310 160,362 100,362 70,310" class="delay-3"/>
+            <polygon points="220,258 280,258 310,310 280,362 220,362 190,310" class="delay-3"/>
+            <polygon points="160,362 220,362 250,414 220,466 160,466 130,414" class="delay-4"/>
+          </g>
+          <polygon points="160,154 220,154 250,206 220,258 160,258 130,206"
+                   fill="currentColor" style="color: var(--clay); opacity: 0.18; stroke:none"/>
+          <polygon points="160,154 220,154 250,206 220,258 160,258 130,206"
+                   fill="none" stroke="currentColor" stroke-width="1.4" style="color: var(--clay-deep)" class="delay-2"/>
+
+          <g font-family="IBM Plex Mono" font-size="9" fill="currentColor" style="color: var(--ink-faint)" letter-spacing="1.2">
+            <text x="10" y="24">STRUCTURE</text>
+            <text x="300" y="24">n = 8</text>
+            <text x="10" y="490">PROTECTION · LONGEVITY</text>
+            <text x="320" y="490">01 — 08</text>
+          </g>
+
+          <line x1="10" y1="30" x2="390" y2="30" stroke="currentColor" stroke-width="0.4" style="color: var(--ink-faint); opacity:0.5" class="delay-1"/>
+          <line x1="10" y1="476" x2="390" y2="476" stroke="currentColor" stroke-width="0.4" style="color: var(--ink-faint); opacity:0.5" class="delay-4"/>
+        </svg>
+        <div class="diagram-foot">
+          <span>Module → System</span>
+          <span>↘ Stability</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="highlights">
+      <div class="highlight reveal">
+        <div class="k">Practice · 01</div>
+        <div class="v">Led design for high-scale project management tools.</div>
+      </div>
+      <div class="highlight reveal d1">
+        <div class="k">Practice · 02</div>
+        <div class="v">Built and maintained design systems across product surfaces.</div>
+      </div>
+      <div class="highlight reveal d2">
+        <div class="k">Practice · 03</div>
+        <div class="v">Bridged product, design, and engineering decisions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band articles" id="writing">
+  <div class="wrap">
+    <div class="band-head">
+      <div class="band-num reveal"><b>02</b> Featured writing</div>
+      <h2 class="band-title reveal d1">A record of <span class="ital">decisions</span> — and the thinking that led to them.</h2>
+    </div>
+
+    <div class="cards">
+      <a class="card reveal" href="https://decision-book.super.site/decision-book/grid-za-reports-na-codepenu" target="_blank" rel="noopener">
+        <div class="num"><span>Essay 01</span><span class="date">Decision Book</span></div>
+        <h3>A grid for reports, built on <span class="ital">CodePen.</span></h3>
+        <p>Shipping a reporting layout by prototyping in the open — and what the constraint of a public sandbox teaches about structure.</p>
+        <div class="foot"><span>Read essay</span><span class="arrow">→</span></div>
+      </a>
+
+      <a class="card reveal d1" href="https://decision-book.super.site/decision-book/timesheet-analyzer" target="_blank" rel="noopener">
+        <div class="num"><span>Essay 02</span><span class="date">Decision Book</span></div>
+        <h3>Timesheet <span class="ital">Analyzer</span> — design as interrogation.</h3>
+        <p>When a tool stops asking "did you log time?" and starts asking "what does this time reveal?" — the surface changes, and so does the decision.</p>
+        <div class="foot"><span>Read essay</span><span class="arrow">→</span></div>
+      </a>
+
+      <a class="card reveal d2" href="https://decision-book.super.site/decision-book/zoom-notes-before-zoom-notes" target="_blank" rel="noopener">
+        <div class="num"><span>Essay 03</span><span class="date">Decision Book</span></div>
+        <h3>Zoom notes, <span class="ital">before</span> Zoom notes.</h3>
+        <p>An early attempt at meeting capture — and what working alongside (instead of inside) the meeting tool did to the note itself.</p>
+        <div class="foot"><span>Read essay</span><span class="arrow">→</span></div>
+      </a>
+    </div>
+
+    <div class="explore-all reveal d2">
+      <a href="https://decision-book.super.site" target="_blank" rel="noopener">Explore all writing ↗</a>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="pattern-local"></div>
+  <div class="wrap">
+    <div class="band-head" style="margin-bottom: 60px;">
+      <div class="band-num reveal" style="color: oklch(0.65 0.015 70); border-color: oklch(0.4 0.015 60);"><b style="color: var(--off-white);">03</b> Contact</div>
+    </div>
+
+    <div class="contact-grid">
+      <div>
+        <h2 class="reveal">Let's build something that <span class="ital">holds together.</span></h2>
+        <p class="sub reveal d1">Whether it's a product, a system, or a team — I'm interested in work that requires clarity over time.</p>
+        <p class="closing reveal d2"><b>I usually respond within a day.</b> Thoughtful messages get thoughtful replies. You can also reach me directly at <a href="mailto:dusko.stamenic.42@gmail.com" style="color: oklch(0.82 0.09 42); text-decoration: underline; text-underline-offset: 3px;">dusko.stamenic.42@gmail.com</a>.</p>
+      </div>
+
+      <form class="contact-form reveal d1" id="contactForm" method="POST" action="https://formspree.io/f/myklpeod" novalidate>
+        <div class="field">
+          <label for="f-name">Name</label>
+          <input id="f-name" name="name" type="text" placeholder="Your name" required>
+          <span class="num">01</span>
+        </div>
+        <div class="field">
+          <label for="f-email">Email</label>
+          <input id="f-email" name="email" type="email" placeholder="you@domain.com" required>
+          <span class="num">02</span>
+        </div>
+        <div class="field">
+          <label for="f-msg">What are you working on?</label>
+          <textarea id="f-msg" name="message" placeholder="A product, a system, a team, an idea…" required></textarea>
+          <span class="num">03</span>
+        </div>
+        <div class="submit-row">
+          <button type="submit" class="submit-btn">Start a conversation <span>→</span></button>
+          <span class="form-status" id="formStatus">Encrypted · Private</span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span>© 2026 Duško Stamenić — Product Designer</span>
+  <span>Structure · Accumulation · Stability</span>
+  <span><a href="mailto:dusko.stamenic.42@gmail.com">dusko.stamenic.42@gmail.com</a></span>
+</footer>
+
+<script>
+  // Parallax pattern shift on scroll
+  const pattern = document.getElementById('pattern');
+  let targetY = 0, currentY = 0;
+  window.addEventListener('scroll', () => {
+    targetY = window.scrollY * 0.15;
+  }, { passive: true });
+  function animatePattern() {
+    currentY += (targetY - currentY) * 0.08;
+    pattern.style.backgroundPosition = `0 ${-currentY}px`;
+    requestAnimationFrame(animatePattern);
+  }
+  animatePattern();
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.01 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  // Safety: reveals already in viewport at load show immediately (except diagram).
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.reveal').forEach(el => {
+      if (el.classList.contains('diagram')) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        el.classList.add('in');
+        io.unobserve(el);
+      }
+    });
+  });
+
+  // Diagram line-draw on scroll-in
+  const diagramIO = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        diagramIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.3 });
+  const diagram = document.getElementById('diagram');
+  if (diagram) diagramIO.observe(diagram);
+
+  // Contact form
+  const form = document.getElementById('contactForm');
+  const status = document.getElementById('formStatus');
+  form.querySelectorAll('.field').forEach(f => {
+    const inp = f.querySelector('input, textarea');
+    inp.addEventListener('focus', () => f.classList.add('focused'));
+    inp.addEventListener('blur', () => f.classList.remove('focused'));
+  });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    if (!fd.get('name') || !fd.get('email') || !fd.get('message')) {
+      status.textContent = 'Please fill all fields'; status.className = 'form-status err';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(fd.get('email'))) {
+      status.textContent = 'Email looks off'; status.className = 'form-status err';
+      return;
+    }
+    status.textContent = 'Sending…'; status.className = 'form-status';
+    fetch(form.action, {
+      method: 'POST',
+      body: fd,
+      headers: { 'Accept': 'application/json' }
+    }).then(res => {
+      if (res.ok) {
+        status.textContent = '✓ Sent — I\'ll respond within a day'; status.className = 'form-status ok';
+        form.reset();
+      } else {
+        status.textContent = 'Something went wrong — email me directly'; status.className = 'form-status err';
+      }
+    }).catch(() => {
+      status.textContent = 'Network error — email me directly'; status.className = 'form-status err';
+    });
+  });
+</script>
+
+</body>
+</html>
