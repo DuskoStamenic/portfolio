@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Decision Book — Duško Stamenić</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />  
+<style>
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("instrument-serif/instrument-serif-latin-regular.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("instrument-serif/instrument-serif-latin-italic.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Sans';
+    font-weight: 100 700;
+    font-display: swap;
+    src: url("ibm-plex-sans/ibm-plex-sans-latin-vf.woff2") format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("ibm-plex-mono/ibm-plex-mono-latin-regular.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("ibm-plex-mono/ibm-plex-mono-latin-500.woff2") format('woff2');
+  }
+</style>
+
+<style>
+  :root {
+    --bg:         oklch(0.96 0.002 80);
+    --bg-soft:    oklch(0.93 0.003 80);
+    --bg-deep:    oklch(0.18 0.004 60);
+    --bg-deep-2:  oklch(0.13 0.004 60);
+    --ink:        oklch(0.22 0.003 60);
+    --ink-soft:   oklch(0.45 0.003 60);
+    --ink-faint:  oklch(0.62 0.004 65);
+    --line:       oklch(0.82 0.003 70);
+    --line-soft:  oklch(0.88 0.002 70);
+    --clay:       oklch(0.30 0.005 70);
+    --clay-deep:  oklch(0.22 0.004 70);
+    --off-white:  oklch(0.985 0.006 80);
+
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans:  'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    --mono:  'IBM Plex Mono', ui-monospace, monospace;
+
+    --max:    1240px;
+    --gutter: clamp(20px, 4vw, 56px);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'kern', 'liga', 'ss01';
+    scroll-behavior: smooth;
+  }
+
+  /* Hex tessellation */
+  .pattern-layer {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    opacity: 0.047;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='83' viewBox='0 0 96 83'><g fill='none' stroke='%23000' stroke-width='0.7'><polygon points='24,1 72,1 96,41.5 72,82 24,82 0,41.5'/><polygon points='72,1 120,1 144,41.5 120,82 72,82 48,41.5' transform='translate(-48,0)'/></g></svg>");
+    background-size: 96px 83px;
+  }
+
+  /* Grain */
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    opacity: 0.04; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  main { position: relative; z-index: 2; }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* -------- Nav -------- */
+  nav.top {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 22px var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: oklch(0.85 0 0);
+    mix-blend-mode: difference;
+  }
+  nav.top .mark { display: flex; align-items: baseline; gap: 10px; }
+  nav.top .mark .sigil {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: oklch(0.98 0 0);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-style: italic;
+    line-height: 1;
+  }
+  nav.top .mark .role { color: oklch(0.7 0 0); }
+  nav.top ul { display: flex; gap: 28px; list-style: none; }
+  nav.top a {
+    color: oklch(0.85 0 0);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  nav.top a::after {
+    content: ''; position: absolute; left: 0; right: 100%; bottom: 0;
+    height: 1px; background: oklch(0.98 0 0);
+    transition: right 400ms cubic-bezier(.7,0,.2,1);
+  }
+  nav.top a:hover::after { right: 0; }
+
+  /* -------- Hero -------- */
+  section.hero {
+    min-height: 80vh;
+    padding: clamp(140px, 18vh, 220px) var(--gutter) 100px;
+    max-width: var(--max);
+    margin: 0 auto;
+    display: flex; flex-direction: column; justify-content: flex-start;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 28px;
+  }
+  .eyebrow::before {
+    content: ''; width: 28px; height: 1px;
+    background: var(--ink-faint); display: inline-block;
+  }
+
+  .hero-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 6vw, 100px);
+    align-items: end;
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(56px, 9vw, 140px);
+    line-height: 0.93;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .hero h1 .ital { font-style: italic; color: var(--clay-deep); }
+
+  .hero-right {
+    padding-bottom: 8px;
+  }
+  .hero-tagline {
+    font-family: var(--serif);
+    font-size: clamp(18px, 1.7vw, 22px);
+    font-style: italic;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    max-width: 38ch;
+    text-wrap: pretty;
+    margin-bottom: 40px;
+  }
+  .hero-tagline em { font-style: normal; color: var(--ink); }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .stat {
+    background: var(--bg);
+    padding: 20px 18px;
+  }
+  .stat .k {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 6px;
+  }
+  .stat .v {
+    font-family: var(--serif);
+    font-size: clamp(18px, 1.4vw, 21px);
+    line-height: 1.2;
+    color: var(--ink);
+  }
+
+  /* -------- Section scaffolding -------- */
+  section.band { padding: 100px 0; position: relative; }
+  .band-head {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 48px;
+    margin-bottom: 64px;
+    align-items: start;
+  }
+  .band-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding-top: 10px;
+    border-top: 1px solid var(--line);
+  }
+  .band-num b { color: var(--ink); font-weight: 500; margin-right: 10px; }
+  .band-title {
+    font-family: var(--serif);
+    font-size: clamp(30px, 3.6vw, 52px);
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-wrap: balance;
+    max-width: 24ch;
+  }
+  .band-title .ital { font-style: italic; color: var(--clay-deep); }
+
+  /* -------- Featured cards (top 3) -------- */
+  .band.featured { background: var(--bg); }
+
+  .cards-featured {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .card-featured {
+    background: var(--bg);
+    padding: 36px 32px 32px;
+    display: flex; flex-direction: column;
+    text-decoration: none; color: inherit;
+    position: relative;
+    min-height: 400px;
+    transition: background 400ms ease, transform 400ms cubic-bezier(.7,0,.2,1);
+    overflow: hidden;
+  }
+  .card-featured:nth-child(2) { background: oklch(from var(--bg) calc(l - 0.012) c h); }
+  .card-featured:nth-child(3) { background: oklch(from var(--bg) calc(l - 0.022) c h); }
+  .card-featured::before {
+    content: ''; position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='64' height='55' viewBox='0 0 64 55'><g fill='none' stroke='%23000' stroke-width='0.5'><polygon points='16,1 48,1 64,27.5 48,54 16,54 0,27.5'/></g></svg>");
+    background-size: 64px 55px;
+    opacity: 0.04;
+    transition: opacity 500ms ease, background-size 500ms ease;
+    pointer-events: none;
+  }
+  .card-featured:hover::before { opacity: 0.1; background-size: 48px 41px; }
+  .card-featured:hover { transform: translateY(-4px); }
+
+  .card-featured .num {
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex; justify-content: space-between;
+  }
+  .card-featured h3 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(24px, 1.9vw, 28px);
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin-top: 32px;
+    text-wrap: balance;
+  }
+  .card-featured h3 .ital { font-style: italic; color: var(--clay-deep); }
+  .card-featured p {
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin-top: 16px;
+    max-width: 32ch;
+  }
+  .card-featured .foot {
+    margin-top: auto; padding-top: 28px;
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink);
+  }
+  .card-featured .arrow { transition: transform 400ms cubic-bezier(.7,0,.2,1); }
+  .card-featured:hover .arrow { transform: translateX(6px); }
+
+  /* -------- All essays list -------- */
+  .band.all-essays { background: var(--bg-soft); }
+
+  .essay-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+
+  .essay-item {
+    background: var(--bg-soft);
+    padding: 28px 32px 26px;
+    display: grid;
+    grid-template-columns: 48px 1fr auto;
+    grid-template-rows: auto auto auto;
+    column-gap: 20px;
+    row-gap: 14px;
+    text-decoration: none;
+    color: inherit;
+    position: relative;
+    transition: background 300ms ease;
+    border-bottom: none;
+    min-height: 208px;
+  }
+  .essay-item:hover { background: var(--bg); }
+  .essay-item:hover .essay-arrow { transform: translateX(4px); color: var(--ink); }
+
+  .essay-num {
+    grid-column: 1;
+    grid-row: 1;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    align-self: center;
+  }
+  .essay-cat {
+    grid-column: 2 / span 2;
+    grid-row: 1;
+    justify-self: start;
+    align-self: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--clay-deep);
+    padding: 5px 10px;
+    border: 1px solid oklch(from var(--clay-deep) l c h / 0.35);
+    border-radius: 999px;
+    line-height: 1;
+    background: transparent;
+  }
+  .essay-title {
+    grid-column: 2 / span 2;
+    grid-row: 2;
+    font-family: var(--serif);
+    font-size: clamp(18px, 1.4vw, 22px);
+    line-height: 1.22;
+    color: var(--ink);
+    text-wrap: balance;
+    margin: 0;
+    font-weight: 400;
+  }
+  .essay-title .ital { font-style: italic; color: var(--clay-deep); }
+  .essay-desc {
+    grid-column: 2;
+    grid-row: 3;
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft, oklch(0.48 0.015 60));
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 52ch;
+    align-self: end;
+  }
+  .essay-arrow {
+    grid-column: 3;
+    grid-row: 3;
+    align-self: end;
+    justify-self: end;
+    font-family: var(--mono);
+    font-size: 14px;
+    color: var(--ink-faint);
+    transition: transform 300ms cubic-bezier(.7,0,.2,1), color 300ms ease;
+  }
+  .essay-item:hover .essay-arrow { color: var(--ink); }
+
+  /* -------- Dark CTA band -------- */
+  section.cta-band {
+    background: var(--bg-deep);
+    padding: 120px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  section.cta-band .pattern-local {
+    position: absolute; inset: 0;
+    opacity: 0.09;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='83' viewBox='0 0 96 83'><g fill='none' stroke='%23ffffff' stroke-width='0.8'><polygon points='24,1 72,1 96,41.5 72,82 24,82 0,41.5'/></g></svg>");
+    background-size: 96px 83px;
+    pointer-events: none;
+  }
+  .cta-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(40px, 8vw, 120px);
+    align-items: center;
+    position: relative;
+  }
+  .cta-heading {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(34px, 4vw, 60px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--off-white);
+    text-wrap: balance;
+    max-width: 18ch;
+  }
+  .cta-heading .ital { font-style: italic; color: oklch(0.72 0.09 42); }
+  .cta-right {
+    display: flex; flex-direction: column; gap: 32px;
+  }
+  .cta-sub {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(17px, 1.5vw, 20px);
+    line-height: 1.5;
+    color: oklch(0.78 0.015 70);
+    max-width: 36ch;
+  }
+  .btn-light {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    padding: 16px 24px;
+    border: 1px solid var(--off-white);
+    background: transparent;
+    color: var(--off-white);
+    cursor: pointer;
+    display: inline-flex; align-items: center; gap: 14px;
+    text-decoration: none;
+    transition: background 300ms ease, color 300ms ease;
+    align-self: flex-start;
+    min-width: 220px;
+    justify-content: space-between;
+  }
+  .btn-light:hover { background: var(--off-white); color: var(--bg-deep); }
+  .btn-light .arrow { font-family: var(--mono); font-weight: 400; transition: transform 300ms ease; }
+  .btn-light:hover .arrow { transform: translateX(4px); }
+
+  /* -------- Footer -------- */
+  footer {
+    background: var(--bg-deep-2);
+    color: oklch(0.62 0.015 60);
+    padding: 36px var(--gutter);
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    display: flex; justify-content: space-between; gap: 20px;
+    flex-wrap: wrap;
+    position: relative; z-index: 2;
+  }
+  footer a { color: oklch(0.82 0.015 60); text-decoration: none; }
+  footer a:hover { color: var(--off-white); }
+
+  /* -------- Reveal -------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 900ms cubic-bezier(.2,.6,.2,1), transform 900ms cubic-bezier(.2,.6,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: 80ms; }
+  .reveal.d2 { transition-delay: 160ms; }
+  .reveal.d3 { transition-delay: 240ms; }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 880px) {
+    .hero-layout { grid-template-columns: 1fr; gap: 40px; }
+    .hero-stats { grid-template-columns: 1fr; }
+    .band-head { grid-template-columns: 1fr; gap: 20px; }
+    .cards-featured { grid-template-columns: 1fr; }
+    .essay-list { grid-template-columns: 1fr; }
+    .cta-inner { grid-template-columns: 1fr; }
+    nav.top ul { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="pattern-layer" id="pattern"></div>
+<div class="grain"></div>
+
+<nav class="top">
+  <div class="mark">
+    <span class="sigil">Decision Book</span>
+    <span class="role">— Duško Stamenić</span>
+  </div>
+  <ul>
+    <li><a href="https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+    <li><a href="index.html">Portfolio</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- -------- Hero -------- -->
+<section class="hero wrap">
+  <div class="eyebrow reveal">Design Rationale · 20 Essays</div>
+  <div class="hero-layout">
+    <div class="reveal d1">
+      <h1>Decision <span class="ital">Book</span></h1>
+    </div>
+    <div class="hero-right reveal d2">
+      <p class="hero-tagline">
+        Tired of lengthy case studies that bury the <em>'why'?</em>
+        This book cuts straight to the core — concise design rationale and the
+        decision-making process behind real projects. Shaped by <em>six years</em>
+        on a top-tier project management app.
+      </p>
+      <div class="hero-stats">
+        <div class="stat">
+          <div class="k">Essays</div>
+          <div class="v">20 entries,<br>5 categories</div>
+        </div>
+        <div class="stat">
+          <div class="k">Experience</div>
+          <div class="v">7+ yrs, <br>productivity tools</div>
+        </div>
+        <div class="stat">
+          <div class="k">Focus</div>
+          <div class="v">The why,<br>not the what</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- -------- Featured -------- -->
+<section class="band featured" id="featured">
+  <div class="wrap">
+    <div class="band-head">
+      <div class="band-num reveal"><b>01</b> Featured</div>
+      <h2 class="band-title reveal d1">Three decisions worth <span class="ital">reading first.</span></h2>
+    </div>
+
+    <div class="cards-featured">
+      <a class="card-featured reveal" href="articles/when-ideas-come-alive.html">
+        <div class="num"><span>Essay 01</span><span>Featured</span></div>
+        <h3>When Ideas Come <span class="ital">Alive</span> with the Touch of AI</h3>
+        <p>How integrating AI into the design process changed not just the output — but the way the decision itself was made.</p>
+        <div class="foot"><span>Read essay</span><span class="arrow">→</span></div>
+      </a>
+
+      <a class="card-featured reveal d1" href="https://decision-book.super.site/decision-book/naming-a-design-system-with-care" target="_blank" rel="noopener">
+        <div class="num"><span>Essay 02</span><span>Featured</span></div>
+        <h3>Naming a Design System <span class="ital">with Care</span></h3>
+        <p>A name is the first structural decision. What happens when you treat it as rigorously as the components themselves.</p>
+        <div class="foot"><span>Read essay</span><span class="arrow">→</span></div>
+      </a>
+
+      <a class="card-featured reveal d2" href="articles/curb-cut-effect.html">
+        <div class="num"><span>Essay 03</span><span>Featured</span></div>
+        <h3>Accessibility by Design — <span class="ital">and by Default</span></h3>
+        <p>When accessibility stops being a checklist and starts being a constraint that improves every other decision in the system.</p>
+        <div class="foot"><span>Read essay</span><span class="arrow">→</span></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- -------- All essays -------- -->
+<section class="band all-essays" id="all">
+  <div class="wrap">
+    <div class="band-head">
+      <div class="band-num reveal"><b>02</b> All essays</div>
+      <h2 class="band-title reveal d1">Every entry, in <span class="ital">order.</span></h2>
+    </div>
+
+    <div class="essay-list">
+
+      <a class="essay-item reveal" href="articles/when-ideas-come-alive.html">
+        <span class="essay-num">01</span>
+        <span class="essay-cat">Build with AI</span>
+        <span class="essay-title">When Ideas Come <span class="ital">Alive</span> with the Touch of AI</span>
+        <p class="essay-desc">A short note on how integrating AI into the design process changed not just the output — but the way the decision itself was made.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal d1" href="https://decision-book.super.site/decision-book/watch-it-flex" target="_blank" rel="noopener">
+        <span class="essay-num">02</span>
+        <span class="essay-cat">Product Design</span>
+        <span class="essay-title">Watch it <span class="ital">Flex</span></span>
+        <p class="essay-desc">On responsive layout decisions, fluid tokens, and the quiet choreography that makes an interface feel native at every width.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal" href="https://decision-book.super.site/decision-book/zoom-notes-before-zoom-notes" target="_blank" rel="noopener">
+        <span class="essay-num">03</span>
+        <span class="essay-cat">Product Design</span>
+        <span class="essay-title">Zoom Notes, <span class="ital">Before</span> Zoom Notes</span>
+        <p class="essay-desc">A small pattern, hiding in plain sight for years — and what it taught me about paying attention to the things users already do.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal d1" href="https://decision-book.super.site/decision-book/select-under-construction" target="_blank" rel="noopener">
+        <span class="essay-num">04</span>
+        <span class="essay-cat">UI Design</span>
+        <span class="essay-title">Select Under <span class="ital">Construction</span></span>
+        <p class="essay-desc">Rebuilding the humble select from first principles — states, edge cases, and the compromises you only see once you ship it.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal" href="https://decision-book.super.site/decision-book/from-image-to-insight" target="_blank" rel="noopener">
+        <span class="essay-num">05</span>
+        <span class="essay-cat">Product Design</span>
+        <span class="essay-title">From Image to <span class="ital">Insight</span></span>
+        <p class="essay-desc">How a single screenshot — read closely — can reframe a month of research and redirect a whole product bet.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal d1" href="https://decision-book.super.site/decision-book/degrading-with-dignity" target="_blank" rel="noopener">
+        <span class="essay-num">06</span>
+        <span class="essay-cat">Product Design</span>
+        <span class="essay-title">Degrading with <span class="ital">Dignity</span></span>
+        <p class="essay-desc">Designing the quiet failure modes. What an interface should do when the network, the data, or the user's patience runs out.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal" href="https://decision-book.super.site/decision-book/read-between-the-lines" target="_blank" rel="noopener">
+        <span class="essay-num">07</span>
+        <span class="essay-cat">Build with AI</span>
+        <span class="essay-title">Read Between the <span class="ital">Lines</span></span>
+        <p class="essay-desc">Notes on what users don't say — and why the strongest research signals are often hiding in the pauses, not the answers.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal d1" href="https://decision-book.super.site/decision-book/hue-knew-create-systematic-color-palettes" target="_blank" rel="noopener">
+        <span class="essay-num">08</span>
+        <span class="essay-cat">Design System</span>
+        <span class="essay-title">Hue Knew? Create <span class="ital">Systematic</span> Color Palettes</span>
+        <p class="essay-desc">Building a palette that survives dark mode, brand drift, and three product teams — without collapsing into a pile of hex codes.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal" href="https://decision-book.super.site/decision-book/a-musing-album" target="_blank" rel="noopener">
+        <span class="essay-num">09</span>
+        <span class="essay-cat">Build with AI</span>
+        <span class="essay-title">A-Musing <span class="ital">Album</span></span>
+        <p class="essay-desc">A small visual study — the kind of side piece that exists mostly to remind you why the craft matters in the first place.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal d1" href="https://decision-book.super.site/decision-book/naming-a-design-system-with-care" target="_blank" rel="noopener">
+        <span class="essay-num">10</span>
+        <span class="essay-cat">Design System</span>
+        <span class="essay-title">Naming a Design System with <span class="ital">Care</span></span>
+        <p class="essay-desc">A name is the first structural decision. What happens when you treat it as rigorously as the components themselves.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal" href="https://decision-book.super.site/decision-book/a-cakewalk-through-progressive-enhancement" target="_blank" rel="noopener">
+        <span class="essay-num">11</span>
+        <span class="essay-cat">Product Design</span>
+        <span class="essay-title">A Cakewalk Through <span class="ital">Progressive Enhancement</span></span>
+        <p class="essay-desc">Layering behavior on a product that works without it. An argument for designing the boring, resilient core first.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal d1" href="https://decision-book.super.site/decision-book/a-redesign-under-the-hood" target="_blank" rel="noopener">
+        <span class="essay-num">12</span>
+        <span class="essay-cat">Product Design</span>
+        <span class="essay-title">A Redesign <span class="ital">Under the Hood</span></span>
+        <p class="essay-desc">The redesign no one sees — tokens, primitives, and the structural work that lets the surface finally breathe.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal" href="https://decision-book.super.site/decision-book/documenting-the-design-patterns" target="_blank" rel="noopener">
+        <span class="essay-num">13</span>
+        <span class="essay-cat">Design System</span>
+        <span class="essay-title">Documenting the <span class="ital">Design Patterns</span></span>
+        <p class="essay-desc">What to write, what to skip, and why docs are a product surface of their own — read far more often than any dashboard.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal d1" href="https://decision-book.super.site/decision-book/diamonds-are-forever" target="_blank" rel="noopener">
+        <span class="essay-num">14</span>
+        <span class="essay-cat">UX Research</span>
+        <span class="essay-title">Diamonds Are <span class="ital">Forever</span></span>
+        <p class="essay-desc">On the double diamond — what it quietly gets right, what teams routinely skip, and how to keep the discovery half honest.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal" href="https://decision-book.super.site/decision-book/evaluating-new-product-feature-success" target="_blank" rel="noopener">
+        <span class="essay-num">15</span>
+        <span class="essay-cat">Product Design</span>
+        <span class="essay-title">Evaluating New Product <span class="ital">Feature Success</span></span>
+        <p class="essay-desc">A small framework for asking, a month after launch, whether the thing you shipped actually moved the needle you chose.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal d1" href="https://decision-book.super.site/decision-book/vibe-check-on-gigs" target="_blank" rel="noopener">
+        <span class="essay-num">16</span>
+        <span class="essay-cat">Build with AI</span>
+        <span class="essay-title">Vibe Check on <span class="ital">Gigs</span></span>
+        <p class="essay-desc">Listening to gig workers — and what their workflows reveal about every rushed onboarding flow we ever shipped.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal" href="https://decision-book.super.site/decision-book/crafting-the-dashboard-blueprint" target="_blank" rel="noopener">
+        <span class="essay-num">17</span>
+        <span class="essay-cat">UI Design</span>
+        <span class="essay-title">Crafting the <span class="ital">Dashboard Blueprint</span></span>
+        <p class="essay-desc">Starting from the question — not the chart. How hierarchy, grouping, and restraint decide whether a dashboard is useful.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal d1" href="https://decision-book.super.site/decision-book/the-list-of-my-resourses" target="_blank" rel="noopener">
+        <span class="essay-num">18</span>
+        <span class="essay-cat">Build with AI</span>
+        <span class="essay-title">The List of My <span class="ital">Resources</span></span>
+        <p class="essay-desc">A living toolkit — the handful of books, plugins, and models I keep returning to when the work actually has to ship.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal" href="https://decision-book.super.site/decision-book/rivals-research-repeat" target="_blank" rel="noopener">
+        <span class="essay-num">19</span>
+        <span class="essay-cat">UX Research</span>
+        <span class="essay-title">Rivals, Research, <span class="ital">Repeat</span></span>
+        <p class="essay-desc">Competitive research as a rhythm, not a one-off — and why the real insight rarely comes from the first teardown.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+      <a class="essay-item reveal d1" href="articles/curb-cut-effect.html">
+        <span class="essay-num">20</span>
+        <span class="essay-cat">Design System</span>
+        <span class="essay-title">Accessibility by Design — <span class="ital">and by Default</span></span>
+        <p class="essay-desc">When accessibility stops being a checklist and starts being a constraint that improves every other decision in the system.</p>
+        <span class="essay-arrow">→</span>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- -------- CTA -------- -->
+<section class="cta-band">
+  <div class="pattern-local"></div>
+  <div class="wrap">
+    <div class="cta-inner">
+      <h2 class="cta-heading reveal">More than essays.<br><span class="ital">A way of thinking.</span></h2>
+      <div class="cta-right reveal d1">
+        <p class="cta-sub">If the decision-making behind these essays resonates, there's more where that came from — in the full portfolio.</p>
+        <a href="index.html" class="btn-light">View full portfolio <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <span>© 2026 Duško Stamenić — Decision Book</span>
+  <span>Rationale · Clarity · Structure</span>
+</footer>
+
+<script>
+  const pattern = document.getElementById('pattern');
+  let targetY = 0, currentY = 0;
+  window.addEventListener('scroll', () => { targetY = window.scrollY * 0.15; }, { passive: true });
+  function animatePattern() {
+    currentY += (targetY - currentY) * 0.08;
+    pattern.style.backgroundPosition = `0 ${-currentY}px`;
+    requestAnimationFrame(animatePattern);
+  }
+  animatePattern();
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.01 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.reveal').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        el.classList.add('in'); io.unobserve(el);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
