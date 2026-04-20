@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Accessibility by Design — and by Default — Decision Book</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
+<meta name="description" content="How a small sidewalk slope changed the way I think about inclusive design — and why accessibility features built for the few end up serving everyone." />
+<style>
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../instrument-serif/instrument-serif-latin-regular.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../instrument-serif/instrument-serif-latin-italic.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Sans';
+    font-weight: 100 700;
+    font-display: swap;
+    src: url("../ibm-plex-sans/ibm-plex-sans-latin-vf.woff2") format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../ibm-plex-mono/ibm-plex-mono-latin-regular.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("../ibm-plex-mono/ibm-plex-mono-latin-500.woff2") format('woff2');
+  }
+</style>
+
+<style>
+  :root {
+    --bg:         oklch(0.96 0.002 80);
+    --bg-soft:    oklch(0.93 0.003 80);
+    --bg-deep:    oklch(0.18 0.004 60);
+    --bg-deep-2:  oklch(0.13 0.004 60);
+    --ink:        oklch(0.22 0.003 60);
+    --ink-soft:   oklch(0.45 0.003 60);
+    --ink-faint:  oklch(0.62 0.004 65);
+    --line:       oklch(0.82 0.003 70);
+    --line-soft:  oklch(0.88 0.002 70);
+    --clay:       oklch(0.30 0.005 70);
+    --clay-deep:  oklch(0.22 0.004 70);
+    --off-white:  oklch(0.985 0.006 80);
+
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans:  'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    --mono:  'IBM Plex Mono', ui-monospace, monospace;
+
+    --max:    1240px;
+    --gutter: clamp(20px, 4vw, 56px);
+    --col:    720px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'kern', 'liga', 'ss01';
+  }
+
+  /* Background layers */
+  .pattern-layer {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    opacity: 0.047;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='83' viewBox='0 0 96 83'><g fill='none' stroke='%23000' stroke-width='0.7'><polygon points='24,1 72,1 96,41.5 72,82 24,82 0,41.5'/><polygon points='72,1 120,1 144,41.5 120,82 72,82 48,41.5' transform='translate(-48,0)'/></g></svg>");
+    background-size: 96px 83px;
+  }
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    opacity: 0.04; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* Reading progress bar */
+  .progress-bar {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: var(--clay-deep);
+    transform: scaleX(0);
+    transform-origin: left;
+    z-index: 100;
+    transition: transform 80ms linear;
+  }
+
+  main { position: relative; z-index: 2; }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* -------- Nav (identical to Blog.html) -------- */
+  nav.top {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 22px var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: oklch(0.85 0 0);
+    mix-blend-mode: difference;
+  }
+  nav.top .mark { display: flex; align-items: baseline; gap: 10px; }
+  nav.top .mark .sigil {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: oklch(0.98 0 0);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-style: italic;
+    line-height: 1;
+  }
+  nav.top .mark .role { color: oklch(0.7 0 0); }
+  nav.top ul { display: flex; gap: 28px; list-style: none; }
+  nav.top a {
+    color: oklch(0.85 0 0);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  nav.top a::after {
+    content: ''; position: absolute; left: 0; right: 100%; bottom: 0;
+    height: 1px; background: oklch(0.98 0 0);
+    transition: right 400ms cubic-bezier(.7,0,.2,1);
+  }
+  nav.top a:hover::after { right: 0; }
+
+  /* -------- Article Hero -------- */
+  .article-hero {
+    padding: clamp(140px, 18vh, 210px) var(--gutter) 80px;
+    max-width: var(--max);
+    margin: 0 auto;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .eyebrow::before {
+    content: ''; width: 28px; height: 1px;
+    background: var(--ink-faint); display: inline-block;
+    flex-shrink: 0;
+  }
+  .cat-pill {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--clay-deep);
+    padding: 5px 10px;
+    border: 1px solid oklch(from var(--clay-deep) l c h / 0.35);
+    border-radius: 999px;
+    line-height: 1;
+  }
+  .eyebrow .sep { color: var(--line); }
+
+  .article-hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(44px, 7vw, 104px);
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    text-wrap: balance;
+    max-width: 20ch;
+  }
+  .article-hero h1 .ital { font-style: italic; color: var(--clay-deep); }
+
+  /* -------- Article Body -------- */
+  .article-body {
+    max-width: var(--col);
+    margin: 0 auto;
+    padding: 72px var(--gutter) 120px;
+  }
+
+  /* Context strip */
+  .article-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 80px;
+  }
+  .meta-item {
+    background: var(--bg);
+    padding: 16px 18px;
+  }
+  .meta-item .k {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 5px;
+  }
+  .meta-item .v {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  /* Section labels */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+    margin-top: 80px;
+    margin-bottom: 36px;
+  }
+  .section-label:first-of-type { margin-top: 0; }
+
+  /* Subsection headings */
+  .article-body h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    text-wrap: balance;
+    margin-top: 52px;
+    margin-bottom: 22px;
+  }
+
+  /* Body paragraphs */
+  .article-body p {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.78;
+    color: oklch(0.28 0.003 60);
+    margin-bottom: 26px;
+  }
+  .article-body p:last-child { margin-bottom: 0; }
+
+  .article-body p strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* Inline code */
+  .article-body code {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    padding: 2px 7px;
+    border-radius: 3px;
+    color: var(--clay-deep);
+    white-space: nowrap;
+  }
+
+  /* Callout / prompt block */
+  .callout {
+    background: var(--bg-soft);
+    border-left: 2px solid var(--clay-deep);
+    padding: 28px 32px;
+    margin: 40px 0;
+  }
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--clay-deep);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .callout p {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* Figures */
+  .article-figure {
+    margin: 52px 0;
+  }
+  .img-wrap {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    position: relative;
+  }
+  .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .img-placeholder {
+    display: flex; align-items: center; justify-content: center;
+    aspect-ratio: 16/9;
+  }
+  .img-placeholder-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: center;
+    padding: 20px;
+    line-height: 1.7;
+  }
+  figcaption {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    margin-top: 14px;
+    padding-left: 2px;
+    line-height: 1.5;
+  }
+
+  /* Article bottom nav */
+  .article-nav {
+    border-top: 1px solid var(--line);
+    padding-top: 56px;
+    margin-top: 96px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .article-nav a {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-decoration: none;
+    transition: color 300ms ease;
+  }
+  .article-nav a:hover { color: var(--ink); }
+  .article-nav .nav-label {
+    font-family: var(--serif);
+    font-size: 15px;
+    color: var(--ink);
+    letter-spacing: 0;
+    text-transform: none;
+    font-weight: 400;
+    display: block;
+    margin-top: 6px;
+    max-width: 28ch;
+    text-wrap: balance;
+    line-height: 1.3;
+  }
+  .article-nav .prev { text-align: left; }
+  .article-nav .next { text-align: right; }
+
+  /* -------- Footer -------- */
+  footer {
+    background: var(--bg-deep-2);
+    color: oklch(0.62 0.015 60);
+    padding: 36px var(--gutter);
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    display: flex; justify-content: space-between; gap: 20px;
+    flex-wrap: wrap;
+    position: relative; z-index: 2;
+  }
+  footer a { color: oklch(0.82 0.015 60); text-decoration: none; }
+  footer a:hover { color: var(--off-white); }
+
+  /* -------- Reveal animation -------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 800ms cubic-bezier(.2,.6,.2,1), transform 800ms cubic-bezier(.2,.6,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: 80ms; }
+  .reveal.d2 { transition-delay: 160ms; }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 640px) {
+    .article-meta { grid-template-columns: 1fr 1fr; }
+    nav.top ul { display: none; }
+    .article-nav { flex-direction: column; gap: 36px; }
+    .article-nav .next { text-align: left; }
+  }
+</style>
+</head>
+<body>
+
+<div class="pattern-layer" id="pattern"></div>
+<div class="grain"></div>
+<div class="progress-bar" id="progress"></div>
+
+<nav class="top">
+  <div class="mark">
+    <a href="../Blog.html" style="text-decoration:none; display:flex; align-items:baseline; gap:10px;">
+      <span class="sigil">Decision Book</span>
+      <span class="role">— Duško Stamenić</span>
+    </a>
+  </div>
+  <ul>
+    <li><a href="https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+    <li><a href="../index.html">Portfolio</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- -------- Hero -------- -->
+<header class="article-hero">
+  <div class="eyebrow reveal">
+    <span class="cat-pill">Accessibility</span>
+    <span class="sep">·</span>
+    <span>February 2022</span>
+    <span class="sep">·</span>
+    <span>5 min read</span>
+  </div>
+  <h1 class="reveal d1">Accessibility by <span class="ital">Design</span><br>— and by Default</h1>
+</header>
+
+<!-- -------- Body -------- -->
+<article class="article-body">
+
+  <!-- Context strip -->
+  <div class="article-meta reveal">
+    <div class="meta-item">
+      <div class="k">Context</div>
+      <div class="v">Personal Project</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Category</div>
+      <div class="v">Accessibility</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Delivered</div>
+      <div class="v">February 2022</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Read time</div>
+      <div class="v">5 minutes</div>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section-label reveal">Challenge Overview</div>
+
+  <p class="reveal">Implementing accessibility from the start often feels like a daunting task. It's not just about ticking boxes or following guidelines — it's about <strong>thinking through every interaction to ensure that people with diverse abilities can use your product comfortably</strong>. Many teams treat accessibility as an afterthought, which makes retrofitting features cumbersome and often incomplete. The real challenge is designing inclusively from the ground up, considering keyboard navigation, screen readers, color contrast, and cognitive accessibility <em>from day one</em>.</p>
+
+  <!-- Section 2 -->
+  <div class="section-label reveal">Creation Arc</div>
+
+  <h2 class="reveal">Finding Inspiration in the Physical World</h2>
+
+  <p class="reveal">Finding inspiration doesn't always require a manual or a textbook. Sometimes it's as simple as looking around. The curb cut — <strong>a small slope on sidewalks, designed for wheelchair users</strong> — ends up helping parents with strollers, delivery workers, cyclists, and even skateboarders. Automatic doors, ramps, and wider restrooms follow the same principle: they remove barriers not only for their intended users, but for everyone.</p>
+
+  <p class="reveal">This is the <strong>curb cut effect</strong>: a solution aimed at one group quietly improves the experience for all. Observing these everyday examples helps internalize what inclusive design actually means. It's not a constraint imposed on the design — it's a multiplier. <strong>When you solve for the edge case, you often improve the common case too.</strong></p>
+
+  <div class="callout reveal">
+    <div class="callout-label">◈ Key Insight</div>
+    <p>Accessibility features built for the few end up serving the many.</p>
+    <p>Closed captions were designed for the deaf — they're now used in noisy gyms and quiet offices. <strong>Voice control</strong> was built for people with motor impairments — it became Siri and Alexa. <strong>High-contrast mode</strong> helps users with low vision — it's also easier to read outdoors in sunlight.</p>
+    <p>The pattern repeats. Design for constraint, and you design for everyone.</p>
+  </div>
+
+  <h2 class="reveal">Choosing the Right Tools</h2>
+
+  <p class="reveal">When it comes to digital products, choosing the right tools can accelerate accessibility. Component libraries like <code>Shadcn UI</code> provide building blocks with solid accessibility foundations built in — semantic HTML, ARIA attributes, keyboard focus management. But here's the catch: <strong>just because the components are well-built doesn't guarantee your implementation will be fully accessible.</strong> The way you compose them, the context you place them in, and the content you fill them with all matter.</p>
+
+  <p class="reveal">Keyboard testing, screen-reader checks, and contrast verification are still essential steps. Whether you extend an existing library or build components from scratch, each decision carries weight. <strong>Accessibility is not a feature you add — it's a quality you maintain.</strong> Every merge, every sprint, every design review is an opportunity to either preserve it or erode it.</p>
+
+  <h2 class="reveal">Validating the Implementation</h2>
+
+  <p class="reveal">No tool replaces manual testing. Navigating the product using only a keyboard reveals gaps that automated linters miss entirely: focus traps, illogical tab order, unlabeled interactive elements. Running a screen reader — VoiceOver on macOS, NVDA on Windows — exposes a completely different layer of the experience, one that visual designers rarely encounter. <strong>These sessions are uncomfortable at first, and that discomfort is the point.</strong> It builds the empathy that carries forward into every future design decision.</p>
+
+  <!-- Section 3 -->
+  <div class="section-label reveal">Takeaways</div>
+
+  <p class="reveal">Accessibility isn't easy — there are no shortcuts if you want it done right. It requires attention, testing, and sometimes tough trade-offs. But the payoff is significant: <strong>products that are truly usable for everyone will ultimately benefit all users.</strong> Designing inclusively from the start saves time, reduces frustration, and fosters empathy within the team.</p>
+
+  <p class="reveal">The curb cut effect is the clearest reminder of why this work matters. Every barrier you remove for someone who struggles with your product makes the experience smoother for someone who doesn't. <strong>Observing how accessibility features work in real life, leveraging well-designed components, and validating your own implementation</strong> make the challenge manageable — and more than worth it.</p>
+
+  <!-- Bottom navigation -->
+  <nav class="article-nav reveal">
+    <a href="when-ideas-come-alive.html" class="prev">
+      ← Previous
+      <span class="nav-label">When Ideas Come Alive with the Touch of AI</span>
+    </a>
+    <a href="../Blog.html" class="next">
+      All essays →
+      <span class="nav-label">Back to Decision Book</span>
+    </a>
+  </nav>
+
+</article>
+
+</main>
+
+<footer>
+  <span>© 2026 Duško Stamenić — Decision Book</span>
+  <span>Rationale · Clarity · Structure</span>
+</footer>
+
+<script>
+  // Parallax pattern
+  const pattern = document.getElementById('pattern');
+  let targetY = 0, currentY = 0;
+  window.addEventListener('scroll', () => { targetY = window.scrollY * 0.15; }, { passive: true });
+  function animatePattern() {
+    currentY += (targetY - currentY) * 0.08;
+    pattern.style.backgroundPosition = `0 ${-currentY}px`;
+    requestAnimationFrame(animatePattern);
+  }
+  animatePattern();
+
+  // Reading progress bar
+  const progressBar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    progressBar.style.transform = `scaleX(${pct})`;
+  }, { passive: true });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.01 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.reveal').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        el.classList.add('in'); io.unobserve(el);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
