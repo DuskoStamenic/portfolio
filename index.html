@@ -175,7 +175,7 @@
   /* -------- Hero -------- */
   section.hero {
     min-height: 100vh;
-    padding: clamp(140px, 18vh, 220px) var(--gutter) 120px;
+    padding: clamp(100px, 14vh, 220px) var(--gutter) 120px;
     max-width: var(--max);
     margin: 0 auto;
     display: flex; flex-direction: column; justify-content: flex-start;
@@ -600,12 +600,14 @@
   .diagram.in svg .delay-4 { transition-delay: 1200ms; }
 
   @media (max-width: 880px) {
+    section.hero { min-height: auto; }
     .hero-head { grid-template-columns: 1fr; }
     .hero-foot { grid-template-columns: 1fr; gap: 32px; }
     .band-head { grid-template-columns: 1fr; gap: 20px; }
     .about-grid { grid-template-columns: 1fr; gap: 32px; }
     .diagram { position: relative; top: unset; aspect-ratio: 1/1; margin-top: 0; padding-bottom: 16px; }
     section.band { padding: 2px 0; }
+    section.band.articles { padding: 50px 0; }
     .diagram::before { display: none; }
     .highlights { grid-template-columns: 1fr; }
     .cards { grid-template-columns: 1fr; }
