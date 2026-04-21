@@ -362,13 +362,10 @@
   /* Article bottom nav */
   .article-nav {
     border-top: 1px solid var(--line);
-    padding-top: 56px;
-    margin-top: 96px;
+    padding-top: 36px;
+    margin-top: 64px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
+    justify-content: center;
   }
   .article-nav a {
     display: inline-flex; align-items: center; gap: 10px;
@@ -381,21 +378,6 @@
     transition: color 300ms ease;
   }
   .article-nav a:hover { color: var(--ink); }
-  .article-nav .nav-label {
-    font-family: var(--serif);
-    font-size: 15px;
-    color: var(--ink);
-    letter-spacing: 0;
-    text-transform: none;
-    font-weight: 400;
-    display: block;
-    margin-top: 6px;
-    max-width: 28ch;
-    text-wrap: balance;
-    line-height: 1.3;
-  }
-  .article-nav .prev { text-align: left; }
-  .article-nav .next { text-align: right; }
 
   /* -------- Footer -------- */
   footer {
@@ -426,7 +408,6 @@
     .article-meta { grid-template-columns: 1fr 1fr; }
     nav.top ul { display: none; }
     .article-nav { flex-direction: column; gap: 36px; }
-    .article-nav .next { text-align: left; }
   }
 </style>
 </head>
@@ -550,14 +531,7 @@
 
   <!-- Bottom navigation -->
   <nav class="article-nav reveal">
-    <a href="../blog.html" class="prev">
-      ← Back
-      <span class="nav-label">All Essays</span>
-    </a>
-    <a href="watch-it-flex.html" class="next">
-      Next essay →
-      <span class="nav-label">Watch it Flex</span>
-    </a>
+    <a href="../blog.html">← Back to all essays</a>
   </nav>
 
 </article>
