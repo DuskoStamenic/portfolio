@@ -215,7 +215,7 @@
     display: grid;
     grid-template-columns: 1.3fr 1fr;
     gap: 64px;
-    align-items: end;
+    align-items: center;
     margin-top: clamp(56px, 9vh, 96px);
   }
   .hero-sub {
@@ -346,6 +346,7 @@
 
   .highlights {
     margin-top: 96px;
+    position: relative; z-index: 1;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1px;
@@ -602,8 +603,9 @@
     .hero-head { grid-template-columns: 1fr; }
     .hero-foot { grid-template-columns: 1fr; gap: 32px; }
     .band-head { grid-template-columns: 1fr; gap: 20px; }
-    .about-grid { grid-template-columns: 1fr; }
-    .diagram { position: static; aspect-ratio: 1/1; margin-top: 24px; }
+    .about-grid { grid-template-columns: 1fr; gap: 32px; }
+    .diagram { position: relative; top: unset; aspect-ratio: 1/1; margin-top: 0; padding-bottom: 16px; }
+    section.band { padding: 72px 0; }
     .diagram::before { display: none; }
     .highlights { grid-template-columns: 1fr; }
     .cards { grid-template-columns: 1fr; }
@@ -664,8 +666,7 @@
 
     <div class="about-grid">
       <div class="about-prose">
-        <p class="reveal">A button that felt off. A flow that didn't quite resolve. Over time, those small fixes started connecting. Patterns emerged. Decisions began to <span class="mark">compound.</span></p>
-        <p class="soft reveal d1">Today, I design and lead with structure in mind — whether it's a product surface, a design system, or a team. I'm interested in how things hold together over time.</p>
+        <p class="soft reveal d1">I design and lead with structure in mind — whether it's a product surface, a design system, or a team. I'm interested in how things hold together over time.</p>
         <p class="soft reveal d2">The past 7+ years have been spent inside complex product environments, mostly in project management tools. Leading design teams, owning systems, and making decisions that don't just solve for now — they reduce future friction.</p>
         <p class="reveal d3">Good design, to me, isn't just clarity on the surface. It's <span class="mark">stability underneath.</span></p>
       </div>
@@ -788,12 +789,12 @@
         </div>
         <div class="field">
           <label for="f-msg">What are you working on?</label>
-          <textarea id="f-msg" name="message" placeholder="A product, a system, a team, an idea…" required></textarea>
+          <textarea id="f-msg" name="message" placeholder="A product, a design system, an idea…" required></textarea>
           <span class="num">03</span>
         </div>
         <div class="submit-row">
-          <button type="submit" class="submit-btn">Start a conversation <span>→</span></button>
-          <span class="form-status" id="formStatus">Encrypted · Private</span>
+          <button type="submit" class="submit-btn">Send message <span>→</span></button>
+          <span class="form-status" id="formStatus"></span>
         </div>
       </form>
     </div>
@@ -805,7 +806,6 @@
 <footer>
   <span>© 2026 Duško Stamenić — Product Designer</span>
   <span>Structure · Accumulation · Stability</span>
-  <span><a href="mailto:dusko.stamenic.42@gmail.com">dusko.stamenic.42@gmail.com</a></span>
 </footer>
 
 <script>
