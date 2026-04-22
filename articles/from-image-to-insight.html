@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>From Image to Insight — Decision Book</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
+<meta name="description" content="Building a small AI helper — CaptionCraft AI — that generates objective alt text for any uploaded image, making accessibility work lighter inside the design flow." />
+<style>
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../instrument-serif/instrument-serif-latin-regular.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../instrument-serif/instrument-serif-latin-italic.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Sans';
+    font-weight: 100 700;
+    font-display: swap;
+    src: url("../ibm-plex-sans/ibm-plex-sans-latin-vf.woff2") format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../ibm-plex-mono/ibm-plex-mono-latin-regular.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("../ibm-plex-mono/ibm-plex-mono-latin-500.woff2") format('woff2');
+  }
+</style>
+
+<style>
+  :root {
+    --bg:         oklch(0.96 0.002 80);
+    --bg-soft:    oklch(0.93 0.003 80);
+    --bg-deep:    oklch(0.18 0.004 60);
+    --bg-deep-2:  oklch(0.13 0.004 60);
+    --ink:        oklch(0.22 0.003 60);
+    --ink-soft:   oklch(0.45 0.003 60);
+    --ink-faint:  oklch(0.62 0.004 65);
+    --line:       oklch(0.82 0.003 70);
+    --line-soft:  oklch(0.88 0.002 70);
+    --clay:       oklch(0.30 0.005 70);
+    --clay-deep:  oklch(0.22 0.004 70);
+    --off-white:  oklch(0.985 0.006 80);
+
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans:  'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    --mono:  'IBM Plex Mono', ui-monospace, monospace;
+
+    --max:    1240px;
+    --gutter: clamp(20px, 4vw, 56px);
+    --col:    720px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'kern', 'liga', 'ss01';
+  }
+
+  .pattern-layer {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    opacity: 0.047;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='83' viewBox='0 0 96 83'><g fill='none' stroke='%23000' stroke-width='0.7'><polygon points='24,1 72,1 96,41.5 72,82 24,82 0,41.5'/><polygon points='72,1 120,1 144,41.5 120,82 72,82 48,41.5' transform='translate(-48,0)'/></g></svg>");
+    background-size: 96px 83px;
+  }
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    opacity: 0.04; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  .progress-bar {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: var(--clay-deep);
+    transform: scaleX(0);
+    transform-origin: left;
+    z-index: 100;
+    transition: transform 80ms linear;
+  }
+
+  main { position: relative; z-index: 2; }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  nav.top {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 22px var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: oklch(0.85 0 0);
+    mix-blend-mode: difference;
+  }
+  nav.top .mark { display: flex; align-items: baseline; gap: 10px; }
+  nav.top .mark .sigil {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: oklch(0.98 0 0);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-style: italic;
+    line-height: 1;
+  }
+  nav.top .mark .role { color: oklch(0.7 0 0); }
+  nav.top ul { display: flex; gap: 28px; list-style: none; }
+  nav.top a {
+    color: oklch(0.85 0 0);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  nav.top a::after {
+    content: ''; position: absolute; left: 0; right: 100%; bottom: 0;
+    height: 1px; background: oklch(0.98 0 0);
+    transition: right 400ms cubic-bezier(.7,0,.2,1);
+  }
+  nav.top a:hover::after { right: 0; }
+
+  .article-hero {
+    padding: clamp(140px, 18vh, 210px) var(--gutter) 80px;
+    max-width: var(--max);
+    margin: 0 auto;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .eyebrow::before {
+    content: ''; width: 28px; height: 1px;
+    background: var(--ink-faint); display: inline-block;
+    flex-shrink: 0;
+  }
+  .cat-pill {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--clay-deep);
+    padding: 5px 10px;
+    border: 1px solid oklch(from var(--clay-deep) l c h / 0.35);
+    border-radius: 999px;
+    line-height: 1;
+  }
+  .eyebrow .sep { color: var(--line); }
+
+  .article-hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(44px, 7vw, 104px);
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    text-wrap: balance;
+    max-width: 20ch;
+  }
+  .article-hero h1 .ital { font-style: italic; color: var(--clay-deep); }
+
+  .article-body {
+    max-width: var(--col);
+    margin: 0 auto;
+    padding: 72px 0px 120px;
+  }
+
+  .article-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 60px;
+  }
+  .meta-item {
+    background: var(--bg);
+    padding: 16px 18px;
+  }
+  .meta-item .k {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 5px;
+  }
+  .meta-item .v {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+    margin-top: 60px;
+    margin-bottom: 36px;
+  }
+  .section-label:first-of-type { margin-top: 0; }
+
+  .article-body h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    text-wrap: balance;
+    margin-top: 52px;
+    margin-bottom: 22px;
+  }
+
+  .article-body p {
+    font-family: var(--sans);
+    font-size: 20px;
+    line-height: 1.8;
+    color: oklch(0.28 0.003 60);
+    margin-bottom: 26px;
+  }
+  .article-body p:last-child { margin-bottom: 0; }
+
+  .article-body p strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .article-body a {
+    color: var(--clay-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color 300ms ease;
+  }
+  .article-body a:hover { color: var(--ink); }
+
+  .article-body code {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    padding: 2px 7px;
+    border-radius: 3px;
+    color: var(--clay-deep);
+    white-space: nowrap;
+  }
+
+  .callout {
+    background: var(--bg-soft);
+    border: 1px solid var(--clay-deep);
+    padding: 28px 32px;
+    margin: 40px 0;
+  }
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--clay-deep);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .callout p {
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .article-figure {
+    margin: 52px 0;
+  }
+  .img-wrap {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    position: relative;
+  }
+  .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  figcaption {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    margin-top: 14px;
+    padding-left: 2px;
+    line-height: 1.5;
+  }
+
+  .article-nav {
+    border-top: 1px solid var(--line);
+    padding-top: 36px;
+    margin-top: 64px;
+    display: flex;
+    justify-content: center;
+  }
+  .article-nav a {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-decoration: none;
+    transition: color 300ms ease;
+  }
+  .article-nav a:hover { color: var(--ink); }
+
+  footer {
+    background: var(--bg-deep-2);
+    color: oklch(0.62 0.015 60);
+    padding: 36px var(--gutter);
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    display: flex; justify-content: space-between; gap: 20px;
+    flex-wrap: wrap;
+    position: relative; z-index: 2;
+  }
+  footer a { color: oklch(0.82 0.015 60); text-decoration: none; }
+  footer a:hover { color: var(--off-white); }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 800ms cubic-bezier(.2,.6,.2,1), transform 800ms cubic-bezier(.2,.6,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: 80ms; }
+  .reveal.d2 { transition-delay: 160ms; }
+
+  @media (max-width: 640px) {
+    .article-meta { grid-template-columns: 1fr}
+    nav.top ul { display: none; }
+    .article-nav { flex-direction: column; gap: 36px; }
+    .article-body { padding: 72px var(--gutter) 120px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="pattern-layer" id="pattern"></div>
+<div class="grain"></div>
+<div class="progress-bar" id="progress"></div>
+
+<nav class="top">
+  <div class="mark">
+    <a href="../blog.html" style="text-decoration:none; display:flex; align-items:baseline; gap:10px;">
+      <span class="sigil">Duško Stamenić</span>
+      <span class="role">— Decision Book</span>
+    </a>
+  </div>
+  <ul>
+    <li><a href="https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+    <li><a href="../index.html">Portfolio</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<header class="article-hero">
+  <div class="eyebrow reveal">
+    <span class="cat-pill">Build with AI</span>
+    <span class="sep">·</span>
+    <span>4 min read</span>
+  </div>
+  <h1 class="reveal d1">From Image to <span class="ital">Insight</span></h1>
+</header>
+
+<article class="article-body">
+
+  <div class="article-meta reveal">
+    <div class="meta-item">
+      <div class="k">Context</div>
+      <div class="v">Personal Project</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Delivered</div>
+      <div class="v">August 2025</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Author</div>
+      <div class="v">Duško Stamenić</div>
+    </div>
+  </div>
+
+  <div class="section-label reveal">Challenge Overview</div>
+
+  <p class="reveal">As designers, we often talk about accessibility, but in practice, it's easy to skip the small details that actually make products more inclusive. One of those details is writing good alt text — short, objective descriptions of images that screen readers can read aloud for people who can't see them. I realized that I wasn't always consistent with this part. Sometimes I'd forget, other times I'd write something too vague ("screenshot of interface"), or worse, something too interpretive. <strong>Writing alt text shouldn't take long, yet doing it well every time requires focus, and that's exactly where I started struggling</strong>.</p>
+
+  <p class="reveal">So, <strong>I decided to build a small AI helper</strong> — <strong>an app that generates an objective, one-sentence description for any image I upload</strong>. The goal wasn't to replace human judgment but to make accessibility work feel lighter and more natural, especially in the middle of design tasks.</p>
+
+  <div class="section-label reveal">Creation Arc</div>
+
+  <h2 class="reveal">Meet CaptionCraft AI</h2>
+
+  <p class="reveal">When it comes to building quick interface experiments with AI support, I usually switch between Firebase Studio, Emergent, and Base44. For this project, I went with <strong>Base44</strong>. It seemed like the <strong>right balance between flexibility and speed</strong> — a tool that lets me focus on logic and flow instead of setup. I wasn't trying to build a complex product, just a small, functional space where I could upload an image and get a clean, objective description back.</p>
+
+  <p class="reveal">This was my <strong>initial prompt</strong>:</p>
+
+  <div class="callout reveal">
+    <div class="callout-label">💡 Initial Prompt</div>
+    <p>A simple interface for writing a caption for an uploaded image.</p>
+    <p>User is able to upload the image, then AI will analyze it and write a short caption for the image.</p>
+  </div>
+
+  <p class="reveal">In just <strong>two minutes</strong>, the app was up and running. That's the kind of speed AI helpers can bring — turning what used to be a small but tedious task into something instant and effortless. It wasn't about building a polished product or a full-featured tool; it was about <strong>creating a working prototype fast, testing the idea, and seeing the concept in action almost immediately</strong>:</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/f5495297-3717-43b0-b770-fe17c91eec77/AI_ALT_1/w=1920,quality=90,fit=scale-down"
+        alt="CaptionCraft AI — the working prototype just after it came together in Base44"
+        loading="lazy"
+      />
+    </div>
+  </figure>
+
+  <p class="reveal">The results were striking! I could upload an image, and right below it appeared a clear, objective alt text. It felt almost magical. The descriptions were mostly on point, though some were a little long, so I made small refinements to tighten them up. That was the only tweak I had to introduce — <strong>the core functionality worked perfectly straight out of the box</strong>. Seeing it in action really highlighted how much time and mental effort AI can save:</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/c2c5fd51-b7f5-4607-be8a-0c0ffcd8ee54/AI_ALt_3/w=1920,quality=90,fit=scale-down"
+        alt="CaptionCraft AI generating an objective alt text caption for an uploaded image"
+        loading="lazy"
+      />
+    </div>
+  </figure>
+
+  <div class="section-label reveal">Takeaways</div>
+
+  <p class="reveal">This was a small, focused project with a clear purpose: <strong>creating a tool that improves accessibility while also smoothing out my own workflow</strong>. It wasn't about building something complex or flashy, just a practical helper that actually gets the job done.</p>
+
+  <p class="reveal">Tools like <strong>Base44</strong> these days make it possible to whip up small, useful apps in no time. For me, this means <strong>less friction when writing and documenting my work</strong>. But it's not just about me — anyone reading my case studies can benefit from the same approach. <strong>A little AI support can make accessibility easier for everyone</strong>, and sometimes that's all it takes to make a meaningful difference.</p>
+
+  <p class="reveal">If you also use Base44, you can even try it: <a href="https://caption-craft-ai-80cb0d11.base44.app/" target="_blank" rel="noopener">CaptionCraft AI</a>.</p>
+
+  <nav class="article-nav reveal">
+    <a href="../blog.html">← Back to all essays</a>
+  </nav>
+
+</article>
+
+</main>
+
+<footer>
+  <span>© 2026 Duško Stamenić — Decision Book</span>
+  <span>Rationale · Clarity · Structure</span>
+</footer>
+
+<script>
+  const pattern = document.getElementById('pattern');
+  let targetY = 0, currentY = 0;
+  window.addEventListener('scroll', () => { targetY = window.scrollY * 0.15; }, { passive: true });
+  function animatePattern() {
+    currentY += (targetY - currentY) * 0.08;
+    pattern.style.backgroundPosition = `0 ${-currentY}px`;
+    requestAnimationFrame(animatePattern);
+  }
+  animatePattern();
+
+  const progressBar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    progressBar.style.transform = `scaleX(${pct})`;
+  }, { passive: true });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.01 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.reveal').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        el.classList.add('in'); io.unobserve(el);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
