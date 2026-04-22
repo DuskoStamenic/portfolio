@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Watch it Flex — Decision Book</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
+<meta name="description" content="A responsive UI card, built from scratch with CSS Grid, Flexbox, and a single media query — and what stretching it narrow taught me about layout." />
+<style>
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../instrument-serif/instrument-serif-latin-regular.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../instrument-serif/instrument-serif-latin-italic.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Sans';
+    font-weight: 100 700;
+    font-display: swap;
+    src: url("../ibm-plex-sans/ibm-plex-sans-latin-vf.woff2") format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../ibm-plex-mono/ibm-plex-mono-latin-regular.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("../ibm-plex-mono/ibm-plex-mono-latin-500.woff2") format('woff2');
+  }
+</style>
+
+<style>
+  :root {
+    --bg:         oklch(0.96 0.002 80);
+    --bg-soft:    oklch(0.93 0.003 80);
+    --bg-deep:    oklch(0.18 0.004 60);
+    --bg-deep-2:  oklch(0.13 0.004 60);
+    --ink:        oklch(0.22 0.003 60);
+    --ink-soft:   oklch(0.45 0.003 60);
+    --ink-faint:  oklch(0.62 0.004 65);
+    --line:       oklch(0.82 0.003 70);
+    --line-soft:  oklch(0.88 0.002 70);
+    --clay:       oklch(0.30 0.005 70);
+    --clay-deep:  oklch(0.22 0.004 70);
+    --off-white:  oklch(0.985 0.006 80);
+
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans:  'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    --mono:  'IBM Plex Mono', ui-monospace, monospace;
+
+    --max:    1240px;
+    --gutter: clamp(20px, 4vw, 56px);
+    --col:    720px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'kern', 'liga', 'ss01';
+  }
+
+  /* Background layers */
+  .pattern-layer {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    opacity: 0.047;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='83' viewBox='0 0 96 83'><g fill='none' stroke='%23000' stroke-width='0.7'><polygon points='24,1 72,1 96,41.5 72,82 24,82 0,41.5'/><polygon points='72,1 120,1 144,41.5 120,82 72,82 48,41.5' transform='translate(-48,0)'/></g></svg>");
+    background-size: 96px 83px;
+  }
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    opacity: 0.04; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* Reading progress bar */
+  .progress-bar {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: var(--clay-deep);
+    transform: scaleX(0);
+    transform-origin: left;
+    z-index: 100;
+    transition: transform 80ms linear;
+  }
+
+  main { position: relative; z-index: 2; }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* -------- Nav (identical to Blog.html) -------- */
+  nav.top {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 22px var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: oklch(0.85 0 0);
+    mix-blend-mode: difference;
+  }
+  nav.top .mark { display: flex; align-items: baseline; gap: 10px; }
+  nav.top .mark .sigil {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: oklch(0.98 0 0);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-style: italic;
+    line-height: 1;
+  }
+  nav.top .mark .role { color: oklch(0.7 0 0); }
+  nav.top ul { display: flex; gap: 28px; list-style: none; }
+  nav.top a {
+    color: oklch(0.85 0 0);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  nav.top a::after {
+    content: ''; position: absolute; left: 0; right: 100%; bottom: 0;
+    height: 1px; background: oklch(0.98 0 0);
+    transition: right 400ms cubic-bezier(.7,0,.2,1);
+  }
+  nav.top a:hover::after { right: 0; }
+
+  /* -------- Article Hero -------- */
+  .article-hero {
+    padding: clamp(140px, 18vh, 210px) var(--gutter) 80px;
+    max-width: var(--max);
+    margin: 0 auto;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .eyebrow::before {
+    content: ''; width: 28px; height: 1px;
+    background: var(--ink-faint); display: inline-block;
+    flex-shrink: 0;
+  }
+  .cat-pill {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--clay-deep);
+    padding: 5px 10px;
+    border: 1px solid oklch(from var(--clay-deep) l c h / 0.35);
+    border-radius: 999px;
+    line-height: 1;
+  }
+  .eyebrow .sep { color: var(--line); }
+
+  .article-hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(44px, 7vw, 104px);
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    text-wrap: balance;
+    max-width: 20ch;
+  }
+  .article-hero h1 .ital { font-style: italic; color: var(--clay-deep); }
+
+  /* -------- Article Body -------- */
+  .article-body {
+    max-width: var(--col);
+    margin: 0 auto;
+    padding: 72px 0px 120px;
+  }
+
+  /* Context strip */
+  .article-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 60px;
+  }
+  .meta-item {
+    background: var(--bg);
+    padding: 16px 18px;
+  }
+  .meta-item .k {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 5px;
+  }
+  .meta-item .v {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  /* Section labels */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+    margin-top: 60px;
+    margin-bottom: 36px;
+  }
+  .section-label:first-of-type { margin-top: 0; }
+
+  /* Subsection headings */
+  .article-body h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    text-wrap: balance;
+    margin-top: 52px;
+    margin-bottom: 22px;
+  }
+
+  /* Body paragraphs */
+  .article-body p {
+    font-family: var(--sans);
+    font-size: 20px;
+    line-height: 1.8;
+    color: oklch(0.28 0.003 60);
+    margin-bottom: 26px;
+  }
+  .article-body p:last-child { margin-bottom: 0; }
+
+  .article-body p strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* Inline code */
+  .article-body code {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    padding: 2px 7px;
+    border-radius: 3px;
+    color: var(--clay-deep);
+    white-space: nowrap;
+  }
+
+  /* Callout / prompt block */
+  .callout {
+    background: var(--bg-soft);
+    border: 1px solid var(--clay-deep);
+    padding: 28px 32px;
+    margin: 40px 0;
+  }
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--clay-deep);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .callout p {
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* Figures */
+  .article-figure {
+    margin: 52px 0;
+  }
+  .img-wrap {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    position: relative;
+  }
+  .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .img-placeholder {
+    display: flex; align-items: center; justify-content: center;
+    aspect-ratio: 16/9;
+  }
+  .img-placeholder-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: center;
+    padding: 20px;
+    line-height: 1.7;
+  }
+  figcaption {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    margin-top: 14px;
+    padding-left: 2px;
+    line-height: 1.5;
+  }
+
+  /* Codepen embed */
+  .codepen-embed {
+    margin: 52px 0;
+    border: 1px solid var(--line);
+    background: var(--bg-soft);
+    overflow: hidden;
+  }
+  .codepen-embed iframe {
+    display: block;
+    width: 100%;
+    height: 520px;
+    border: 0;
+  }
+
+  /* Article bottom nav */
+  .article-nav {
+    border-top: 1px solid var(--line);
+    padding-top: 36px;
+    margin-top: 64px;
+    display: flex;
+    justify-content: center;
+  }
+  .article-nav a {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-decoration: none;
+    transition: color 300ms ease;
+  }
+  .article-nav a:hover { color: var(--ink); }
+
+  /* -------- Footer -------- */
+  footer {
+    background: var(--bg-deep-2);
+    color: oklch(0.62 0.015 60);
+    padding: 36px var(--gutter);
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    display: flex; justify-content: space-between; gap: 20px;
+    flex-wrap: wrap;
+    position: relative; z-index: 2;
+  }
+  footer a { color: oklch(0.82 0.015 60); text-decoration: none; }
+  footer a:hover { color: var(--off-white); }
+
+  /* -------- Reveal animation -------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 800ms cubic-bezier(.2,.6,.2,1), transform 800ms cubic-bezier(.2,.6,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: 80ms; }
+  .reveal.d2 { transition-delay: 160ms; }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 640px) {
+    .article-meta { grid-template-columns: 1fr}
+    nav.top ul { display: none; }
+    .article-nav { flex-direction: column; gap: 36px; }
+    .article-body { padding: 72px var(--gutter) 120px; }
+    .codepen-embed iframe { height: 420px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="pattern-layer" id="pattern"></div>
+<div class="grain"></div>
+<div class="progress-bar" id="progress"></div>
+
+<nav class="top">
+  <div class="mark">
+    <a href="../blog.html" style="text-decoration:none; display:flex; align-items:baseline; gap:10px;">
+      <span class="sigil">Duško Stamenić</span>
+      <span class="role">— Decision Book</span>
+    </a>
+  </div>
+  <ul>
+    <li><a href="https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+    <li><a href="../index.html">Portfolio</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- -------- Hero -------- -->
+<header class="article-hero">
+  <div class="eyebrow reveal">
+    <span class="cat-pill">UI Design</span>
+    <span class="sep">·</span>
+    <span>5 min read</span>
+  </div>
+  <h1 class="reveal d1">Watch it <span class="ital">Flex</span></h1>
+</header>
+
+<!-- -------- Body -------- -->
+<article class="article-body">
+
+  <!-- Context strip -->
+  <div class="article-meta reveal">
+    <div class="meta-item">
+      <div class="k">Context</div>
+      <div class="v">Personal Project</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Delivered</div>
+      <div class="v">November 2022</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Author</div>
+      <div class="v">Duško Stamenić</div>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section-label reveal">Challenge Overview</div>
+
+  <p class="reveal">As part of my ongoing exploration of responsive design, I set out to understand <strong>how a card-based UI component could adapt fluidly across a range of screen sizes and resolutions</strong>. This wasn't just about making things look good at different breakpoints — it was an exercise in observing how content hierarchy, alignment, and spacing respond as the layout stretches, stacks, or compresses. By building and testing the UI card component, I aimed to get a hands-on grasp of the design decisions that make flexible interfaces work across devices.</p>
+
+  <!-- Section 2 -->
+  <div class="section-label reveal">Creation Arc</div>
+
+  <h2 class="reveal">Flexible Fit: The Knickerbocker Way</h2>
+
+  <p class="reveal">Curious about how this type of graphic would adapt across various screen sizes, I decided to explore its responsiveness as a design exercise. Although originally intended for broadcast or social media use, typically viewed on standard television, I wanted to <strong>test how the layout behaves when stretched across wider desktop displays or compressed into smaller, narrower frames</strong>. This led me to consider how elements like the logo placement, typography scale, and spacing might shift to maintain clarity and visual balance. My goal wasn't to redesign the card, but rather to understand <strong>how a static piece of sports media content could be reimagined with responsiveness in mind</strong>, without losing its strong visual identity or immediate readability.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/716b65b0-2cf1-4237-b012-2d6f22275f94/first_screen/w=1920,quality=90,fit=scale-down"
+        alt="The finished responsive card across wide and narrow viewports"
+        loading="lazy"
+        width="1920"
+      />
+    </div>
+    <figcaption>Interface shown in two variations: one for large screens, one for small screens.</figcaption>
+  </figure>
+
+  <h2 class="reveal">Fluid Card Layout Using CSS Grid, Flexbox &amp; Media Queries</h2>
+
+  <p class="reveal">I built the layout using only HTML and CSS, focusing on simplicity and performance. My first step was to structure the HTML in a way that would support flexible behavior from the start, using a layout that could <strong>easily adapt to shifts in screen size</strong> without breaking the visual hierarchy.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/dd442e46-3dc6-4ce3-8fb5-60e67a433f0d/HTML/w=1920,quality=90,fit=scale-down"
+        alt="The HTML markup for the card component"
+        loading="lazy"
+        width="1920"
+      />
+    </div>
+    <figcaption>The markup — a small HTML tree, structured for flexibility</figcaption>
+  </figure>
+
+  <p class="reveal">To keep the layout compact and readable on large screens, I set a <strong>max-width</strong> of 900px on the main container, ensuring that the content wouldn't stretch too wide on desktops. I used CSS Grid to define the structure, applying <strong>semantic grid names like <code>header</code>, <code>logo</code>, and <code>content</code></strong> to make the layout logic easy to follow and maintain. The grid setup consisted of two rows and two columns, giving me a flexible base to arrange elements while keeping the established visual hierarchy.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/02c47e21-333a-4bd1-8d52-d44092745be8/CSS1/w=1920,quality=90,fit=scale-down"
+        alt="The CSS Grid setup defining two rows and two columns with named areas"
+        loading="lazy"
+        width="1920"
+      />
+    </div>
+    <figcaption>Two rows, two columns, three named areas — the grid foundation</figcaption>
+  </figure>
+
+  <p class="reveal">Further on, I <strong>assigned the semantic grid areas</strong> to the corresponding elements, ensuring each part of the layout landed exactly where intended. Inside the main content area, I <strong>used Flexbox to arrange the list of upcoming fixtures</strong>.</p>
+
+  <p class="reveal">Next, I introduced a <strong>media query targeting screens narrower than 768px</strong> to make the layout more mobile-friendly. In this view, the grid collapses into a single column by redefining the template with <code>grid-template-columns: 1fr;</code> and stacking the areas vertically as header, logo, and content. I used <code>font-size: clamp(16px, 3.5vw, 30px);</code> to make the text scalable, and centered it, to improve readability and visual balance on smaller screens. This adjustment ensured the layout remained clear and accessible without compromising its structure.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/cb1f67f7-c83d-4584-be40-248421f50af1/CSS2/w=1920,quality=90,fit=scale-down"
+        alt="The media query collapsing the grid into a single column with clamp-based typography"
+        loading="lazy"
+        width="1920"
+      />
+    </div>
+    <figcaption>The media query — one column, centered text, fluid type via <code>clamp()</code></figcaption>
+  </figure>
+
+  <p class="reveal">This final step allowed me to achieve the responsive behavior I was aiming for — <strong>preserving the structure and clarity of the design while adapting smoothly to smaller screen sizes</strong>. By combining CSS Grid, semantic grid names, and a simple media query, the layout remained visually coherent across a range of devices without requiring complex adjustments.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/f5b34709-38af-457f-a4cf-7859465ba28b/Knicks/w=1920,quality=90,fit=scale-down"
+        alt="The Knicks-themed sports media card used as the starting graphic"
+        loading="lazy"
+        width="1920"
+      />
+    </div>
+    <figcaption>TV screen showing the Knicks' upcoming schedule and season record.</figcaption>
+  </figure>
+
+  <p class="reveal">The live prototype is on CodePen:</p>
+
+  <div class="codepen-embed reveal">
+    <iframe
+      title="Responsive TV card prototype on CodePen"
+      src="https://codepen.io/DuskoStamenic/embed/GRGEqYB?default-tab=result&theme-id=light"
+      loading="lazy"
+      allowtransparency="true"
+      allowfullscreen="true">
+    </iframe>
+  </div>
+
+  <!-- Section 3 -->
+  <div class="section-label reveal">Takeaways</div>
+
+  <p class="reveal">Pushing the design to work on not just wide, but very narrow screens turned out to be both fun and revealing. It forced me to rethink how layout, spacing, and content hierarchy behave when there's barely any room to breathe. This wasn't just a responsive design exercise — it was a way to test <strong>how far a single card component could stretch (or shrink) while still feeling balanced and usable</strong>.</p>
+
+  <!-- Bottom navigation -->
+  <nav class="article-nav reveal">
+    <a href="../blog.html">← Back to all essays</a>
+  </nav>
+
+</article>
+
+</main>
+
+<footer>
+  <span>© 2026 Duško Stamenić — Decision Book</span>
+  <span>Rationale · Clarity · Structure</span>
+</footer>
+
+<script>
+  // Parallax pattern
+  const pattern = document.getElementById('pattern');
+  let targetY = 0, currentY = 0;
+  window.addEventListener('scroll', () => { targetY = window.scrollY * 0.15; }, { passive: true });
+  function animatePattern() {
+    currentY += (targetY - currentY) * 0.08;
+    pattern.style.backgroundPosition = `0 ${-currentY}px`;
+    requestAnimationFrame(animatePattern);
+  }
+  animatePattern();
+
+  // Reading progress bar
+  const progressBar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    progressBar.style.transform = `scaleX(${pct})`;
+  }, { passive: true });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.01 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.reveal').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        el.classList.add('in'); io.unobserve(el);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
