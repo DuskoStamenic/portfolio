@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>When Ideas Come Alive with the Touch of AI — Decision Book</title>
+<title>Zoom Notes, Before Zoom Notes — Decision Book</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />  
-<meta name="description" content="How integrating AI into the design process changed not just the output — but the way the decision itself was made." />
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
+<meta name="description" content="A 2021 concept for a built-in notes panel inside Zoom — two years before Zoom shipped one for real. A small pattern, hiding in plain sight." />
 <style>
   @font-face {
     font-family: 'Instrument Serif';
@@ -359,6 +359,21 @@
     line-height: 1.5;
   }
 
+  /* Video embed (Vimeo / Codepen) */
+  .video-embed {
+    margin: 52px 0;
+    border: 1px solid var(--line);
+    background: var(--bg-soft);
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 16/9;
+  }
+  .video-embed iframe {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: 0;
+  }
+
   /* Article bottom nav */
   .article-nav {
     border-top: 1px solid var(--line);
@@ -436,11 +451,11 @@
 <!-- -------- Hero -------- -->
 <header class="article-hero">
   <div class="eyebrow reveal">
-    <span class="cat-pill">Build with AI</span>
+    <span class="cat-pill">Product Design</span>
     <span class="sep">·</span>
     <span>3 min read</span>
   </div>
-  <h1 class="reveal d1">When Ideas Come <span class="ital">Alive</span><br>with the Touch of AI</h1>
+  <h1 class="reveal d1">Zoom Notes, <span class="ital">Before</span><br>Zoom Notes</h1>
 </header>
 
 <!-- -------- Body -------- -->
@@ -454,7 +469,7 @@
     </div>
     <div class="meta-item">
       <div class="k">Delivered</div>
-      <div class="v">April 2025</div>
+      <div class="v">February 2021</div>
     </div>
     <div class="meta-item">
       <div class="k">Author</div>
@@ -465,64 +480,67 @@
   <!-- Section 1 -->
   <div class="section-label reveal">Challenge Overview</div>
 
-  <p class="reveal">As a designer, my process has typically started with research, moved through pen-and-paper sketches, and then transitioned into Figma or other UI design tools. However, <strong>the rapid evolution of AI technology has reshaped the way I work</strong>. I've fully embraced AI — not just for visual exploration, but also for accelerating development. While I've experimented with several AI-powered development tools, Firebase Studio has been the most effective in my experience. It's fast, reliable, and enhances my ability to bring ideas to life efficiently.</p>
+  <p class="reveal"><strong>The pandemic brought a new way of working.</strong> Like many others, we had to quickly adapt and choose the right tools for remote collaboration. My company settled on Zoom for video calls. While adjusting to remote work and juggling multiple new tools was initially a challenge, we eventually found our rhythm. But over time, <strong>we also started noticing gaps in the tools we had so eagerly adopted.</strong></p>
+
+  <p class="reveal">One of those gaps became clear during meetings. There were often moments when I needed to jot something down quickly — an idea, a task, a follow-up. But doing that meant switching to another app, which broke the flow of the conversation. That's when I got the idea: <strong>what if Zoom had a built-in space for taking quick notes during a call?</strong></p>
 
   <!-- Section 2 -->
   <div class="section-label reveal">Creation Arc</div>
 
-  <h2 class="reveal">Using the Newest Tech to Sketch Ideas</h2>
+  <h2 class="reveal">Zooming Into the Details</h2>
 
-  <p class="reveal">While exploring new ways to integrate AI workflows into the project management app I'm currently working on, I was reminded of how Midjourney uses "/" (slash commands) to trigger actions in the Discord chat. That sparked an idea! 💡 As I was redesigning the Timesheet page, I began to imagine <strong>how we could combine users' tracked time data with an AI assistant, activated through slash commands</strong> like <code>/summarize</code>, <code>/ask</code>, or <code>/help</code>. There were also some other ideas for the slash commands, but at the beginning I settled with these three. This approach could give users a simple, conversational way to gain insights from their data and <strong>interact more intuitively</strong> with the system.</p>
+  <p class="reveal">Before Zoom introduced a wave of new features — Whiteboard, Timer, Music, and the AI Companion — the video call interface was much simpler and less cluttered. At that time, there was no built-in Notes feature. While a few third-party tools offered integrations for live transcription and note-taking, they weren't widely adopted by everyday Zoom users. <strong>My idea was to suggest a lightweight, native solution for quick note-taking</strong> — something simple and easy to integrate into the existing experience.</p>
 
-  <p class="reveal">Then, instead of reaching for pen and paper or opening Figma, <strong>I went straight into Firebase Studio.</strong> While not perfectly structured, this prompt captures more of my spontaneous thoughts:</p>
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/28632d81-252c-4fa1-8f16-9aaceb0cb3df/Zoom_Notes_1/w=1920,quality=90,fit=scale-down"
+        alt="Zoom interface with a note-taking sidebar open on the right"
+        loading="lazy"
+        width="1920"
+      />
+    </div>
+    <figcaption>The Zoom interface with a note-taking sidebar tucked to the right</figcaption>
+  </figure>
+
+  <p class="reveal">I placed the <strong>Notes</strong> icon on the far right of the Zoom interface — and that's where the concept started to take shape. Clicking the icon would open a side panel for quick note-taking. The idea was to let users <strong>type directly within the panel or pop it out</strong> into a resizable window, enabling a split-screen view alongside the video call.</p>
+
+  <p class="reveal">Once the notes were written, users could choose to <strong>save them locally</strong> or upload them directly to a connected service like <strong>Google Drive, Dropbox, or Evernote</strong>. This would make it easy to store and share meeting notes right after the call — without breaking the flow of the meeting itself. It was a simple feature, but even in that early form, it felt like <strong>just enough to solve the problem</strong> without adding extra complexity.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/8477ed35-404f-471a-a6d1-0fc4188d67c8/Zoom_Notes_2/w=1920,quality=90,fit=scale-down"
+        alt="Zoom interface with options for saving notes during a meeting"
+        loading="lazy"
+        width="1920"
+      />
+    </div>
+    <figcaption>Save-note options — local file, Google Drive, Dropbox, or Evernote</figcaption>
+  </figure>
 
   <div class="callout reveal">
-    <div class="callout-label">💡 Initial prompt</div>
-    <p>An AI app that allows the user to communicate with it through slash commands.</p>
-    <p>First step for the user is to upload a database from software like Airtable, or upload a local spreadsheet, or even just a plain text file.</p>
-    <p>Then AI will process it and take all the data.</p>
-    <p>Then user will be able to communicate with it through slash commands like <strong>"/help"</strong>, <strong>"/ask"</strong> or <strong>"/summarize"</strong>. This is a main feature, and slash commands should be easy to use.</p>
-    <p>Use minimalistic style for the interface. Use dark color palette with clear CTA.</p>
+    <div class="callout-label">💡 Fun Fact</div>
+    <p>I was two years ahead of the curve.</p>
+    <p>I uploaded this project to <a href="https://www.behance.net/gallery/112279551/Zoom-Notes" target="_blank" rel="noopener">Behance</a> on <strong>February 1st, 2021</strong>, and Zoom officially announced their own <a href="https://news.zoom.com/zoom-introduces-notes/" target="_blank" rel="noopener"><em>Notes</em></a> on <strong>August 30th, 2023</strong>.</p>
   </div>
-
-  <h2 class="reveal">Developing the MVP</h2>
-
-  <p class="reveal">Of course, there was some back-and-forth with prompts and adjustments before the app became fully usable. But I loved the fact that <strong>refining and adding features could be done simply through prompting</strong>. I won't go deep into every step, but I can say it took me <strong>less than an hour</strong> to design the first version, refine it, add some crucial features and visual refinements, and at the end get to this MVP version:</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/2279f62c-989c-43d5-b154-e5fe264f25b1/Screenshot_2025-07-27_at_00.34.55/w=1440,quality=90,fit=scale-down"
-        alt="A chat window where users trigger AI actions using slash commands"
-        loading="lazy"
-        width="1440"
-      />
-    </div>
-    <figcaption>A chat window where users trigger AI actions using slash commands</figcaption>
-  </figure>
-
-  <h2 class="reveal">Having the Intended Interaction</h2>
-
-  <p class="reveal">I uploaded the spreadsheet from my computer, started using slash commands — and it worked! <strong>The AI understood the content and responded with meaningful answers</strong>. And just like that, the <em>Timesheet Analyzer</em> was born.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/c53ba109-24af-4a6d-99b6-ddb1b44fbe88/Screenshot_2025-07-27_at_00.42.39/w=1440,quality=90,fit=scale-down"
-        alt="Chatting with AI about the uploaded file"
-        loading="lazy"
-        width="1440"
-      />
-    </div>
-    <figcaption>Chatting with AI about the uploaded file</figcaption>
-  </figure>
 
   <!-- Section 3 -->
   <div class="section-label reveal">Takeaways</div>
 
-  <p class="reveal">This experience marked a <strong>significant shift</strong> in how I approach designing and prototyping digital products. Instead of relying solely on traditional tools like Figma or pen-and-paper sketches, I embraced <strong>AI as a collaborative partner</strong> — one that not only visualizes ideas but actively helps build them. Although it's nowhere near as polished as I would have designed it in Figma, it's a valuable starting point that helps me understand which elements and interactions to consider once the UI phase begins.</p>
+  <p class="reveal">While my concept wasn't packed with advanced features, I like to imagine that maybe — just maybe — one of the <strong>designers working on Zoom Notes came across my project and found a bit of inspiration</strong>. Jokes aside, I truly believe this was a highly requested feature, and I'm glad it eventually became part of the product. It's great to know that something like this is now helping so many users.</p>
 
-  <p class="reveal">By experimenting with slash-command workflows and using Firebase Studio, I was able to go from concept to a functional prototype in under an hour. It reinforced the idea that with the right tools, designers can <strong>blur the lines between ideation and development</strong>, turning raw ideas into working solutions faster than ever before.</p>
+  <p class="reveal">Here's a short video I prepared to showcase how the note-taking interactions were designed:</p>
+
+  <div class="video-embed reveal">
+    <iframe
+      title="Zoom Notes interaction prototype on Vimeo"
+      src="https://player.vimeo.com/video/505249699?title=0&byline=0&portrait=0"
+      loading="lazy"
+      allow="autoplay; fullscreen; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
 
   <!-- Bottom navigation -->
   <nav class="article-nav reveal">

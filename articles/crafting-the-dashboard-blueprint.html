@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>When Ideas Come Alive with the Touch of AI — Decision Book</title>
+<title>Crafting the Dashboard Blueprint — Decision Book</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
-<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />  
-<meta name="description" content="How integrating AI into the design process changed not just the output — but the way the decision itself was made." />
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
+<meta name="description" content="How a bit of upfront prototyping — a grid, a few charts, a public CodePen — shaped the Assignments Dashboard and saved weeks later on." />
 <style>
   @font-face {
     font-family: 'Instrument Serif';
@@ -359,6 +359,20 @@
     line-height: 1.5;
   }
 
+  /* Codepen embed */
+  .codepen-embed {
+    margin: 52px 0;
+    border: 1px solid var(--line);
+    background: var(--bg-soft);
+    overflow: hidden;
+  }
+  .codepen-embed iframe {
+    display: block;
+    width: 100%;
+    height: 520px;
+    border: 0;
+  }
+
   /* Article bottom nav */
   .article-nav {
     border-top: 1px solid var(--line);
@@ -409,6 +423,7 @@
     nav.top ul { display: none; }
     .article-nav { flex-direction: column; gap: 36px; }
     .article-body { padding: 72px var(--gutter) 120px; }
+    .codepen-embed iframe { height: 420px; }
   }
 </style>
 </head>
@@ -436,11 +451,11 @@
 <!-- -------- Hero -------- -->
 <header class="article-hero">
   <div class="eyebrow reveal">
-    <span class="cat-pill">Build with AI</span>
+    <span class="cat-pill">UI Design</span>
     <span class="sep">·</span>
-    <span>3 min read</span>
+    <span>6 min read</span>
   </div>
-  <h1 class="reveal d1">When Ideas Come <span class="ital">Alive</span><br>with the Touch of AI</h1>
+  <h1 class="reveal d1">Crafting the <span class="ital">Dashboard</span><br>Blueprint</h1>
 </header>
 
 <!-- -------- Body -------- -->
@@ -450,11 +465,11 @@
   <div class="article-meta reveal">
     <div class="meta-item">
       <div class="k">Context</div>
-      <div class="v">Personal Project</div>
+      <div class="v">ActiveCollab</div>
     </div>
     <div class="meta-item">
       <div class="k">Delivered</div>
-      <div class="v">April 2025</div>
+      <div class="v">September 2024</div>
     </div>
     <div class="meta-item">
       <div class="k">Author</div>
@@ -465,64 +480,63 @@
   <!-- Section 1 -->
   <div class="section-label reveal">Challenge Overview</div>
 
-  <p class="reveal">As a designer, my process has typically started with research, moved through pen-and-paper sketches, and then transitioned into Figma or other UI design tools. However, <strong>the rapid evolution of AI technology has reshaped the way I work</strong>. I've fully embraced AI — not just for visual exploration, but also for accelerating development. While I've experimented with several AI-powered development tools, Firebase Studio has been the most effective in my experience. It's fast, reliable, and enhances my ability to bring ideas to life efficiently.</p>
+  <p class="reveal">When we started working on the Assignments Dashboard, there wasn't much to go on — no layout, no clear sense of what kind of information should even appear there. Users had been asking for something more visual, <strong>something that would help them see the state of their projects and tasks at a glance</strong>. Their feedback kept circling back to the same theme: better visibility and stronger visual signals.</p>
+
+  <p class="reveal">So I began with research, going through comments and usage data to understand what people actually needed from a dashboard like this. From there, I explored layout options, tested a few chart libraries to find the one that felt clear and lightweight, and then moved on to <strong>designing the individual cards — prioritizing the ones that carried the most value for everyday use</strong>.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/57b8b6fa-faba-4df6-80a2-82fb9d96b601/Dashboard/w=1920,quality=90,fit=scale-down"
+        alt="Two Assignments Dashboards side by side — the outdated version and the new, improved one"
+        loading="lazy"
+        width="1920"
+      />
+    </div>
+    <figcaption>Two Assignments Dashboards — the outdated version and the new, improved one</figcaption>
+  </figure>
 
   <!-- Section 2 -->
   <div class="section-label reveal">Creation Arc</div>
 
-  <h2 class="reveal">Using the Newest Tech to Sketch Ideas</h2>
+  <p class="reveal">The process started with research. I went through user feedback to understand what kind of information people actually wanted to see on their dashboard — <strong>what mattered day to day, and what was just noise</strong>. Once I had a clearer picture of their priorities, I sketched the first ideas for the layout and cards in Figma, focusing on how to surface key data without overwhelming the interface.</p>
 
-  <p class="reveal">While exploring new ways to integrate AI workflows into the project management app I'm currently working on, I was reminded of how Midjourney uses "/" (slash commands) to trigger actions in the Discord chat. That sparked an idea! 💡 As I was redesigning the Timesheet page, I began to imagine <strong>how we could combine users' tracked time data with an AI assistant, activated through slash commands</strong> like <code>/summarize</code>, <code>/ask</code>, or <code>/help</code>. There were also some other ideas for the slash commands, but at the beginning I settled with these three. This approach could give users a simple, conversational way to gain insights from their data and <strong>interact more intuitively</strong> with the system.</p>
+  <p class="reveal">After designing the dashboard in a grid layout, I decided to test the idea before presenting it to the project manager and developers. I wrote a quick HTML and CSS prototype to see how the layout would behave at different screen widths. It was a simple way to check if the concept worked responsively and to get a more realistic sense of <strong>spacing, hierarchy, and how the cards would flow on smaller screens</strong>.</p>
 
-  <p class="reveal">Then, instead of reaching for pen and paper or opening Figma, <strong>I went straight into Firebase Studio.</strong> While not perfectly structured, this prompt captures more of my spontaneous thoughts:</p>
+  <p class="reveal">During this test, I also explored some practical details — should the widgets have a fixed height, what the minimum and maximum width of each card should be, and how the grid would adapt when space gets tight. On top of that, I integrated a few sample charts using <code>Chart.js</code> to see how well the library would perform inside one of these widgets.</p>
 
-  <div class="callout reveal">
-    <div class="callout-label">💡 Initial prompt</div>
-    <p>An AI app that allows the user to communicate with it through slash commands.</p>
-    <p>First step for the user is to upload a database from software like Airtable, or upload a local spreadsheet, or even just a plain text file.</p>
-    <p>Then AI will process it and take all the data.</p>
-    <p>Then user will be able to communicate with it through slash commands like <strong>"/help"</strong>, <strong>"/ask"</strong> or <strong>"/summarize"</strong>. This is a main feature, and slash commands should be easy to use.</p>
-    <p>Use minimalistic style for the interface. Use dark color palette with clear CTA.</p>
+  <p class="reveal">The result is this CodePen:</p>
+
+  <div class="codepen-embed reveal">
+    <iframe
+      title="Dashboard grid prototype on CodePen"
+      src="https://codepen.io/DuskoStamenic/embed/GRLNREV?default-tab=result&theme-id=light"
+      loading="lazy"
+      allowtransparency="true"
+      allowfullscreen="true">
+    </iframe>
   </div>
 
-  <h2 class="reveal">Developing the MVP</h2>
-
-  <p class="reveal">Of course, there was some back-and-forth with prompts and adjustments before the app became fully usable. But I loved the fact that <strong>refining and adding features could be done simply through prompting</strong>. I won't go deep into every step, but I can say it took me <strong>less than an hour</strong> to design the first version, refine it, add some crucial features and visual refinements, and at the end get to this MVP version:</p>
+  <p class="reveal">The project manager and developers agreed on one thing — <strong>when the setup and preparation phase is done this way, everything that follows becomes much easier</strong>. Each step naturally led to the next, and before long, we had another dashboard ready to go — this time focused on Time Records.</p>
 
   <figure class="article-figure reveal">
     <div class="img-wrap">
       <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/2279f62c-989c-43d5-b154-e5fe264f25b1/Screenshot_2025-07-27_at_00.34.55/w=1440,quality=90,fit=scale-down"
-        alt="A chat window where users trigger AI actions using slash commands"
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/91e54f16-76e1-47f8-90da-a874e6aef765/Time_Dashboard/w=1920,quality=90,fit=scale-down"
+        alt="A Time Records dashboard showing various data points related to tracked time"
         loading="lazy"
-        width="1440"
+        width="1920"
       />
     </div>
-    <figcaption>A chat window where users trigger AI actions using slash commands</figcaption>
-  </figure>
-
-  <h2 class="reveal">Having the Intended Interaction</h2>
-
-  <p class="reveal">I uploaded the spreadsheet from my computer, started using slash commands — and it worked! <strong>The AI understood the content and responded with meaningful answers</strong>. And just like that, the <em>Timesheet Analyzer</em> was born.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/c53ba109-24af-4a6d-99b6-ddb1b44fbe88/Screenshot_2025-07-27_at_00.42.39/w=1440,quality=90,fit=scale-down"
-        alt="Chatting with AI about the uploaded file"
-        loading="lazy"
-        width="1440"
-      />
-    </div>
-    <figcaption>Chatting with AI about the uploaded file</figcaption>
+    <figcaption>The Time Records dashboard — the same blueprint, a different set of signals</figcaption>
   </figure>
 
   <!-- Section 3 -->
   <div class="section-label reveal">Takeaways</div>
 
-  <p class="reveal">This experience marked a <strong>significant shift</strong> in how I approach designing and prototyping digital products. Instead of relying solely on traditional tools like Figma or pen-and-paper sketches, I embraced <strong>AI as a collaborative partner</strong> — one that not only visualizes ideas but actively helps build them. Although it's nowhere near as polished as I would have designed it in Figma, it's a valuable starting point that helps me understand which elements and interactions to consider once the UI phase begins.</p>
+  <p class="reveal">Looking back, that bit of upfront work made a real difference. By testing the layout early and clarifying all those small details, <strong>we saved several weeks down the line</strong>. Once the groundwork was solid, the team could move fast and confidently, which clearly sped up the entire project timeline.</p>
 
-  <p class="reveal">By experimenting with slash-command workflows and using Firebase Studio, I was able to go from concept to a functional prototype in under an hour. It reinforced the idea that with the right tools, designers can <strong>blur the lines between ideation and development</strong>, turning raw ideas into working solutions faster than ever before.</p>
+  <p class="reveal">Most importantly, when the new dashboards went live, the feedback was overwhelmingly positive. Users finally got the visual clarity they'd been asking for — <strong>clear signals, quick insights, and far less digging through lists</strong>. Many mentioned that they could now spot issues or progress at a glance, which was exactly the goal from the start. It felt like the design finally caught up with the way people actually worked.</p>
 
   <!-- Bottom navigation -->
   <nav class="article-nav reveal">
