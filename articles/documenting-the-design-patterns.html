@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Watch it Flex — Decision Book</title>
+<title>Documenting the Design Patterns — Decision Book</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
-<meta name="description" content="A responsive UI card, built from scratch with CSS Grid, Flexbox, and a single media query — and what stretching it narrow taught me about layout." />
+<meta name="description" content="Forms, dialogs, empty states, calls-to-upgrade — why documenting recurring design patterns preserves the tacit knowledge your product already speaks." />
 <style>
   @font-face {
     font-family: 'Instrument Serif';
@@ -359,18 +359,40 @@
     line-height: 1.5;
   }
 
-  /* Codepen embed */
-  .codepen-embed {
-    margin: 52px 0;
-    border: 1px solid var(--line);
-    background: var(--bg-soft);
-    overflow: hidden;
+  /* Inline links in body */
+  .article-body p a,
+  .resource-list a {
+    color: var(--clay-deep);
+    text-decoration: none;
+    border-bottom: 1px solid oklch(from var(--clay-deep) l c h / 0.35);
+    transition: border-color 200ms ease;
   }
-  .codepen-embed iframe {
-    display: block;
-    width: 100%;
-    height: 520px;
-    border: 0;
+  .article-body p a:hover,
+  .resource-list a:hover {
+    border-bottom-color: var(--clay-deep);
+  }
+
+  /* Resource list */
+  .resource-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .resource-list li {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.7;
+    color: oklch(0.28 0.003 60);
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .resource-list li:first-child { padding-top: 0; }
+  .resource-list li:last-child { border-bottom: none; }
+  .resource-list a {
+    font-family: var(--mono);
+    font-size: 13px;
+    word-break: break-all;
+    color: var(--clay-deep);
   }
 
   /* Article bottom nav */
@@ -423,7 +445,6 @@
     nav.top ul { display: none; }
     .article-nav { flex-direction: column; gap: 36px; }
     .article-body { padding: 72px var(--gutter) 120px; }
-    .codepen-embed iframe { height: 420px; }
   }
 </style>
 </head>
@@ -451,11 +472,11 @@
 <!-- -------- Hero -------- -->
 <header class="article-hero">
   <div class="eyebrow reveal">
-    <span class="cat-pill">UI Design</span>
+    <span class="cat-pill">Design System</span>
     <span class="sep">·</span>
     <span>5 min read</span>
   </div>
-  <h1 class="reveal d1">Watch it <span class="ital">Flex</span></h1>
+  <h1 class="reveal d1">Documenting the <span class="ital">Design Patterns</span></h1>
 </header>
 
 <!-- -------- Body -------- -->
@@ -465,11 +486,11 @@
   <div class="article-meta reveal">
     <div class="meta-item">
       <div class="k">Context</div>
-      <div class="v">Personal Project</div>
+      <div class="v">ActiveCollab</div>
     </div>
     <div class="meta-item">
       <div class="k">Delivered</div>
-      <div class="v">November 2022</div>
+      <div class="v">December 2024</div>
     </div>
     <div class="meta-item">
       <div class="k">Author</div>
@@ -480,103 +501,42 @@
   <!-- Section 1 -->
   <div class="section-label reveal">Challenge Overview</div>
 
-  <p class="reveal">As part of my ongoing exploration of responsive design, I set out to understand <strong>how a card-based UI component could adapt fluidly across a range of screen sizes and resolutions</strong>. This wasn't just about making things look good at different breakpoints — it was an exercise in observing how content hierarchy, alignment, and spacing respond as the layout stretches, stacks, or compresses. By building and testing the UI card component, I aimed to get a hands-on grasp of the design decisions that make flexible interfaces work across devices.</p>
+  <p class="reveal">Design systems aren't just about reusable buttons or grids — they're about <strong>shared understanding</strong>. The real substance lies in the patterns, the idioms of your product's language. Just as every language develops its own expressions that can't be translated word for word, every team develops familiar ways of solving problems — micro-interactions, flows, tone decisions — that shape how the product feels. <strong>Defining and documenting these patterns means capturing that tacit knowledge before it fades, turning intuition into something teachable and repeatable</strong>. Without it, even the most polished component library risks becoming a dictionary without grammar.</p>
 
   <!-- Section 2 -->
   <div class="section-label reveal">Creation Arc</div>
 
-  <h2 class="reveal">Flexible Fit: The Knickerbocker Way</h2>
+  <p class="reveal">Every team ends up reinventing the same few things — a form here, a dialog there, maybe an empty state that softens a blank screen or a call to upgrade that doesn't sound pushy. These recurring moments reveal more than design taste; <strong>they show how a product speaks to its users</strong>. Once you start noticing them, it becomes clear that documenting such patterns isn't about control, but about preserving the subtle language your product already speaks.</p>
 
-  <p class="reveal">Curious about how this type of graphic would adapt across various screen sizes, I decided to explore its responsiveness as a design exercise. Although originally intended for broadcast or social media use, typically viewed on standard television, I wanted to <strong>test how the layout behaves when stretched across wider desktop displays or compressed into smaller, narrower frames</strong>. This led me to consider how elements like the logo placement, typography scale, and spacing might shift to maintain clarity and visual balance. My goal wasn't to redesign the card, but rather to understand <strong>how a static piece of sports media content could be reimagined with responsiveness in mind</strong>, without losing its strong visual identity or immediate readability.</p>
+  <h2 class="reveal">Forms</h2>
 
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/716b65b0-2cf1-4237-b012-2d6f22275f94/first_screen/w=1920,quality=90,fit=scale-down"
-        alt="The finished responsive card across wide and narrow viewports"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>Interface shown in two variations: one for large screens, one for small screens.</figcaption>
-  </figure>
+  <p class="reveal">When documenting form patterns, it's worth going beyond visuals and layout. A good form isn't just well-aligned — it feels considerate. <strong>Logical tab order</strong> matters for accessibility and flow. <strong>Validation should appear early</strong>, but never scold the user. The <strong>submit button should stay active</strong>, signaling trust rather than restriction. If the system needs time, <strong>show progress</strong> instead of silence. And when errors happen, <strong>handle them with clarity and empathy</strong>. Capturing these nuances in documentation ensures forms across the product behave with the same quiet sense of care.</p>
 
-  <h2 class="reveal">Fluid Card Layout Using CSS Grid, Flexbox &amp; Media Queries</h2>
+  <h2 class="reveal">Dialogs</h2>
 
-  <p class="reveal">I built the layout using only HTML and CSS, focusing on simplicity and performance. My first step was to structure the HTML in a way that would support flexible behavior from the start, using a layout that could <strong>easily adapt to shifts in screen size</strong> without breaking the visual hierarchy.</p>
+  <p class="reveal">Dialogs tend to look simple, but they carry a lot of behavioral detail that's easy to overlook. A well-documented dialog pattern helps teams avoid messy edge cases — like <strong>nested modals or full-page overlays that defeat the purpose of focus</strong>. Scrolling should pause when a modal opens, and <strong>focus should immediately move inside it, landing on the first interactive element</strong> so users can act without confusion. It's also worth defining how <strong>confirmation dialogs and wizards extend these same rules</strong>, since both rely on the same foundation of clarity, focus, and interruption done right.</p>
 
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/dd442e46-3dc6-4ce3-8fb5-60e67a433f0d/HTML/w=1920,quality=90,fit=scale-down"
-        alt="The HTML markup for the card component"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>The markup — a small HTML tree, structured for flexibility</figcaption>
-  </figure>
+  <h2 class="reveal">Empty Slate</h2>
 
-  <p class="reveal">To keep the layout compact and readable on large screens, I set a <strong>max-width</strong> of 900px on the main container, ensuring that the content wouldn't stretch too wide on desktops. I used CSS Grid to define the structure, applying <strong>semantic grid names like <code>header</code>, <code>logo</code>, and <code>content</code></strong> to make the layout logic easy to follow and maintain. The grid setup consisted of two rows and two columns, giving me a flexible base to arrange elements while keeping the established visual hierarchy.</p>
+  <p class="reveal">Empty states are often the most human parts of an interface. They're a chance to explain why something is empty and what the user can do next. <strong>Keep the message short, clear, and free of jargon</strong>. <strong>Offer a single action</strong> that feels natural to the situation, and make sure <strong>the button text complements the title</strong> — it should feel like a continuation, not a command. And if there's nothing left to do, don't leave users in a void — <strong>celebrate the moment of completion</strong> instead.</p>
 
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/02c47e21-333a-4bd1-8d52-d44092745be8/CSS1/w=1920,quality=90,fit=scale-down"
-        alt="The CSS Grid setup defining two rows and two columns with named areas"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>Two rows, two columns, three named areas — the grid foundation</figcaption>
-  </figure>
+  <h2 class="reveal">Call-to-Upgrade</h2>
 
-  <p class="reveal">Further on, I <strong>assigned the semantic grid areas</strong> to the corresponding elements, ensuring each part of the layout landed exactly where intended. Inside the main content area, I <strong>used Flexbox to arrange the list of upcoming fixtures</strong>.</p>
-
-  <p class="reveal">Next, I introduced a <strong>media query targeting screens narrower than 768px</strong> to make the layout more mobile-friendly. In this view, the grid collapses into a single column by redefining the template with <code>grid-template-columns: 1fr;</code> and stacking the areas vertically as header, logo, and content. I used <code>font-size: clamp(16px, 3.5vw, 30px);</code> to make the text scalable, and centered it, to improve readability and visual balance on smaller screens. This adjustment ensured the layout remained clear and accessible without compromising its structure.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/cb1f67f7-c83d-4584-be40-248421f50af1/CSS2/w=1920,quality=90,fit=scale-down"
-        alt="The media query collapsing the grid into a single column with clamp-based typography"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>The media query — one column, centered text, fluid type via <code>clamp()</code></figcaption>
-  </figure>
-
-  <p class="reveal">This final step allowed me to achieve the responsive behavior I was aiming for — <strong>preserving the structure and clarity of the design while adapting smoothly to smaller screen sizes</strong>. By combining CSS Grid, semantic grid names, and a simple media query, the layout remained visually coherent across a range of devices without requiring complex adjustments.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/f5b34709-38af-457f-a4cf-7859465ba28b/Knicks/w=1920,quality=90,fit=scale-down"
-        alt="The Knicks-themed sports media card used as the starting graphic"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>TV screen showing the Knicks' upcoming schedule and season record.</figcaption>
-  </figure>
-
-  <p class="reveal">The live prototype is on CodePen:</p>
-
-  <div class="codepen-embed reveal">
-    <iframe
-      title="Responsive TV card prototype on CodePen"
-      src="https://codepen.io/DuskoStamenic/embed/GRGEqYB?default-tab=result&theme-id=light"
-      loading="lazy"
-      allowtransparency="true"
-      allowfullscreen="true">
-    </iframe>
-  </div>
+  <p class="reveal">A good call-to-upgrade pattern <strong>respects timing and context</strong>. It shouldn't interrupt flow but appear where the value of upgrading is most obvious — right when a feature limit is reached or a premium benefit becomes relevant. Its visibility should adapt to <strong>who's seeing it, based on plan, permissions, or past behavior</strong>. Messaging matters too: <strong>it should sound helpful, not pushy, and adjust to different audiences or upgrade paths</strong>. When documented well, these rules turn a sales prompt into a moment of clarity rather than friction.</p>
 
   <!-- Section 3 -->
   <div class="section-label reveal">Takeaways</div>
 
-  <p class="reveal">Pushing the design to work on not just wide, but very narrow screens turned out to be both fun and revealing. It forced me to rethink how layout, spacing, and content hierarchy behave when there's barely any room to breathe. This wasn't just a responsive design exercise — it was a way to test <strong>how far a single card component could stretch (or shrink) while still feeling balanced and usable</strong>.</p>
+  <p class="reveal">When design patterns are properly documented, they quietly multiply a team's value. Knowledge doesn't vanish when people leave, compliance becomes less of a scramble, and design choices grow more transparent — traceable even when revisited months later. Clear documentation turns collaboration into continuity: it helps new designers ramp up faster, keeps decisions aligned across teams, and allows patterns to evolve without chaos. In the end, <strong>those few hours spent writing things down often save dozens later, not just in time or money, but in collective clarity</strong>.</p>
+
+  <!-- Section 4 -->
+  <div class="section-label reveal">Resources</div>
+
+  <ul class="resource-list reveal">
+    <li><a href="https://zeroheight.com/blog/stop-building-components-start-building-patterns/" target="_blank" rel="noopener">https://zeroheight.com/blog/stop-building-components-start-building-patterns/</a> — Luke Murphy: stop building components, start building patterns.</li>
+    <li><a href="https://medium.com/@iknowdavehouse/patterns-in-design-systems-0afc4249bae6" target="_blank" rel="noopener">https://medium.com/@iknowdavehouse/patterns-in-design-systems-0afc4249bae6</a> — Dave House: patterns in design systems.</li>
+    <li><a href="https://www.smashingmagazine.com/2024/05/decision-trees-ui-components/" target="_blank" rel="noopener">https://www.smashingmagazine.com/2024/05/decision-trees-ui-components/</a> — Smashing Magazine: decision trees for UI components.</li>
+  </ul>
 
   <!-- Bottom navigation -->
   <nav class="article-nav reveal">

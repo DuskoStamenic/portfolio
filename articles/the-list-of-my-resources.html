@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Watch it Flex — Decision Book</title>
+<title>The List of My Resources — Decision Book</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
-<meta name="description" content="A responsive UI card, built from scratch with CSS Grid, Flexbox, and a single media query — and what stretching it narrow taught me about layout." />
+<meta name="description" content="A personal library of the guides, tools, and writings that keep shaping how I approach product design, design systems, UX research, and accessibility." />
 <style>
   @font-face {
     font-family: 'Instrument Serif';
@@ -359,18 +359,40 @@
     line-height: 1.5;
   }
 
-  /* Codepen embed */
-  .codepen-embed {
-    margin: 52px 0;
-    border: 1px solid var(--line);
-    background: var(--bg-soft);
-    overflow: hidden;
+  /* Inline links in body */
+  .article-body p a,
+  .resource-list a {
+    color: var(--clay-deep);
+    text-decoration: none;
+    border-bottom: 1px solid oklch(from var(--clay-deep) l c h / 0.35);
+    transition: border-color 200ms ease;
   }
-  .codepen-embed iframe {
-    display: block;
-    width: 100%;
-    height: 520px;
-    border: 0;
+  .article-body p a:hover,
+  .resource-list a:hover {
+    border-bottom-color: var(--clay-deep);
+  }
+
+  /* Resource list */
+  .resource-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .resource-list li {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.7;
+    color: oklch(0.28 0.003 60);
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .resource-list li:first-child { padding-top: 0; }
+  .resource-list li:last-child { border-bottom: none; }
+  .resource-list a {
+    font-family: var(--mono);
+    font-size: 13px;
+    word-break: break-all;
+    color: var(--clay-deep);
   }
 
   /* Article bottom nav */
@@ -423,7 +445,6 @@
     nav.top ul { display: none; }
     .article-nav { flex-direction: column; gap: 36px; }
     .article-body { padding: 72px var(--gutter) 120px; }
-    .codepen-embed iframe { height: 420px; }
   }
 </style>
 </head>
@@ -451,11 +472,11 @@
 <!-- -------- Hero -------- -->
 <header class="article-hero">
   <div class="eyebrow reveal">
-    <span class="cat-pill">UI Design</span>
+    <span class="cat-pill">Product Design</span>
     <span class="sep">·</span>
-    <span>5 min read</span>
+    <span>3 min read</span>
   </div>
-  <h1 class="reveal d1">Watch it <span class="ital">Flex</span></h1>
+  <h1 class="reveal d1">The List of My <span class="ital">Resources</span></h1>
 </header>
 
 <!-- -------- Body -------- -->
@@ -469,7 +490,7 @@
     </div>
     <div class="meta-item">
       <div class="k">Delivered</div>
-      <div class="v">November 2022</div>
+      <div class="v">December 2024</div>
     </div>
     <div class="meta-item">
       <div class="k">Author</div>
@@ -477,106 +498,56 @@
     </div>
   </div>
 
-  <!-- Section 1 -->
-  <div class="section-label reveal">Challenge Overview</div>
+  <!-- Intro -->
+  <div class="section-label reveal">Overview</div>
 
-  <p class="reveal">As part of my ongoing exploration of responsive design, I set out to understand <strong>how a card-based UI component could adapt fluidly across a range of screen sizes and resolutions</strong>. This wasn't just about making things look good at different breakpoints — it was an exercise in observing how content hierarchy, alignment, and spacing respond as the layout stretches, stacks, or compresses. By building and testing the UI card component, I aimed to get a hands-on grasp of the design decisions that make flexible interfaces work across devices.</p>
+  <p class="reveal">Over the years, I've collected a variety of resources that have shaped the way I approach product design. From practical guides on UX research to insights on accessibility, design systems, and UI design, these links represent a mix of inspiration, reference, and hard-learned lessons. I've gathered them here not just as a personal library, but as a snapshot of the ideas and tools that continue to influence my work. Whether you're a designer, researcher, or simply curious, there's something here that may spark new ways of thinking about design.</p>
 
-  <!-- Section 2 -->
-  <div class="section-label reveal">Creation Arc</div>
+  <!-- Product Design -->
+  <div class="section-label reveal">Product Design</div>
 
-  <h2 class="reveal">Flexible Fit: The Knickerbocker Way</h2>
+  <ul class="resource-list reveal">
+    <li><a href="https://adamsilver.io/blog/form-design-from-zero-to-hero-all-in-one-blog-post/" target="_blank" rel="noopener">https://adamsilver.io/blog/form-design-from-zero-to-hero-all-in-one-blog-post/</a> — Adam Silver: form design, from zero to hero all in one blog post.</li>
+    <li><a href="https://www.smashingmagazine.com/2021/11/dashboard-design-research-decluttering-data-viz/" target="_blank" rel="noopener">https://www.smashingmagazine.com/2021/11/dashboard-design-research-decluttering-data-viz/</a> — Smashing Magazine: from good to great in dashboard design — research, decluttering, and data viz.</li>
+    <li><a href="https://grid.layoutit.com/" target="_blank" rel="noopener">https://grid.layoutit.com/</a> — Layoutit Grid: CSS grid layouts made easy.</li>
+    <li><a href="https://blog.streamlinehq.com/choosing-the-perfect-icons-for-your-typeface/" target="_blank" rel="noopener">https://blog.streamlinehq.com/choosing-the-perfect-icons-for-your-typeface/</a> — Streamline: the essential guide to matching icons with typefaces.</li>
+    <li><a href="https://uxdesign.cc/guide-on-creating-ui-design-for-ios-apps-5bed644b1667" target="_blank" rel="noopener">https://uxdesign.cc/guide-on-creating-ui-design-for-ios-apps-5bed644b1667</a> — Anastasia Prokhorova: a comprehensive guide on creating UI designs for iOS apps.</li>
+    <li><a href="https://smart-interface-design-patterns.com/articles/interface-design-books/" target="_blank" rel="noopener">https://smart-interface-design-patterns.com/articles/interface-design-books/</a> — Vitaly Friedman: free books for interface &amp; UX designers.</li>
+  </ul>
 
-  <p class="reveal">Curious about how this type of graphic would adapt across various screen sizes, I decided to explore its responsiveness as a design exercise. Although originally intended for broadcast or social media use, typically viewed on standard television, I wanted to <strong>test how the layout behaves when stretched across wider desktop displays or compressed into smaller, narrower frames</strong>. This led me to consider how elements like the logo placement, typography scale, and spacing might shift to maintain clarity and visual balance. My goal wasn't to redesign the card, but rather to understand <strong>how a static piece of sports media content could be reimagined with responsiveness in mind</strong>, without losing its strong visual identity or immediate readability.</p>
+  <!-- Design Systems -->
+  <div class="section-label reveal">Design Systems</div>
 
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/716b65b0-2cf1-4237-b012-2d6f22275f94/first_screen/w=1920,quality=90,fit=scale-down"
-        alt="The finished responsive card across wide and narrow viewports"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>Interface shown in two variations: one for large screens, one for small screens.</figcaption>
-  </figure>
+  <ul class="resource-list reveal">
+    <li><a href="https://component.gallery/" target="_blank" rel="noopener">https://component.gallery/</a> — The Component Gallery: reference index of interface components.</li>
+    <li><a href="https://principles.design/examples/" target="_blank" rel="noopener">https://principles.design/examples/</a> — Principles.Design: collected examples of design principles.</li>
+    <li><a href="https://medium.com/@NateBaldwin/creating-a-flexible-design-token-taxonomy-for-intuits-design-system-81c8ff55c59b" target="_blank" rel="noopener">https://medium.com/@NateBaldwin/creating-a-flexible-design-token-taxonomy-for-intuits-design-system-81c8ff55c59b</a> — Nate Baldwin: creating a flexible design token taxonomy for Intuit's design system.</li>
+    <li><a href="https://www.designsystems.com/iconography-guide/" target="_blank" rel="noopener">https://www.designsystems.com/iconography-guide/</a> — DesignSystems.com: a complete guide to iconography.</li>
+    <li><a href="https://uicolors.app/generate/82eabc" target="_blank" rel="noopener">https://uicolors.app/generate/82eabc</a> — UI Colors: Tailwind CSS color generator.</li>
+    <li><a href="https://typescale.com/" target="_blank" rel="noopener">https://typescale.com/</a> — Typescale: create stunning typography, generate CSS, and find inspiration.</li>
+  </ul>
 
-  <h2 class="reveal">Fluid Card Layout Using CSS Grid, Flexbox &amp; Media Queries</h2>
+  <!-- UX Research -->
+  <div class="section-label reveal">UX Research</div>
 
-  <p class="reveal">I built the layout using only HTML and CSS, focusing on simplicity and performance. My first step was to structure the HTML in a way that would support flexible behavior from the start, using a layout that could <strong>easily adapt to shifts in screen size</strong> without breaking the visual hierarchy.</p>
+  <ul class="resource-list reveal">
+    <li><a href="https://lawsofux.com/" target="_blank" rel="noopener">https://lawsofux.com/</a> — Jon Yablonski: Laws of UX.</li>
+    <li><a href="https://www.nngroup.com/articles/psychology-study-guide/" target="_blank" rel="noopener">https://www.nngroup.com/articles/psychology-study-guide/</a> — Nielsen Norman Group: psychology for UX study guide.</li>
+    <li><a href="https://buster.medium.com/cognitive-bias-cheat-sheet-55a472476b18" target="_blank" rel="noopener">https://buster.medium.com/cognitive-bias-cheat-sheet-55a472476b18</a> — Buster Benson: cognitive bias cheat sheet.</li>
+    <li><a href="https://fs.blog/mental-models/" target="_blank" rel="noopener">https://fs.blog/mental-models/</a> — Farnam Street: mental models — the best way to make intelligent decisions (~100 models explained).</li>
+    <li><a href="https://hackernoon.com/design-psychology-gestalt-driven-ux-64ac01cd257a?ref=uxdesignweekly" target="_blank" rel="noopener">https://hackernoon.com/design-psychology-gestalt-driven-ux-64ac01cd257a?ref=uxdesignweekly</a> — Justin Baker: Gestalt-driven UX — the patterns that drive our world.</li>
+  </ul>
 
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/dd442e46-3dc6-4ce3-8fb5-60e67a433f0d/HTML/w=1920,quality=90,fit=scale-down"
-        alt="The HTML markup for the card component"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>The markup — a small HTML tree, structured for flexibility</figcaption>
-  </figure>
+  <!-- Accessibility -->
+  <div class="section-label reveal">Accessibility</div>
 
-  <p class="reveal">To keep the layout compact and readable on large screens, I set a <strong>max-width</strong> of 900px on the main container, ensuring that the content wouldn't stretch too wide on desktops. I used CSS Grid to define the structure, applying <strong>semantic grid names like <code>header</code>, <code>logo</code>, and <code>content</code></strong> to make the layout logic easy to follow and maintain. The grid setup consisted of two rows and two columns, giving me a flexible base to arrange elements while keeping the established visual hierarchy.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/02c47e21-333a-4bd1-8d52-d44092745be8/CSS1/w=1920,quality=90,fit=scale-down"
-        alt="The CSS Grid setup defining two rows and two columns with named areas"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>Two rows, two columns, three named areas — the grid foundation</figcaption>
-  </figure>
-
-  <p class="reveal">Further on, I <strong>assigned the semantic grid areas</strong> to the corresponding elements, ensuring each part of the layout landed exactly where intended. Inside the main content area, I <strong>used Flexbox to arrange the list of upcoming fixtures</strong>.</p>
-
-  <p class="reveal">Next, I introduced a <strong>media query targeting screens narrower than 768px</strong> to make the layout more mobile-friendly. In this view, the grid collapses into a single column by redefining the template with <code>grid-template-columns: 1fr;</code> and stacking the areas vertically as header, logo, and content. I used <code>font-size: clamp(16px, 3.5vw, 30px);</code> to make the text scalable, and centered it, to improve readability and visual balance on smaller screens. This adjustment ensured the layout remained clear and accessible without compromising its structure.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/cb1f67f7-c83d-4584-be40-248421f50af1/CSS2/w=1920,quality=90,fit=scale-down"
-        alt="The media query collapsing the grid into a single column with clamp-based typography"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>The media query — one column, centered text, fluid type via <code>clamp()</code></figcaption>
-  </figure>
-
-  <p class="reveal">This final step allowed me to achieve the responsive behavior I was aiming for — <strong>preserving the structure and clarity of the design while adapting smoothly to smaller screen sizes</strong>. By combining CSS Grid, semantic grid names, and a simple media query, the layout remained visually coherent across a range of devices without requiring complex adjustments.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/f5b34709-38af-457f-a4cf-7859465ba28b/Knicks/w=1920,quality=90,fit=scale-down"
-        alt="The Knicks-themed sports media card used as the starting graphic"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>TV screen showing the Knicks' upcoming schedule and season record.</figcaption>
-  </figure>
-
-  <p class="reveal">The live prototype is on CodePen:</p>
-
-  <div class="codepen-embed reveal">
-    <iframe
-      title="Responsive TV card prototype on CodePen"
-      src="https://codepen.io/DuskoStamenic/embed/GRGEqYB?default-tab=result&theme-id=light"
-      loading="lazy"
-      allowtransparency="true"
-      allowfullscreen="true">
-    </iframe>
-  </div>
-
-  <!-- Section 3 -->
-  <div class="section-label reveal">Takeaways</div>
-
-  <p class="reveal">Pushing the design to work on not just wide, but very narrow screens turned out to be both fun and revealing. It forced me to rethink how layout, spacing, and content hierarchy behave when there's barely any room to breathe. This wasn't just a responsive design exercise — it was a way to test <strong>how far a single card component could stretch (or shrink) while still feeling balanced and usable</strong>.</p>
+  <ul class="resource-list reveal">
+    <li><a href="https://web.dev/learn/accessibility" target="_blank" rel="noopener">https://web.dev/learn/accessibility</a> — web.dev: Learn Accessibility.</li>
+    <li><a href="https://www.youtube.com/watch?v=HtTyRajRuyY&list=PLNYkxOF6rcICWx0C9LVWWVqvHlYJyqw7g" target="_blank" rel="noopener">https://www.youtube.com/watch?v=HtTyRajRuyY&list=PLNYkxOF6rcICWx0C9LVWWVqvHlYJyqw7g</a> — Chrome for Developers: Introducing A11ycasts.</li>
+    <li><a href="https://www.smashingmagazine.com/2021/03/complete-guide-accessible-front-end-components/#accessible-autocomplete" target="_blank" rel="noopener">https://www.smashingmagazine.com/2021/03/complete-guide-accessible-front-end-components/#accessible-autocomplete</a> — Smashing Magazine: a complete guide to accessible front-end components.</li>
+    <li><a href="https://webaim.org/techniques/forms/advanced" target="_blank" rel="noopener">https://webaim.org/techniques/forms/advanced</a> — WebAIM: creating accessible forms — advanced form labeling.</li>
+    <li><a href="https://www.whocanuse.com/?b=663300&c=000&f=20&s=" target="_blank" rel="noopener">https://www.whocanuse.com/?b=663300&c=000&f=20&s=</a> — WhoCanUse: color contrast through the lens of visual disabilities.</li>
+  </ul>
 
   <!-- Bottom navigation -->
   <nav class="article-nav reveal">

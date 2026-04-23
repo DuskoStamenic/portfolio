@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Watch it Flex — Decision Book</title>
+<title>Hue Knew? Create Systematic Color Palettes — Decision Book</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
-<meta name="description" content="A responsive UI card, built from scratch with CSS Grid, Flexbox, and a single media query — and what stretching it narrow taught me about layout." />
+<meta name="description" content="Building a color palette that survives dark mode, brand drift, and three product teams — with HSL, relative tokens, and a system that scales." />
 <style>
   @font-face {
     font-family: 'Instrument Serif';
@@ -359,18 +359,40 @@
     line-height: 1.5;
   }
 
-  /* Codepen embed */
-  .codepen-embed {
-    margin: 52px 0;
-    border: 1px solid var(--line);
-    background: var(--bg-soft);
-    overflow: hidden;
+  /* Inline links in body */
+  .article-body p a,
+  .resource-list a {
+    color: var(--clay-deep);
+    text-decoration: none;
+    border-bottom: 1px solid oklch(from var(--clay-deep) l c h / 0.35);
+    transition: border-color 200ms ease;
   }
-  .codepen-embed iframe {
-    display: block;
-    width: 100%;
-    height: 520px;
-    border: 0;
+  .article-body p a:hover,
+  .resource-list a:hover {
+    border-bottom-color: var(--clay-deep);
+  }
+
+  /* Resource list */
+  .resource-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .resource-list li {
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.7;
+    color: oklch(0.28 0.003 60);
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .resource-list li:first-child { padding-top: 0; }
+  .resource-list li:last-child { border-bottom: none; }
+  .resource-list a {
+    font-family: var(--mono);
+    font-size: 13px;
+    word-break: break-all;
+    color: var(--clay-deep);
   }
 
   /* Article bottom nav */
@@ -423,7 +445,6 @@
     nav.top ul { display: none; }
     .article-nav { flex-direction: column; gap: 36px; }
     .article-body { padding: 72px var(--gutter) 120px; }
-    .codepen-embed iframe { height: 420px; }
   }
 </style>
 </head>
@@ -451,11 +472,11 @@
 <!-- -------- Hero -------- -->
 <header class="article-hero">
   <div class="eyebrow reveal">
-    <span class="cat-pill">UI Design</span>
+    <span class="cat-pill">Design System</span>
     <span class="sep">·</span>
     <span>5 min read</span>
   </div>
-  <h1 class="reveal d1">Watch it <span class="ital">Flex</span></h1>
+  <h1 class="reveal d1">Hue Knew? Create <span class="ital">Systematic</span> Color Palettes</h1>
 </header>
 
 <!-- -------- Body -------- -->
@@ -465,11 +486,11 @@
   <div class="article-meta reveal">
     <div class="meta-item">
       <div class="k">Context</div>
-      <div class="v">Personal Project</div>
+      <div class="v">ActiveCollab</div>
     </div>
     <div class="meta-item">
       <div class="k">Delivered</div>
-      <div class="v">November 2022</div>
+      <div class="v">November 2024</div>
     </div>
     <div class="meta-item">
       <div class="k">Author</div>
@@ -480,103 +501,61 @@
   <!-- Section 1 -->
   <div class="section-label reveal">Challenge Overview</div>
 
-  <p class="reveal">As part of my ongoing exploration of responsive design, I set out to understand <strong>how a card-based UI component could adapt fluidly across a range of screen sizes and resolutions</strong>. This wasn't just about making things look good at different breakpoints — it was an exercise in observing how content hierarchy, alignment, and spacing respond as the layout stretches, stacks, or compresses. By building and testing the UI card component, I aimed to get a hands-on grasp of the design decisions that make flexible interfaces work across devices.</p>
+  <p class="reveal">Designers often underestimate how messy colors can get once they leave Figma and land in code. It's not just about picking a pretty palette. You're <strong>juggling different color profiles, trying to name tokens in a way that won't confuse your future self (or your teammates), wiring everything into CSS variables that don't break under pressure, and on top of that, making sure your choices are accessible to people with visual impairments</strong>. Then there's the headache of themes: light, dark, maybe even high-contrast or custom client themes. Each one adds a new layer of complexity.</p>
+
+  <p class="reveal">What's interesting, though, is that modern CSS gives us a way to think about color relationships instead of hard-coding endless variations. <strong>With hsl(), you can define colors relative to a base hue, shifting lightness or saturation in predictable steps</strong>. It's not a silver bullet, but it does hint at a more systematic approach — one that makes scaling a design system feel less like patching holes and more like building on solid ground.</p>
 
   <!-- Section 2 -->
   <div class="section-label reveal">Creation Arc</div>
 
-  <h2 class="reveal">Flexible Fit: The Knickerbocker Way</h2>
+  <h2 class="reveal">Brighter Choices</h2>
 
-  <p class="reveal">Curious about how this type of graphic would adapt across various screen sizes, I decided to explore its responsiveness as a design exercise. Although originally intended for broadcast or social media use, typically viewed on standard television, I wanted to <strong>test how the layout behaves when stretched across wider desktop displays or compressed into smaller, narrower frames</strong>. This led me to consider how elements like the logo placement, typography scale, and spacing might shift to maintain clarity and visual balance. My goal wasn't to redesign the card, but rather to understand <strong>how a static piece of sports media content could be reimagined with responsiveness in mind</strong>, without losing its strong visual identity or immediate readability.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/716b65b0-2cf1-4237-b012-2d6f22275f94/first_screen/w=1920,quality=90,fit=scale-down"
-        alt="The finished responsive card across wide and narrow viewports"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>Interface shown in two variations: one for large screens, one for small screens.</figcaption>
-  </figure>
-
-  <h2 class="reveal">Fluid Card Layout Using CSS Grid, Flexbox &amp; Media Queries</h2>
-
-  <p class="reveal">I built the layout using only HTML and CSS, focusing on simplicity and performance. My first step was to structure the HTML in a way that would support flexible behavior from the start, using a layout that could <strong>easily adapt to shifts in screen size</strong> without breaking the visual hierarchy.</p>
+  <p class="reveal">HSL stands for hue, saturation, and lightness — three values that describe a color in a way that's easier to reason about than hex codes or RGB. The hue is basically the "color family" (red, blue, green), saturation controls how vivid or muted it looks, and lightness sets how bright or dark it feels. <strong>The beauty of HSL in design systems is that you can adjust one property without messing up the others</strong>. Want a lighter button background? Just bump the lightness value. Need a subtle hover state? Shift the saturation down a bit. <strong>It makes color relationships more intuitive and keeps your palette consistent without adding dozens of hard-coded tokens</strong>.</p>
 
   <figure class="article-figure reveal">
     <div class="img-wrap">
       <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/dd442e46-3dc6-4ce3-8fb5-60e67a433f0d/HTML/w=1920,quality=90,fit=scale-down"
-        alt="The HTML markup for the card component"
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/8be53a75-ed89-41e9-9b50-c14abe043ec3/codeimage-snippet_10/w=1920,quality=90,fit=scale-down"
+        alt="CSS code snippet defining color tokens with HSL"
         loading="lazy"
-        width="1920"
       />
     </div>
-    <figcaption>The markup — a small HTML tree, structured for flexibility</figcaption>
+    <figcaption>CSS code snippet.</figcaption>
   </figure>
 
-  <p class="reveal">To keep the layout compact and readable on large screens, I set a <strong>max-width</strong> of 900px on the main container, ensuring that the content wouldn't stretch too wide on desktops. I used CSS Grid to define the structure, applying <strong>semantic grid names like <code>header</code>, <code>logo</code>, and <code>content</code></strong> to make the layout logic easy to follow and maintain. The grid setup consisted of two rows and two columns, giving me a flexible base to arrange elements while keeping the established visual hierarchy.</p>
+  <p class="reveal">The beauty of working with HSL is that you only <strong>define your base color once, and every variation automatically follows</strong>. Instead of hard-coding a dozen tokens for "blue-100," "blue-200," and so on, you can describe them as relative shifts of a single base. That way, if the brand team suddenly decides the primary color should lean more toward indigo, you just tweak one value and the whole app adjusts itself.</p>
 
   <figure class="article-figure reveal">
     <div class="img-wrap">
       <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/02c47e21-333a-4bd1-8d52-d44092745be8/CSS1/w=1920,quality=90,fit=scale-down"
-        alt="The CSS Grid setup defining two rows and two columns with named areas"
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/1a67391d-cdfe-4209-a873-a79fbdd7ebd8/hsl_boje/w=1920,quality=90,fit=scale-down"
+        alt="CSS code snippet with example HSL colors applied to boxes"
         loading="lazy"
-        width="1920"
       />
     </div>
-    <figcaption>Two rows, two columns, three named areas — the grid foundation</figcaption>
+    <figcaption>CSS code snippet with example colors applied to boxes.</figcaption>
   </figure>
 
-  <p class="reveal">Further on, I <strong>assigned the semantic grid areas</strong> to the corresponding elements, ensuring each part of the layout landed exactly where intended. Inside the main content area, I <strong>used Flexbox to arrange the list of upcoming fixtures</strong>.</p>
+  <p class="reveal">Each of these tokens is "relative" to the base color, so you're not repeating yourself. The darkest shade is simply the base color with its lightness lowered by 20, the lighter ones just nudge it upward. <strong>It's flexible, readable, and cuts down on maintenance headaches</strong> when you need to shift the overall palette.</p>
 
-  <p class="reveal">Next, I introduced a <strong>media query targeting screens narrower than 768px</strong> to make the layout more mobile-friendly. In this view, the grid collapses into a single column by redefining the template with <code>grid-template-columns: 1fr;</code> and stacking the areas vertically as header, logo, and content. I used <code>font-size: clamp(16px, 3.5vw, 30px);</code> to make the text scalable, and centered it, to improve readability and visual balance on smaller screens. This adjustment ensured the layout remained clear and accessible without compromising its structure.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/cb1f67f7-c83d-4584-be40-248421f50af1/CSS2/w=1920,quality=90,fit=scale-down"
-        alt="The media query collapsing the grid into a single column with clamp-based typography"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>The media query — one column, centered text, fluid type via <code>clamp()</code></figcaption>
-  </figure>
-
-  <p class="reveal">This final step allowed me to achieve the responsive behavior I was aiming for — <strong>preserving the structure and clarity of the design while adapting smoothly to smaller screen sizes</strong>. By combining CSS Grid, semantic grid names, and a simple media query, the layout remained visually coherent across a range of devices without requiring complex adjustments.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/f5b34709-38af-457f-a4cf-7859465ba28b/Knicks/w=1920,quality=90,fit=scale-down"
-        alt="The Knicks-themed sports media card used as the starting graphic"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>TV screen showing the Knicks' upcoming schedule and season record.</figcaption>
-  </figure>
-
-  <p class="reveal">The live prototype is on CodePen:</p>
-
-  <div class="codepen-embed reveal">
-    <iframe
-      title="Responsive TV card prototype on CodePen"
-      src="https://codepen.io/DuskoStamenic/embed/GRGEqYB?default-tab=result&theme-id=light"
-      loading="lazy"
-      allowtransparency="true"
-      allowfullscreen="true">
-    </iframe>
-  </div>
+  <p class="reveal">I have also prepared a small playground on Codepen, so you can try and see how it works: <a href="https://codepen.io/DuskoStamenic/pen/qEOwJRB" target="_blank" rel="noopener">https://codepen.io/DuskoStamenic/pen/qEOwJRB</a>.</p>
 
   <!-- Section 3 -->
   <div class="section-label reveal">Takeaways</div>
 
-  <p class="reveal">Pushing the design to work on not just wide, but very narrow screens turned out to be both fun and revealing. It forced me to rethink how layout, spacing, and content hierarchy behave when there's barely any room to breathe. This wasn't just a responsive design exercise — it was a way to test <strong>how far a single card component could stretch (or shrink) while still feeling balanced and usable</strong>.</p>
+  <p class="reveal">Working with HSL isn't just about trimming down the clutter of a color palette. It also <strong>opens the door to real flexibility</strong>. Because every shade is defined in relation to a single base, you can shift themes, swap brand colors, or even hand over control to users without rewriting half your CSS. That's particularly valuable for <strong>products that thrive on customization</strong>, where a user might want to pick their own accent color and see the whole <strong>interface adapt instantly</strong>. And since lightness and saturation are easy to tweak, accessibility improvements — like nudging contrast for better readability — become much less of a chore.</p>
+
+  <!-- Section 4 -->
+  <div class="section-label reveal">Additional Resources</div>
+
+  <ul class="resource-list reveal">
+    <li><a href="https://codepen.io/DuskoStamenic/pen/PwYaNRv?editors=0100" target="_blank" rel="noopener">https://codepen.io/DuskoStamenic/pen/PwYaNRv?editors=0100</a> — Duško Stamenić: color palette with hsl color-mix.</li>
+    <li><a href="https://www.youtube.com/watch?v=TI-OVY11HD4" target="_blank" rel="noopener">https://www.youtube.com/watch?v=TI-OVY11HD4</a> — Coding2GO: how to create relative colors with hsl(from…) — CSS tutorial.</li>
+    <li><a href="https://www.youtube.com/watch?v=vvPklRN0Tco" target="_blank" rel="noopener">https://www.youtube.com/watch?v=vvPklRN0Tco</a> — Sajid: the easy way to pick UI colors.</li>
+    <li><a href="https://www.radix-ui.com/colors" target="_blank" rel="noopener">https://www.radix-ui.com/colors</a> — Radix Colors.</li>
+    <li><a href="https://uicolors.app/generate/c84164" target="_blank" rel="noopener">https://uicolors.app/generate/c84164</a> — Tailwind CSS color generator, UI Colors.</li>
+    <li><a href="https://www.aufaitux.com/blog/color-tokens-enterprise-design-systems-best-practices/" target="_blank" rel="noopener">https://www.aufaitux.com/blog/color-tokens-enterprise-design-systems-best-practices/</a> — Akin Subiksha: accessible color tokens for enterprise design systems.</li>
+  </ul>
 
   <!-- Bottom navigation -->
   <nav class="article-nav reveal">

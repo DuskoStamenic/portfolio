@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Watch it Flex — Decision Book</title>
+<title>Degrading with Dignity — Decision Book</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
-<meta name="description" content="A responsive UI card, built from scratch with CSS Grid, Flexbox, and a single media query — and what stretching it narrow taught me about layout." />
+<meta name="description" content="Designing the Calendar across web and mobile taught me that graceful degradation isn't about cutting features — it's about making intentional trade-offs for context." />
 <style>
   @font-face {
     font-family: 'Instrument Serif';
@@ -359,20 +359,6 @@
     line-height: 1.5;
   }
 
-  /* Codepen embed */
-  .codepen-embed {
-    margin: 52px 0;
-    border: 1px solid var(--line);
-    background: var(--bg-soft);
-    overflow: hidden;
-  }
-  .codepen-embed iframe {
-    display: block;
-    width: 100%;
-    height: 520px;
-    border: 0;
-  }
-
   /* Article bottom nav */
   .article-nav {
     border-top: 1px solid var(--line);
@@ -423,7 +409,6 @@
     nav.top ul { display: none; }
     .article-nav { flex-direction: column; gap: 36px; }
     .article-body { padding: 72px var(--gutter) 120px; }
-    .codepen-embed iframe { height: 420px; }
   }
 </style>
 </head>
@@ -451,11 +436,11 @@
 <!-- -------- Hero -------- -->
 <header class="article-hero">
   <div class="eyebrow reveal">
-    <span class="cat-pill">UI Design</span>
+    <span class="cat-pill">Product Design</span>
     <span class="sep">·</span>
-    <span>5 min read</span>
+    <span>4 min read</span>
   </div>
-  <h1 class="reveal d1">Watch it <span class="ital">Flex</span></h1>
+  <h1 class="reveal d1">Degrading with <span class="ital">Dignity</span></h1>
 </header>
 
 <!-- -------- Body -------- -->
@@ -465,11 +450,11 @@
   <div class="article-meta reveal">
     <div class="meta-item">
       <div class="k">Context</div>
-      <div class="v">Personal Project</div>
+      <div class="v">ActiveCollab</div>
     </div>
     <div class="meta-item">
       <div class="k">Delivered</div>
-      <div class="v">November 2022</div>
+      <div class="v">June 2024</div>
     </div>
     <div class="meta-item">
       <div class="k">Author</div>
@@ -480,103 +465,45 @@
   <!-- Section 1 -->
   <div class="section-label reveal">Challenge Overview</div>
 
-  <p class="reveal">As part of my ongoing exploration of responsive design, I set out to understand <strong>how a card-based UI component could adapt fluidly across a range of screen sizes and resolutions</strong>. This wasn't just about making things look good at different breakpoints — it was an exercise in observing how content hierarchy, alignment, and spacing respond as the layout stretches, stacks, or compresses. By building and testing the UI card component, I aimed to get a hands-on grasp of the design decisions that make flexible interfaces work across devices.</p>
+  <p class="reveal">Designing for different devices often means making tough decisions — what to keep, what to simplify, and what to leave out. When I was working on the Calendar page for a project management app, <strong>the contrast between the fully-featured web version and the pared-down mobile experience became a perfect example of graceful degradation in design</strong>. Instead of forcing every feature into a smaller screen, I started thinking about how the core experience could remain useful, intuitive, and elegant — even as the complexity scaled down.</p>
 
   <!-- Section 2 -->
   <div class="section-label reveal">Creation Arc</div>
 
-  <h2 class="reveal">Flexible Fit: The Knickerbocker Way</h2>
+  <h2 class="reveal">The starting point</h2>
 
-  <p class="reveal">Curious about how this type of graphic would adapt across various screen sizes, I decided to explore its responsiveness as a design exercise. Although originally intended for broadcast or social media use, typically viewed on standard television, I wanted to <strong>test how the layout behaves when stretched across wider desktop displays or compressed into smaller, narrower frames</strong>. This led me to consider how elements like the logo placement, typography scale, and spacing might shift to maintain clarity and visual balance. My goal wasn't to redesign the card, but rather to understand <strong>how a static piece of sports media content could be reimagined with responsiveness in mind</strong>, without losing its strong visual identity or immediate readability.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/716b65b0-2cf1-4237-b012-2d6f22275f94/first_screen/w=1920,quality=90,fit=scale-down"
-        alt="The finished responsive card across wide and narrow viewports"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>Interface shown in two variations: one for large screens, one for small screens.</figcaption>
-  </figure>
-
-  <h2 class="reveal">Fluid Card Layout Using CSS Grid, Flexbox &amp; Media Queries</h2>
-
-  <p class="reveal">I built the layout using only HTML and CSS, focusing on simplicity and performance. My first step was to structure the HTML in a way that would support flexible behavior from the start, using a layout that could <strong>easily adapt to shifts in screen size</strong> without breaking the visual hierarchy.</p>
+  <p class="reveal">On the web, the Calendar page was <strong>designed to be powerful and flexible</strong> — serving as a central hub for managing a wide range of planning needs. It supported tasks, subtasks, events, recurring tasks, all-day events, availability records, and reminders. Users could integrate external calendars like Google Calendar, switch between multiple calendar views, and apply filters to control visibility. It was built for depth and control — <strong>ideal for users who needed a robust, high-level overview of their project timelines.</strong></p>
 
   <figure class="article-figure reveal">
     <div class="img-wrap">
       <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/dd442e46-3dc6-4ce3-8fb5-60e67a433f0d/HTML/w=1920,quality=90,fit=scale-down"
-        alt="The HTML markup for the card component"
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/e8193abe-0d79-4f4b-a8c0-0ec6be594878/Calendar/w=1920,quality=90,fit=scale-down"
+        alt="Web app calendar displaying the daily view"
         loading="lazy"
-        width="1920"
       />
     </div>
-    <figcaption>The markup — a small HTML tree, structured for flexibility</figcaption>
+    <figcaption>Web app calendar displaying the daily view.</figcaption>
   </figure>
 
-  <p class="reveal">To keep the layout compact and readable on large screens, I set a <strong>max-width</strong> of 900px on the main container, ensuring that the content wouldn't stretch too wide on desktops. I used CSS Grid to define the structure, applying <strong>semantic grid names like <code>header</code>, <code>logo</code>, and <code>content</code></strong> to make the layout logic easy to follow and maintain. The grid setup consisted of two rows and two columns, giving me a flexible base to arrange elements while keeping the established visual hierarchy.</p>
+  <h2 class="reveal">Intentional Reduction</h2>
+
+  <p class="reveal">On mobile, the Calendar experience was intentionally reduced to its essentials. Instead of replicating the complexity of the web version, <strong>we focused on preserving just enough functionality to keep the interface useful and uncluttered</strong>. The design featured a simple month view, where users could tap on a specific date to reveal a focused list of events and availability records for that day. From there, they could add, edit, or delete events — covering the most common, on-the-go interactions without overwhelming the limited screen space. This shift wasn't about losing features, but about <strong>respecting the constraints and context of mobile use</strong>.</p>
 
   <figure class="article-figure reveal">
     <div class="img-wrap">
       <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/02c47e21-333a-4bd1-8d52-d44092745be8/CSS1/w=1920,quality=90,fit=scale-down"
-        alt="The CSS Grid setup defining two rows and two columns with named areas"
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/fca95ae7-4109-4298-a26d-5f0b89ce7189/Mobile/w=1920,quality=90,fit=scale-down"
+        alt="Hand holding a mobile phone showing a daily view calendar"
         loading="lazy"
-        width="1920"
       />
     </div>
-    <figcaption>Two rows, two columns, three named areas — the grid foundation</figcaption>
+    <figcaption>Hand holding a mobile phone showing a daily view calendar.</figcaption>
   </figure>
-
-  <p class="reveal">Further on, I <strong>assigned the semantic grid areas</strong> to the corresponding elements, ensuring each part of the layout landed exactly where intended. Inside the main content area, I <strong>used Flexbox to arrange the list of upcoming fixtures</strong>.</p>
-
-  <p class="reveal">Next, I introduced a <strong>media query targeting screens narrower than 768px</strong> to make the layout more mobile-friendly. In this view, the grid collapses into a single column by redefining the template with <code>grid-template-columns: 1fr;</code> and stacking the areas vertically as header, logo, and content. I used <code>font-size: clamp(16px, 3.5vw, 30px);</code> to make the text scalable, and centered it, to improve readability and visual balance on smaller screens. This adjustment ensured the layout remained clear and accessible without compromising its structure.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/cb1f67f7-c83d-4584-be40-248421f50af1/CSS2/w=1920,quality=90,fit=scale-down"
-        alt="The media query collapsing the grid into a single column with clamp-based typography"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>The media query — one column, centered text, fluid type via <code>clamp()</code></figcaption>
-  </figure>
-
-  <p class="reveal">This final step allowed me to achieve the responsive behavior I was aiming for — <strong>preserving the structure and clarity of the design while adapting smoothly to smaller screen sizes</strong>. By combining CSS Grid, semantic grid names, and a simple media query, the layout remained visually coherent across a range of devices without requiring complex adjustments.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/f5b34709-38af-457f-a4cf-7859465ba28b/Knicks/w=1920,quality=90,fit=scale-down"
-        alt="The Knicks-themed sports media card used as the starting graphic"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>TV screen showing the Knicks' upcoming schedule and season record.</figcaption>
-  </figure>
-
-  <p class="reveal">The live prototype is on CodePen:</p>
-
-  <div class="codepen-embed reveal">
-    <iframe
-      title="Responsive TV card prototype on CodePen"
-      src="https://codepen.io/DuskoStamenic/embed/GRGEqYB?default-tab=result&theme-id=light"
-      loading="lazy"
-      allowtransparency="true"
-      allowfullscreen="true">
-    </iframe>
-  </div>
 
   <!-- Section 3 -->
   <div class="section-label reveal">Takeaways</div>
 
-  <p class="reveal">Pushing the design to work on not just wide, but very narrow screens turned out to be both fun and revealing. It forced me to rethink how layout, spacing, and content hierarchy behave when there's barely any room to breathe. This wasn't just a responsive design exercise — it was a way to test <strong>how far a single card component could stretch (or shrink) while still feeling balanced and usable</strong>.</p>
+  <p class="reveal">Perhaps the most revealing interaction was the need to <strong>quickly open a meeting link from the phone</strong> — something simple, yet critical in real-world, on-the-move scenarios. It reinforced the idea that mobile design doesn't need to be a compressed version of the desktop; it needs to be a <em>focused</em> one. Graceful degradation isn't about cutting corners — it's about <strong>making intentional trade-offs to support context-specific needs</strong>. By identifying the core interactions that matter most in a mobile setting, designers can create experiences that feel natural, purposeful, and just right for the moment.</p>
 
   <!-- Bottom navigation -->
   <nav class="article-nav reveal">

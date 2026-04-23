@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Watch it Flex — Decision Book</title>
+<title>Rivals, Research, Repeat — Decision Book</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
-<meta name="description" content="A responsive UI card, built from scratch with CSS Grid, Flexbox, and a single media query — and what stretching it narrow taught me about layout." />
+<meta name="description" content="Competitor analysis as a lens into user mental models — spotting the small misalignments where a product stops feeling intuitive." />
 <style>
   @font-face {
     font-family: 'Instrument Serif';
@@ -359,20 +359,6 @@
     line-height: 1.5;
   }
 
-  /* Codepen embed */
-  .codepen-embed {
-    margin: 52px 0;
-    border: 1px solid var(--line);
-    background: var(--bg-soft);
-    overflow: hidden;
-  }
-  .codepen-embed iframe {
-    display: block;
-    width: 100%;
-    height: 520px;
-    border: 0;
-  }
-
   /* Article bottom nav */
   .article-nav {
     border-top: 1px solid var(--line);
@@ -423,7 +409,6 @@
     nav.top ul { display: none; }
     .article-nav { flex-direction: column; gap: 36px; }
     .article-body { padding: 72px var(--gutter) 120px; }
-    .codepen-embed iframe { height: 420px; }
   }
 </style>
 </head>
@@ -451,11 +436,11 @@
 <!-- -------- Hero -------- -->
 <header class="article-hero">
   <div class="eyebrow reveal">
-    <span class="cat-pill">UI Design</span>
+    <span class="cat-pill">UX Research</span>
     <span class="sep">·</span>
-    <span>5 min read</span>
+    <span>3 min read</span>
   </div>
-  <h1 class="reveal d1">Watch it <span class="ital">Flex</span></h1>
+  <h1 class="reveal d1">Rivals, Research, <span class="ital">Repeat</span></h1>
 </header>
 
 <!-- -------- Body -------- -->
@@ -465,11 +450,11 @@
   <div class="article-meta reveal">
     <div class="meta-item">
       <div class="k">Context</div>
-      <div class="v">Personal Project</div>
+      <div class="v">ActiveCollab</div>
     </div>
     <div class="meta-item">
       <div class="k">Delivered</div>
-      <div class="v">November 2022</div>
+      <div class="v">August 2024</div>
     </div>
     <div class="meta-item">
       <div class="k">Author</div>
@@ -480,103 +465,25 @@
   <!-- Section 1 -->
   <div class="section-label reveal">Challenge Overview</div>
 
-  <p class="reveal">As part of my ongoing exploration of responsive design, I set out to understand <strong>how a card-based UI component could adapt fluidly across a range of screen sizes and resolutions</strong>. This wasn't just about making things look good at different breakpoints — it was an exercise in observing how content hierarchy, alignment, and spacing respond as the layout stretches, stacks, or compresses. By building and testing the UI card component, I aimed to get a hands-on grasp of the design decisions that make flexible interfaces work across devices.</p>
+  <p class="reveal">When approaching a competitor analysis, the goal is often more than simply mapping features or comparing pricing. <strong>The real challenge lies in understanding how users perceive and interact with competing products — their mental models</strong>. Mental models are essentially the frameworks users carry in their minds about how a product should behave. <strong>Misalignments between a user's mental model and a product's design can create friction, confusion, or outright frustration</strong>.</p>
+
+  <p class="reveal">In practical terms, this means that even if your product technically matches competitors in functionality, it may still fail to feel intuitive. The challenge, then, is to <strong>uncover these gaps:</strong> which features are easily understood, which require explanation, and where users' expectations diverge from reality. Competitor analysis becomes not just a catalog of features but a <strong>lens into the thinking patterns of your user</strong>.</p>
 
   <!-- Section 2 -->
   <div class="section-label reveal">Creation Arc</div>
 
-  <h2 class="reveal">Flexible Fit: The Knickerbocker Way</h2>
+  <p class="reveal">The process usually begins with <strong>mapping competitors' products against user expectations.</strong> I start by exploring key competitors, documenting not only their functionality but also <strong>the way users navigate and interact with each feature</strong>. Screenshots, flow diagrams, and annotated notes helped capture patterns in labeling, layout, and hierarchy.</p>
 
-  <p class="reveal">Curious about how this type of graphic would adapt across various screen sizes, I decided to explore its responsiveness as a design exercise. Although originally intended for broadcast or social media use, typically viewed on standard television, I wanted to <strong>test how the layout behaves when stretched across wider desktop displays or compressed into smaller, narrower frames</strong>. This led me to consider how elements like the logo placement, typography scale, and spacing might shift to maintain clarity and visual balance. My goal wasn't to redesign the card, but rather to understand <strong>how a static piece of sports media content could be reimagined with responsiveness in mind</strong>, without losing its strong visual identity or immediate readability.</p>
+  <p class="reveal">Next comes the <strong>mental model layer</strong>: I question how users might interpret each feature versus how it was actually implemented. Were menu labels consistent with user language? Did the feature flows match the order users expect to complete tasks? Were there areas that seemed intuitive but caused confusion in practice? This step often <strong>reveals small but critical mismatches</strong> — <strong>like a "save" button buried under a secondary menu or a terminology mismatch that forced users to guess at functionality.</strong></p>
 
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/716b65b0-2cf1-4237-b012-2d6f22275f94/first_screen/w=1920,quality=90,fit=scale-down"
-        alt="The finished responsive card across wide and narrow viewports"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>Interface shown in two variations: one for large screens, one for small screens.</figcaption>
-  </figure>
-
-  <h2 class="reveal">Fluid Card Layout Using CSS Grid, Flexbox &amp; Media Queries</h2>
-
-  <p class="reveal">I built the layout using only HTML and CSS, focusing on simplicity and performance. My first step was to structure the HTML in a way that would support flexible behavior from the start, using a layout that could <strong>easily adapt to shifts in screen size</strong> without breaking the visual hierarchy.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/dd442e46-3dc6-4ce3-8fb5-60e67a433f0d/HTML/w=1920,quality=90,fit=scale-down"
-        alt="The HTML markup for the card component"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>The markup — a small HTML tree, structured for flexibility</figcaption>
-  </figure>
-
-  <p class="reveal">To keep the layout compact and readable on large screens, I set a <strong>max-width</strong> of 900px on the main container, ensuring that the content wouldn't stretch too wide on desktops. I used CSS Grid to define the structure, applying <strong>semantic grid names like <code>header</code>, <code>logo</code>, and <code>content</code></strong> to make the layout logic easy to follow and maintain. The grid setup consisted of two rows and two columns, giving me a flexible base to arrange elements while keeping the established visual hierarchy.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/02c47e21-333a-4bd1-8d52-d44092745be8/CSS1/w=1920,quality=90,fit=scale-down"
-        alt="The CSS Grid setup defining two rows and two columns with named areas"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>Two rows, two columns, three named areas — the grid foundation</figcaption>
-  </figure>
-
-  <p class="reveal">Further on, I <strong>assigned the semantic grid areas</strong> to the corresponding elements, ensuring each part of the layout landed exactly where intended. Inside the main content area, I <strong>used Flexbox to arrange the list of upcoming fixtures</strong>.</p>
-
-  <p class="reveal">Next, I introduced a <strong>media query targeting screens narrower than 768px</strong> to make the layout more mobile-friendly. In this view, the grid collapses into a single column by redefining the template with <code>grid-template-columns: 1fr;</code> and stacking the areas vertically as header, logo, and content. I used <code>font-size: clamp(16px, 3.5vw, 30px);</code> to make the text scalable, and centered it, to improve readability and visual balance on smaller screens. This adjustment ensured the layout remained clear and accessible without compromising its structure.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/cb1f67f7-c83d-4584-be40-248421f50af1/CSS2/w=1920,quality=90,fit=scale-down"
-        alt="The media query collapsing the grid into a single column with clamp-based typography"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>The media query — one column, centered text, fluid type via <code>clamp()</code></figcaption>
-  </figure>
-
-  <p class="reveal">This final step allowed me to achieve the responsive behavior I was aiming for — <strong>preserving the structure and clarity of the design while adapting smoothly to smaller screen sizes</strong>. By combining CSS Grid, semantic grid names, and a simple media query, the layout remained visually coherent across a range of devices without requiring complex adjustments.</p>
-
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/f5b34709-38af-457f-a4cf-7859465ba28b/Knicks/w=1920,quality=90,fit=scale-down"
-        alt="The Knicks-themed sports media card used as the starting graphic"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>TV screen showing the Knicks' upcoming schedule and season record.</figcaption>
-  </figure>
-
-  <p class="reveal">The live prototype is on CodePen:</p>
-
-  <div class="codepen-embed reveal">
-    <iframe
-      title="Responsive TV card prototype on CodePen"
-      src="https://codepen.io/DuskoStamenic/embed/GRGEqYB?default-tab=result&theme-id=light"
-      loading="lazy"
-      allowtransparency="true"
-      allowfullscreen="true">
-    </iframe>
-  </div>
+  <p class="reveal">From there, the analysis moves into design implications. <strong>For each gap identified, I explore possible improvements</strong>. Could navigation be simplified? Could labeling be clearer? Could a common task be surfaced more prominently? By framing these questions in terms of mental models, the focus shifts from what competitors <em>have</em> to what users <em>actually need</em>.</p>
 
   <!-- Section 3 -->
   <div class="section-label reveal">Takeaways</div>
 
-  <p class="reveal">Pushing the design to work on not just wide, but very narrow screens turned out to be both fun and revealing. It forced me to rethink how layout, spacing, and content hierarchy behave when there's barely any room to breathe. This wasn't just a responsive design exercise — it was a way to test <strong>how far a single card component could stretch (or shrink) while still feeling balanced and usable</strong>.</p>
+  <p class="reveal">Several insights emerge from such a process. First, small misalignments between mental models and product design can have outsized impacts on usability. Even a seemingly minor label change or navigation tweak can improve clarity and reduce friction. Second, competitor analysis is richest when paired with empathy: <strong>the goal isn't just to copy what others are doing, but to understand why their approach works</strong> (or doesn't) for users. Finally, mapping mental models helps prioritize design decisions: it highlights where investment will yield the clearest improvement in user experience, rather than chasing features for their own sake.</p>
+
+  <p class="reveal">Ultimately, thinking in terms of mental models transforms competitor analysis from a tactical exercise into a strategic tool. It <strong>shifts the focus from features on a spreadsheet to the real-world thought processes of the people using them</strong>, guiding design choices that feel intuitive, coherent, and user-centered.</p>
 
   <!-- Bottom navigation -->
   <nav class="article-nav reveal">

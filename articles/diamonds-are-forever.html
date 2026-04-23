@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Watch it Flex — Decision Book</title>
+<title>Diamonds Are Forever — Decision Book</title>
 <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
-<meta name="description" content="A responsive UI card, built from scratch with CSS Grid, Flexbox, and a single media query — and what stretching it narrow taught me about layout." />
+<meta name="description" content="Notes on UX research frameworks — from Double Diamond to Jobs to Be Done — and why the map is never the territory." />
 <style>
   @font-face {
     font-family: 'Instrument Serif';
@@ -359,20 +359,6 @@
     line-height: 1.5;
   }
 
-  /* Codepen embed */
-  .codepen-embed {
-    margin: 52px 0;
-    border: 1px solid var(--line);
-    background: var(--bg-soft);
-    overflow: hidden;
-  }
-  .codepen-embed iframe {
-    display: block;
-    width: 100%;
-    height: 520px;
-    border: 0;
-  }
-
   /* Article bottom nav */
   .article-nav {
     border-top: 1px solid var(--line);
@@ -423,7 +409,6 @@
     nav.top ul { display: none; }
     .article-nav { flex-direction: column; gap: 36px; }
     .article-body { padding: 72px var(--gutter) 120px; }
-    .codepen-embed iframe { height: 420px; }
   }
 </style>
 </head>
@@ -451,11 +436,11 @@
 <!-- -------- Hero -------- -->
 <header class="article-hero">
   <div class="eyebrow reveal">
-    <span class="cat-pill">UI Design</span>
+    <span class="cat-pill">UX Research</span>
     <span class="sep">·</span>
-    <span>5 min read</span>
+    <span>8 min read</span>
   </div>
-  <h1 class="reveal d1">Watch it <span class="ital">Flex</span></h1>
+  <h1 class="reveal d1">Diamonds Are <span class="ital">Forever</span></h1>
 </header>
 
 <!-- -------- Body -------- -->
@@ -469,7 +454,7 @@
     </div>
     <div class="meta-item">
       <div class="k">Delivered</div>
-      <div class="v">November 2022</div>
+      <div class="v">July 2024</div>
     </div>
     <div class="meta-item">
       <div class="k">Author</div>
@@ -480,103 +465,59 @@
   <!-- Section 1 -->
   <div class="section-label reveal">Challenge Overview</div>
 
-  <p class="reveal">As part of my ongoing exploration of responsive design, I set out to understand <strong>how a card-based UI component could adapt fluidly across a range of screen sizes and resolutions</strong>. This wasn't just about making things look good at different breakpoints — it was an exercise in observing how content hierarchy, alignment, and spacing respond as the layout stretches, stacks, or compresses. By building and testing the UI card component, I aimed to get a hands-on grasp of the design decisions that make flexible interfaces work across devices.</p>
+  <p class="reveal">People often say that <strong>the map is not the territory</strong>, and they're right. Any framework we use in design, whether it's the Double Diamond or a tidy set of research methods, is just a map. It helps us stay aligned, speak a shared language, and avoid drifting into pure intuition. But a map always flattens reality. It simplifies. If we're not careful, we start treating the tool as the truth, and the truth is usually far more complicated.</p>
+
+  <p class="reveal">That's why it helps to keep a framework close, but not cling to it too tightly. <strong>Design Thinking, for example, gives us a common lens for discussing problems. It's useful, but not sacred</strong>. And if we rely on the same tools over and over, they can quietly limit the way we see our users and the world around them.</p>
 
   <!-- Section 2 -->
   <div class="section-label reveal">Creation Arc</div>
 
-  <h2 class="reveal">Flexible Fit: The Knickerbocker Way</h2>
+  <h2 class="reveal">When Empathy Maps the Way</h2>
 
-  <p class="reveal">Curious about how this type of graphic would adapt across various screen sizes, I decided to explore its responsiveness as a design exercise. Although originally intended for broadcast or social media use, typically viewed on standard television, I wanted to <strong>test how the layout behaves when stretched across wider desktop displays or compressed into smaller, narrower frames</strong>. This led me to consider how elements like the logo placement, typography scale, and spacing might shift to maintain clarity and visual balance. My goal wasn't to redesign the card, but rather to understand <strong>how a static piece of sports media content could be reimagined with responsiveness in mind</strong>, without losing its strong visual identity or immediate readability.</p>
+  <p class="reveal">Design methods usually flow into one another. You start with something basic, often quantitative, when you need demographic context. Tools like Hotjar can quickly show who's using a product, where they're from, and what they're browsing on. <strong>Numbers alone won't tell a full story, but they're enough to sketch an initial user persona.</strong></p>
 
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/716b65b0-2cf1-4237-b012-2d6f22275f94/first_screen/w=1920,quality=90,fit=scale-down"
-        alt="The finished responsive card across wide and narrow viewports"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>Interface shown in two variations: one for large screens, one for small screens.</figcaption>
-  </figure>
+  <p class="reveal">Once a persona exists, it starts moving. <strong>Every user follows a path toward a goal, and that path becomes a journey map</strong>. It's a simple sequence of touchpoints between the person and the product. As you unpack it, pain points and opportunities begin to surface. <strong>Journey maps can even hint at red routes, user flows, or emotional cues</strong> that lead you straight into an empathy map.</p>
 
-  <h2 class="reveal">Fluid Card Layout Using CSS Grid, Flexbox &amp; Media Queries</h2>
+  <p class="reveal">An empathy map captures what a person thinks, feels, hears, and does at different moments. Two people can follow the same journey yet experience it in completely different ways. <strong>That emotional divergence is where qualitative insight starts to matter.</strong></p>
 
-  <p class="reveal">I built the layout using only HTML and CSS, focusing on simplicity and performance. My first step was to structure the HTML in a way that would support flexible behavior from the start, using a layout that could <strong>easily adapt to shifts in screen size</strong> without breaking the visual hierarchy.</p>
+  <p class="reveal">From here, tools begin to overlap. <strong>Card sorting helps you work out information architecture</strong> based on users' mental models instead of your own assumptions. <strong>An affinity diagram clusters interview notes, quotes, and observations into themes</strong>. It reveals recurring behaviors or confusions, like when multiple users aren't sure where to begin a task. These clusters often point to deeper mental models that shape how people expect a system to behave. And yes, "affinity diagram" and "affinity map" are just two names for the same thing.</p>
 
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/dd442e46-3dc6-4ce3-8fb5-60e67a433f0d/HTML/w=1920,quality=90,fit=scale-down"
-        alt="The HTML markup for the card component"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>The markup — a small HTML tree, structured for flexibility</figcaption>
-  </figure>
+  <p class="reveal">On long-running products, you eventually stop learning much from basic analytics. <strong>The meaningful insights tend to come from qualitative work: surveys, interviews, workshop discussions</strong>. Once you have that raw material, ideation tools like Brainstorming, Jobs-to-be-Done, or How Might We questions finally make sense. These moments are where early hypotheses emerge.</p>
 
-  <p class="reveal">To keep the layout compact and readable on large screens, I set a <strong>max-width</strong> of 900px on the main container, ensuring that the content wouldn't stretch too wide on desktops. I used CSS Grid to define the structure, applying <strong>semantic grid names like <code>header</code>, <code>logo</code>, and <code>content</code></strong> to make the layout logic easy to follow and maintain. The grid setup consisted of two rows and two columns, giving me a flexible base to arrange elements while keeping the established visual hierarchy.</p>
+  <h2 class="reveal">Beyond Personas: The Power of Archetypes</h2>
 
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/02c47e21-333a-4bd1-8d52-d44092745be8/CSS1/w=1920,quality=90,fit=scale-down"
-        alt="The CSS Grid setup defining two rows and two columns with named areas"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>Two rows, two columns, three named areas — the grid foundation</figcaption>
-  </figure>
+  <p class="reveal">Personas are often more useful for internal alignment than for making hard product decisions. They help stakeholders who aren't close to users step outside their own assumptions. They also shine during discovery, when research needs to be explained clearly to people who weren't there to observe it. But personas work best when they're simple and focused. <strong>Details like favorite coffee or music taste rarely matter. Needs, motivations, and frustrations do.</strong></p>
 
-  <p class="reveal">Further on, I <strong>assigned the semantic grid areas</strong> to the corresponding elements, ensuring each part of the layout landed exactly where intended. Inside the main content area, I <strong>used Flexbox to arrange the list of upcoming fixtures</strong>.</p>
+  <p class="reveal">Archetypes go a step further. <strong>Instead of describing fictional "types" of users, they describe behavioral missions</strong>. A mission may be functional, like finding a better deal, or emotional, like easing anxiety during a complicated process. A single person can jump between missions depending on context, timing, or even mood.</p>
 
-  <p class="reveal">Next, I introduced a <strong>media query targeting screens narrower than 768px</strong> to make the layout more mobile-friendly. In this view, the grid collapses into a single column by redefining the template with <code>grid-template-columns: 1fr;</code> and stacking the areas vertically as header, logo, and content. I used <code>font-size: clamp(16px, 3.5vw, 30px);</code> to make the text scalable, and centered it, to improve readability and visual balance on smaller screens. This adjustment ensured the layout remained clear and accessible without compromising its structure.</p>
+  <p class="reveal"><strong>By framing user behavior through missions, you can make sharper decisions.</strong> You can weigh whether a feature should serve a "health-conscious mission" or a "bargain-hunting mission." You can also anticipate seasonal shifts. Around Valentine's Day, indulgence tends to matter more than calorie tracking. These fluctuations help teams prioritize work in a more grounded way.</p>
 
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/cb1f67f7-c83d-4584-be40-248421f50af1/CSS2/w=1920,quality=90,fit=scale-down"
-        alt="The media query collapsing the grid into a single column with clamp-based typography"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>The media query — one column, centered text, fluid type via <code>clamp()</code></figcaption>
-  </figure>
+  <p class="reveal">When you combine behavioral archetypes with affinity-mapped insights, you start seeing how people mentally structure the world around your product. <strong>That mental model then becomes a guide for better UX decisions.</strong></p>
 
-  <p class="reveal">This final step allowed me to achieve the responsive behavior I was aiming for — <strong>preserving the structure and clarity of the design while adapting smoothly to smaller screen sizes</strong>. By combining CSS Grid, semantic grid names, and a simple media query, the layout remained visually coherent across a range of devices without requiring complex adjustments.</p>
+  <h2 class="reveal">Jobs to Be Done: The Ultimate UX Research Method</h2>
 
-  <figure class="article-figure reveal">
-    <div class="img-wrap">
-      <img
-        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/f5b34709-38af-457f-a4cf-7859465ba28b/Knicks/w=1920,quality=90,fit=scale-down"
-        alt="The Knicks-themed sports media card used as the starting graphic"
-        loading="lazy"
-        width="1920"
-      />
-    </div>
-    <figcaption>TV screen showing the Knicks' upcoming schedule and season record.</figcaption>
-  </figure>
+  <p class="reveal">Jobs to Be Done shifts the focus away from users as personas and toward users as <strong>people with goals. They don't "buy a product." They hire a tool to get something done</strong>. The "job" is stable over time. It's not tied to a specific interface or solution. A screwdriver isn't the job. Assembling furniture is. The same logic applies across industries.</p>
 
-  <p class="reveal">The live prototype is on CodePen:</p>
+  <p class="reveal">JTBD helps uncover deep motivations, frustrations and constraints, desired outcomes, alternative tools users consider, and the reasons they choose one option over another. <strong>Once you understand the job, innovation becomes less random</strong>. It becomes anchored in something real. That's why JTBD works for companies of all sizes. It clarifies needs, exposes opportunities, and reduces guesswork.</p>
 
-  <div class="codepen-embed reveal">
-    <iframe
-      title="Responsive TV card prototype on CodePen"
-      src="https://codepen.io/DuskoStamenic/embed/GRGEqYB?default-tab=result&theme-id=light"
-      loading="lazy"
-      allowtransparency="true"
-      allowfullscreen="true">
-    </iframe>
-  </div>
+  <p class="reveal"><strong>Examples are easy to recognize:</strong> a student wanting to learn a language, a parent trying to help a child sleep, a couple planning a trip. These are jobs with emotional and social layers, not just functional ones.</p>
+
+  <h2 class="reveal">Step Beyond User Centered Design</h2>
+
+  <p class="reveal">Many people position Life Centered Design as the next step beyond user focus. I tend to think of it more as <strong>Lifestyle Centered Design</strong>. The pandemic accelerated this idea. <strong>People's routines changed. Their environment changed</strong>. Homes became offices, gyms, classrooms. Designing solely for the "user" became too narrow. <strong>Lifestyle tells you more. It includes identity, habits, environment, and what people want to signal to the world around them.</strong></p>
+
+  <p class="reveal">Take Mazda. Owning one isn't just buying a car. It's a statement about taste, tradition, and a specific emotional philosophy. "Kodo" design, inspired by nature and movement, shapes everything from the exterior lines of the car to the way factories treat materials and people. Pride and passion flow from designers to engineers to drivers.</p>
+
+  <p class="reveal">Look at tools like Notion. It started as note-taking software, then became a task manager, a website builder, and eventually a personal knowledge hub. <strong>They understood the broader jobs their users were trying to do</strong>. Airbnb did the same — introducing message translation, focusing on visuals over text, reinforcing safety features. They listened, then adapted.</p>
+
+  <p class="reveal">Apple does something similar. Every touchpoint — devices, software, the website, even the building — follows the same values. DuckDuckGo leans on privacy. The Browser Company openly lists its values on the homepage. These choices create <strong>ecosystems that reflect how people want to live, not just how they want to click.</strong> Users often enjoy these experiences without fully realizing why. The underlying design language quietly influences how they feel.</p>
 
   <!-- Section 3 -->
   <div class="section-label reveal">Takeaways</div>
 
-  <p class="reveal">Pushing the design to work on not just wide, but very narrow screens turned out to be both fun and revealing. It forced me to rethink how layout, spacing, and content hierarchy behave when there's barely any room to breathe. This wasn't just a responsive design exercise — it was a way to test <strong>how far a single card component could stretch (or shrink) while still feeling balanced and usable</strong>.</p>
+  <p class="reveal">When teams rely heavily on personas and journey maps alone, they often skim the surface. <strong>Deeper insight comes from blending bottom-up analysis (affinity diagrams, interviews, real data) with top-down framing (archetypes, missions). That combination helps reconstruct genuine mental models, which are far more powerful for shaping products.</strong></p>
+
+  <p class="reveal"><strong>Good design avoids assumptions.</strong> It leans on facts, not wishful thinking. We all project our own preferences onto products, often without noticing. Empathy that isn't grounded in research becomes imagination, not insight. So get to know your users. Understand how they think, how they feel, and how they live. <strong>With time, patterns emerge. And from those patterns, better products follow.</strong></p>
 
   <!-- Bottom navigation -->
   <nav class="article-nav reveal">
