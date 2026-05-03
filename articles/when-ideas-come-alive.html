@@ -374,6 +374,84 @@
     font-weight: 500;
   }
 
+  /* Audio player */
+  .audio-player {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    padding: 20px 22px;
+    margin-bottom: 60px;
+  }
+  .audio-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 16px;
+  }
+  .audio-controls {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .audio-play {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    border-radius: 999px;
+    border: none;
+    background: var(--clay-deep);
+    color: var(--off-white);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: background 200ms ease, transform 200ms ease;
+    padding: 0;
+  }
+  .audio-play:hover { background: var(--ink); }
+  .audio-play:active { transform: scale(0.95); }
+  .audio-play svg { display: block; }
+  .audio-rail {
+    flex: 1;
+    height: 2px;
+    background: var(--line);
+    cursor: pointer;
+    position: relative;
+  }
+  .audio-rail::before {
+    content: ''; position: absolute;
+    top: -10px; bottom: -10px; left: 0; right: 0;
+  }
+  .audio-fill {
+    height: 100%;
+    background: var(--clay-deep);
+    width: 0%;
+    transition: width 80ms linear;
+  }
+  .audio-time {
+    flex-shrink: 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .audio-speed {
+    flex-shrink: 0;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--clay-deep);
+    background: transparent;
+    padding: 5px 10px;
+    border: 1px solid oklch(from var(--clay-deep) l c h / 0.35);
+    border-radius: 999px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background 200ms ease, color 200ms ease;
+  }
+  .audio-speed:hover {
+    background: var(--clay-deep);
+    color: var(--off-white);
+  }
+
   /* Figures */
   .article-figure {
     margin: 52px 0;
@@ -517,6 +595,24 @@
     </div>
   </div>
 
+  <!-- Audio player -->
+  <div class="audio-player reveal" id="audioPlayer">
+    <div class="audio-label">▶ Listen — narrated by ElevenLabs (Knox Dark)</div>
+    <div class="audio-controls">
+      <button class="audio-play" id="audioPlay" aria-label="Play">
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true">
+          <path d="M0 0 L12 7 L0 14 Z"/>
+        </svg>
+      </button>
+      <div class="audio-rail" id="audioRail">
+        <div class="audio-fill" id="audioFill"></div>
+      </div>
+      <span class="audio-time" id="audioTime">0:00 / 0:00</span>
+      <button class="audio-speed" id="audioSpeed" aria-label="Playback speed">1×</button>
+    </div>
+    <audio preload="metadata" src="audio/when-ideas-come-alive.mp3" id="audioEl"></audio>
+  </div>
+
   <!-- Section 1 -->
   <div class="section-label reveal">Challenge Overview</div>
 
@@ -628,6 +724,64 @@
       }
     });
   });
+
+  // Audio player
+  (function() {
+    const audio = document.getElementById('audioEl');
+    const playBtn = document.getElementById('audioPlay');
+    const rail = document.getElementById('audioRail');
+    const fill = document.getElementById('audioFill');
+    const timeEl = document.getElementById('audioTime');
+    const speedBtn = document.getElementById('audioSpeed');
+
+    const PLAY_ICON = '<svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true"><path d="M0 0 L12 7 L0 14 Z"/></svg>';
+    const PAUSE_ICON = '<svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><rect x="0" y="0" width="3" height="12"/><rect x="7" y="0" width="3" height="12"/></svg>';
+
+    const speeds = [1, 1.25, 1.5];
+    let speedIdx = 0;
+
+    function fmt(s) {
+      if (!isFinite(s)) return '0:00';
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60).toString().padStart(2, '0');
+      return m + ':' + sec;
+    }
+    function updateTime() {
+      timeEl.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
+      const pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+      fill.style.width = pct + '%';
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (audio.paused) audio.play(); else audio.pause();
+    });
+    audio.addEventListener('play', () => {
+      playBtn.innerHTML = PAUSE_ICON;
+      playBtn.setAttribute('aria-label', 'Pause');
+    });
+    audio.addEventListener('pause', () => {
+      playBtn.innerHTML = PLAY_ICON;
+      playBtn.setAttribute('aria-label', 'Play');
+    });
+    audio.addEventListener('loadedmetadata', updateTime);
+    audio.addEventListener('timeupdate', updateTime);
+    audio.addEventListener('ended', () => {
+      playBtn.innerHTML = PLAY_ICON;
+      playBtn.setAttribute('aria-label', 'Play');
+    });
+
+    rail.addEventListener('click', (e) => {
+      const rect = rail.getBoundingClientRect();
+      const ratio = (e.clientX - rect.left) / rect.width;
+      if (audio.duration) audio.currentTime = ratio * audio.duration;
+    });
+
+    speedBtn.addEventListener('click', () => {
+      speedIdx = (speedIdx + 1) % speeds.length;
+      audio.playbackRate = speeds[speedIdx];
+      speedBtn.textContent = speeds[speedIdx] + '×';
+    });
+  })();
 </script>
 
 </body>
