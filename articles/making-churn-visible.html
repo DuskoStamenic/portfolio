@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Making Churn Visible — Decision Book</title>
+<meta name="description" content="Designing an executive churn dashboard — from defining the audience to building a four-layer narrative that moves leadership from problem to decision.">
+<link rel="canonical" href="https://duskostamenic.com/articles/making-churn-visible.html">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://duskostamenic.com/articles/making-churn-visible.html">
+<meta property="og:title" content="Making Churn Visible">
+<meta property="og:description" content="Designing an executive churn dashboard — from defining the audience to building a four-layer narrative that moves leadership from problem to decision.">
+<meta property="og:image" content="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/ab87de74-91ba-45cc-a742-246baf957e61/screencapture-duskostamenic-github-io-ravenstack-dashboard-2026-06-01-15_41_39/w=1200,quality=90,fit=scale-down">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Duško Stamenić — Decision Book">
+<meta property="article:published_time" content="2026-06-01T00:00:00+00:00">
+<meta property="article:author" content="Duško Stamenić">
+<meta property="article:section" content="Data Analysis">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://duskostamenic.com/articles/making-churn-visible.html">
+<meta name="twitter:title" content="Making Churn Visible">
+<meta name="twitter:description" content="Designing an executive churn dashboard — from defining the audience to building a four-layer narrative that moves leadership from problem to decision.">
+<meta name="twitter:image" content="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/ab87de74-91ba-45cc-a742-246baf957e61/screencapture-duskostamenic-github-io-ravenstack-dashboard-2026-06-01-15_41_39/w=1200,quality=90,fit=scale-down">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Making Churn Visible",
+  "description": "Designing an executive churn dashboard — from defining the audience to building a four-layer narrative that moves leadership from problem to decision.",
+  "image": "https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/ab87de74-91ba-45cc-a742-246baf957e61/screencapture-duskostamenic-github-io-ravenstack-dashboard-2026-06-01-15_41_39/w=1200,quality=90,fit=scale-down",
+  "datePublished": "2026-06-01",
+  "dateModified": "2026-06-01",
+  "author": {
+    "@type": "Person",
+    "name": "Duško Stamenić",
+    "url": "https://duskostamenic.com/",
+    "sameAs": [
+      "https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Duško Stamenić",
+    "url": "https://duskostamenic.com/",
+    "sameAs": [
+      "https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/"
+    ]
+  },
+  "articleSection": "Data Analysis",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://duskostamenic.com/articles/making-churn-visible.html"
+  }
+}
+</script>
+
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
+<style>
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../instrument-serif/instrument-serif-latin-regular.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../instrument-serif/instrument-serif-latin-italic.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Sans';
+    font-weight: 100 700;
+    font-display: swap;
+    src: url("../ibm-plex-sans/ibm-plex-sans-latin-vf.woff2") format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../ibm-plex-mono/ibm-plex-mono-latin-regular.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("../ibm-plex-mono/ibm-plex-mono-latin-500.woff2") format('woff2');
+  }
+</style>
+
+<style>
+  :root {
+    --bg:         oklch(0.96 0.002 80);
+    --bg-soft:    oklch(0.93 0.003 80);
+    --bg-deep:    oklch(0.18 0.004 60);
+    --bg-deep-2:  oklch(0.13 0.004 60);
+    --ink:        oklch(0.22 0.003 60);
+    --ink-soft:   oklch(0.45 0.003 60);
+    --ink-faint:  oklch(0.62 0.004 65);
+    --line:       oklch(0.82 0.003 70);
+    --line-soft:  oklch(0.88 0.002 70);
+    --clay:       oklch(0.30 0.005 70);
+    --clay-deep:  oklch(0.22 0.004 70);
+    --off-white:  oklch(0.985 0.006 80);
+
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans:  'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    --mono:  'IBM Plex Mono', ui-monospace, monospace;
+
+    --max:    1240px;
+    --gutter: clamp(20px, 4vw, 56px);
+    --col:    720px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'kern', 'liga', 'ss01';
+  }
+
+  /* Background layers */
+  .pattern-layer {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    opacity: 0.047;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='83' viewBox='0 0 96 83'><g fill='none' stroke='%23000' stroke-width='0.7'><polygon points='24,1 72,1 96,41.5 72,82 24,82 0,41.5'/><polygon points='72,1 120,1 144,41.5 120,82 72,82 48,41.5' transform='translate(-48,0)'/></g></svg>");
+    background-size: 96px 83px;
+  }
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    opacity: 0.04; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* Reading progress bar */
+  .progress-bar {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: var(--clay-deep);
+    transform: scaleX(0);
+    transform-origin: left;
+    z-index: 100;
+    transition: transform 80ms linear;
+  }
+
+  main { position: relative; z-index: 2; }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* -------- Nav -------- */
+  nav.top {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 22px var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: oklch(0.85 0 0);
+    mix-blend-mode: difference;
+  }
+  nav.top .mark { display: flex; align-items: baseline; gap: 10px; }
+  nav.top .mark .sigil {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: oklch(0.98 0 0);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-style: italic;
+    line-height: 1;
+  }
+  nav.top .mark .role { color: oklch(0.7 0 0); }
+  nav.top ul { display: flex; gap: 28px; list-style: none; }
+  nav.top a {
+    color: oklch(0.85 0 0);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  nav.top a::after {
+    content: ''; position: absolute; left: 0; right: 100%; bottom: 0;
+    height: 1px; background: oklch(0.98 0 0);
+    transition: right 400ms cubic-bezier(.7,0,.2,1);
+  }
+  nav.top a:hover::after { right: 0; }
+
+  /* -------- Article Hero -------- */
+  .article-hero {
+    padding: clamp(140px, 18vh, 210px) var(--gutter) 80px;
+    max-width: var(--max);
+    margin: 0 auto;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .eyebrow::before {
+    content: ''; width: 28px; height: 1px;
+    background: var(--ink-faint); display: inline-block;
+    flex-shrink: 0;
+  }
+  .cat-pill {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--clay-deep);
+    padding: 5px 10px;
+    border: 1px solid oklch(from var(--clay-deep) l c h / 0.35);
+    border-radius: 999px;
+    line-height: 1;
+  }
+  .eyebrow .sep { color: var(--line); }
+
+  .article-hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(44px, 7vw, 104px);
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    text-wrap: balance;
+    max-width: 20ch;
+  }
+  .article-hero h1 .ital { font-style: italic; color: var(--clay-deep); }
+
+  /* -------- Article Body -------- */
+  .article-body {
+    max-width: var(--col);
+    margin: 0 auto;
+    padding: 72px 0px 120px;
+  }
+
+  /* Context strip */
+  .article-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 60px;
+  }
+  .meta-item {
+    background: var(--bg);
+    padding: 16px 18px;
+  }
+  .meta-item .k {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 5px;
+  }
+  .meta-item .v {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  /* Section labels */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+    margin-top: 60px;
+    margin-bottom: 36px;
+  }
+  .section-label:first-of-type { margin-top: 0; }
+
+  /* Subsection headings */
+  .article-body h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    text-wrap: balance;
+    margin-top: 52px;
+    margin-bottom: 22px;
+  }
+
+  /* Body paragraphs */
+  .article-body p {
+    font-family: var(--sans);
+    font-size: 20px;
+    line-height: 1.8;
+    color: oklch(0.28 0.003 60);
+    margin-bottom: 26px;
+  }
+  .article-body p:last-child { margin-bottom: 0; }
+
+  .article-body p strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .article-body a {
+    color: var(--clay-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
+  .article-body a:hover { color: var(--ink); }
+
+  /* Inline code */
+  .article-body code {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    padding: 2px 7px;
+    border-radius: 3px;
+    color: var(--clay-deep);
+    white-space: nowrap;
+  }
+
+  /* Callout / prompt block */
+  .callout {
+    background: var(--bg-soft);
+    border: 1px solid var(--clay-deep);
+    padding: 28px 32px;
+    margin: 40px 0;
+  }
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--clay-deep);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .callout p {
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .callout a {
+    color: var(--clay-deep);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* Figures */
+  .article-figure {
+    margin: 52px 0;
+  }
+  .img-wrap {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    position: relative;
+  }
+  .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  figcaption {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    margin-top: 14px;
+    padding-left: 2px;
+    line-height: 1.5;
+  }
+
+  /* Article bottom nav */
+  .article-nav {
+    border-top: 1px solid var(--line);
+    padding-top: 36px;
+    margin-top: 64px;
+    display: flex;
+    justify-content: center;
+  }
+  .article-nav a {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-decoration: none;
+    transition: color 300ms ease;
+  }
+  .article-nav a:hover { color: var(--ink); }
+
+  /* -------- Footer -------- */
+  footer {
+    background: var(--bg-deep-2);
+    color: oklch(0.62 0.015 60);
+    padding: 36px var(--gutter);
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    display: flex; justify-content: space-between; gap: 20px;
+    flex-wrap: wrap;
+    position: relative; z-index: 2;
+  }
+  footer a { color: oklch(0.82 0.015 60); text-decoration: none; }
+  footer a:hover { color: var(--off-white); }
+
+  /* -------- Reveal -------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 800ms cubic-bezier(.2,.6,.2,1), transform 800ms cubic-bezier(.2,.6,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: 80ms; }
+  .reveal.d2 { transition-delay: 160ms; }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 640px) {
+    .article-meta { grid-template-columns: 1fr}
+    nav.top ul { display: none; }
+    .article-nav { flex-direction: column; gap: 36px; }
+    .article-body { padding: 72px var(--gutter) 120px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="pattern-layer" id="pattern"></div>
+<div class="grain"></div>
+<div class="progress-bar" id="progress"></div>
+
+<nav class="top">
+  <div class="mark">
+    <a href="../blog.html" style="text-decoration:none; display:flex; align-items:baseline; gap:10px;">
+      <span class="sigil">Duško Stamenić</span>
+      <span class="role">— Decision Book</span>
+    </a>
+  </div>
+  <ul>
+    <li><a href="https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+    <li><a href="../index.html">Portfolio</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- -------- Hero -------- -->
+<header class="article-hero">
+  <div class="eyebrow reveal">
+    <span class="cat-pill">Data Analysis</span>
+    <span class="sep">·</span>
+    <span>6 min read</span>
+  </div>
+  <h1 class="reveal d1">Making Churn <span class="ital">Visible</span></h1>
+</header>
+
+<!-- -------- Body -------- -->
+<article class="article-body">
+
+  <!-- Context strip -->
+  <div class="article-meta reveal">
+    <div class="meta-item">
+      <div class="k">Context</div>
+      <div class="v">Personal Project</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Delivered</div>
+      <div class="v">June 2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Author</div>
+      <div class="v">Duško Stamenić</div>
+    </div>
+  </div>
+
+  <!-- Section 1 -->
+  <div class="section-label reveal">Challenge Overview</div>
+
+  <p class="reveal">Over the past few months, I've been exploring <strong>data analysis as a complementary skill to product design</strong>. Rather than picking a generic dataset, I wanted a problem that felt close to the kind of products I work on every day: SaaS platforms, subscriptions, user behavior, and business outcomes.</p>
+
+  <p class="reveal">That led me to <strong>churn</strong>.</p>
+
+  <p class="reveal">Customer churn sits at the intersection of product, pricing, customer success, and business strategy. It's one of those metrics that looks deceptively simple until you start asking harder questions. <strong>Who is leaving? When do they leave? Why do they leave? How much does it cost?</strong> And perhaps most importantly — could we have predicted it earlier?</p>
+
+  <p class="reveal">For this project, I used the <a href="https://www.kaggle.com/datasets/rivalytics/saas-subscription-and-churn-analytics-dataset" target="_blank" rel="noopener">SaaS Subscription &amp; Churn Analytics Dataset</a> created by Rivalytics and published on Kaggle. The dataset provides two years of subscription, churn, refund, and customer feedback data — a useful foundation for exploring both analytical thinking and dashboard storytelling.</p>
+
+  <p class="reveal">Alongside the analytical challenge, I wanted to test something else: <strong>how far I could push the visual design of a dashboard without sacrificing clarity</strong>. Most analytics products gravitate toward safe, corporate aesthetics. I was curious whether a stronger visual identity could make insights more engaging while still preserving signal and readability.</p>
+
+  <!-- Section 2 -->
+  <div class="section-label reveal">Creation Arc</div>
+
+  <p class="reveal">Although the dataset arrived relatively clean and structured — meaning there was little need for SQL-based preparation — the project still required a series of qualitative decisions before any charts were created.</p>
+
+  <p class="reveal">The first challenge wasn't technical. <strong>It was deciding what story should be told.</strong></p>
+
+  <h2 class="reveal">Defining the Audience</h2>
+
+  <p class="reveal">Before building a single visualization, I needed to answer a simple question: <strong>who is this dashboard for?</strong></p>
+
+  <p class="reveal">I chose to design for <strong>leadership and executive stakeholders</strong>. That decision influenced every chart, metric, and layout choice that followed. Executives rarely need raw data. They need a narrative that moves from problem identification to decision-making as efficiently as possible.</p>
+
+  <div class="callout reveal">
+    <div class="callout-label">⌖ Narrative spine</div>
+    <p><strong>How much → When → Why → What it costs → What to do next.</strong></p>
+    <p>Each row progressively answers a deeper version of the same question. Leadership can stop at any level of detail and still leave with a coherent understanding of the problem.</p>
+  </div>
+
+  <h2 class="reveal">KPI Strip</h2>
+
+  <p class="reveal">The first row contains five headline metrics: <strong>total churns, refunds, reactivations, the most common churn reason, and churns occurring before an upgrade</strong>. The strip exists to answer the question every executive asks before the discussion even begins — <strong>how bad is it?</strong></p>
+
+  <p class="reveal">Six hundred churn events across two years might not sound alarming in isolation. However, seeing that <strong>117 of those occurred in a single month</strong> immediately changes the interpretation. The number becomes a trend rather than a statistic. The reactivation and pre-upgrade indicators were included because they represent signals leadership can act on immediately, without waiting for a lengthy product development cycle.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://assets.super.so/87af451f-77d5-4040-b904-ce7c62690d63/images/b53584eb-9127-4033-b233-3e5cf3a41269/kpi_strip_sketch.svg"
+        alt="Sketch of the KPI strip — five headline metrics across the top of the dashboard"
+        loading="lazy"
+      />
+    </div>
+    <figcaption>KPI strip — the five headline metrics that frame every following row</figcaption>
+  </figure>
+
+  <h2 class="reveal">Row 1: When and Why</h2>
+
+  <p class="reveal">The first analytical layer combines a monthly churn trend chart with a churn-reason breakdown. The bar chart answers <em>when</em> customers are leaving — and more importantly, it reveals the <strong>shape</strong> of the problem. Churn does not gradually increase. The data shows a sharp acceleration during late 2024.</p>
+
+  <p class="reveal">Beside it, the reason distribution offers the first answer to <em>why</em> customers leave. What stood out most was the <strong>absence of a dominant explanation</strong>. Feature limitations, budget concerns, and support issues all contribute at similar rates. Rather than pointing toward a single fix, the data suggests a broader systemic challenge spanning multiple parts of the customer experience.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://assets.super.so/87af451f-77d5-4040-b904-ce7c62690d63/images/7a8a430a-13d4-4464-9038-d2a2a872a311/row1_sketch.svg"
+        alt="Sketch of Row 1 — monthly churn trend bar chart paired with churn-reason breakdown"
+        loading="lazy"
+      />
+    </div>
+    <figcaption>Row 1 — pairing <em>when</em> with <em>why</em> on a single horizontal band</figcaption>
+  </figure>
+
+  <h2 class="reveal">Row 2: Customer Language and Early Signals</h2>
+
+  <p class="reveal">The second layer explores customer feedback, behavioral signals, and refund patterns. Reason codes can sometimes feel abstract — free-text feedback translates those categories into <strong>language people actually use</strong>. Phrases such as <em>too expensive</em> and <em>missing features</em> account for the majority of responses, reframing the conversation from technical categories into perceived customer value.</p>
+
+  <p class="reveal">The pre-churn signal section was designed to answer a recurring stakeholder question: <strong>could we have seen this coming?</strong> The data suggests yes. Roughly <strong>one in five churned accounts upgraded shortly before leaving</strong>, indicating a potentially important warning pattern worth further investigation.</p>
+
+  <p class="reveal">Refund metrics were included because financial impact inevitably enters strategic discussions. Connecting refund rates directly to churn reasons helps bridge operational and financial perspectives.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://assets.super.so/87af451f-77d5-4040-b904-ce7c62690d63/images/05e7154c-c77c-46cc-9495-2b30a4ba2890/row2_sketch.svg"
+        alt="Sketch of Row 2 — customer feedback themes, pre-churn signals, and refund patterns"
+        loading="lazy"
+      />
+    </div>
+    <figcaption>Row 2 — language, early signals, and refund impact, side by side</figcaption>
+  </figure>
+
+  <h2 class="reveal">Row 3: Evidence and Validation</h2>
+
+  <p class="reveal">The final analytical layer focuses on evidence. A reason-versus-feedback heatmap exposes relationships hidden inside aggregated metrics. <strong>Budget-related churn overwhelmingly aligns with pricing concerns</strong>, while competitor-related churn often arrives with little or no feedback at all. This distinction matters because it changes where future research effort should be invested.</p>
+
+  <p class="reveal">Alongside the heatmap sits a quarterly trend table with inline sparklines. Its purpose is not to show that churn increased — earlier charts already established that. Instead, it demonstrates that <strong>acceleration itself has become the trend</strong>.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://assets.super.so/87af451f-77d5-4040-b904-ce7c62690d63/images/4a5043e8-ef07-4721-906d-46a99a0d4b39/row3_sketch.svg"
+        alt="Sketch of Row 3 — reason-versus-feedback heatmap paired with quarterly sparkline table"
+        loading="lazy"
+      />
+    </div>
+    <figcaption>Row 3 — evidence and validation: heatmap plus quarterly sparkline table</figcaption>
+  </figure>
+
+  <!-- Section 3 -->
+  <div class="section-label reveal">Designing the Experience</div>
+
+  <p class="reveal">After defining the analytical narrative, the next challenge was visual direction. Rather than adopting a conventional business dashboard style, I experimented with a <strong>darker, more industrial visual language</strong> inspired by trading terminals and mission-control interfaces. The goal was not decoration — the goal was to create an environment where information felt important.</p>
+
+  <h2 class="reveal">Visual System</h2>
+
+  <p class="reveal"><strong>Colors.</strong> A near-black background (<code>#0d0f14</code>) serves as the foundation, while a lime-acid accent (<code>#e8ff47</code>) highlights primary metrics and critical signals. Orange, blue, red, and green provide categorical distinction without overwhelming the interface.</p>
+
+  <p class="reveal"><strong>Typography.</strong> The type system combines <strong>Syne</strong> and <strong>DM Mono</strong>. Syne provides large, geometric forms for headlines and key metrics, while DM Mono introduces a technical, system-oriented character for labels and metadata.</p>
+
+  <p class="reveal"><strong>Layout.</strong> The dashboard uses a dense grid with sharp edges, 1-pixel dividers, and intentionally avoids rounded corners. The objective was to communicate <strong>precision rather than friendliness</strong>. Small details — dot-grid textures, colored KPI indicators, and staggered entry animations — help create hierarchy without competing with the data itself.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/ab87de74-91ba-45cc-a742-246baf957e61/screencapture-duskostamenic-github-io-ravenstack-dashboard-2026-06-01-15_41_39/w=1920,quality=90,fit=scale-down"
+        alt="Full screen capture of the Ravenstack churn dashboard, showing KPI strip and three analytical rows"
+        loading="lazy"
+        width="1920"
+      />
+    </div>
+    <figcaption>The Ravenstack churn dashboard — full screen capture of the live build</figcaption>
+  </figure>
+
+  <!-- Section 4 -->
+  <div class="section-label reveal">From Dashboard to Presentation</div>
+
+  <p class="reveal">Once the dashboard was complete, I translated the analysis into a <strong>10-slide executive presentation</strong>. The challenge shifted from exploration to communication. The dashboard enables discovery. The presentation guides attention.</p>
+
+  <div class="callout reveal">
+    <div class="callout-label">▤ Slide arc</div>
+    <p><strong>01 Title</strong> — Context-setting with headline KPIs<br>
+    <strong>02 Agenda</strong> — Overview of the analytical journey<br>
+    <strong>03 Scale</strong> — KPI summary and key insight<br>
+    <strong>04 Acceleration</strong> — Churn trend and growth pattern<br>
+    <strong>05 Why They Leave</strong> — Churn reason analysis<br>
+    <strong>06 What They Say</strong> — Customer feedback themes<br>
+    <strong>07 Pre-Churn Signals</strong> — Early warning indicators<br>
+    <strong>08 Refunds</strong> — Financial impact analysis<br>
+    <strong>09 Implications</strong> — Strategic interpretation<br>
+    <strong>10 Actions</strong> — Prioritized recommendations</p>
+  </div>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/b8e083fa-6cf3-400e-9d24-68577a8fef61/screenshot_2026-06-01_at_15.44.07/w=1920,quality=90,fit=scale-down"
+        alt="Executive presentation — overview slide showing scale and trend"
+        loading="lazy"
+        width="1920"
+      />
+    </div>
+    <figcaption>Executive deck — opening slides setting scale and context</figcaption>
+  </figure>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="https://decision-book.super.site/_next/image?url=https%3A%2F%2Fassets.super.so%2F87af451f-77d5-4040-b904-ce7c62690d63%2Fimages%2Fbe36155a-abb1-4f4a-94c7-550fadd0317d%2Fscreenshot_2026-06-01_at_15.44.25.png&w=3840&q=75"
+        alt="Executive presentation — strategic implications and prioritized actions"
+        loading="lazy"
+      />
+    </div>
+    <figcaption>Executive deck — closing slides moving from implications to action</figcaption>
+  </figure>
+
+  <p class="reveal">The presentation structure mirrors the dashboard logic but introduces <strong>stronger narrative sequencing</strong>, making it suitable for stakeholder discussions and decision-making sessions.</p>
+
+  <!-- Section 5 -->
+  <div class="section-label reveal">Takeaways</div>
+
+  <p class="reveal">Several findings stood out. <strong>Churn is not simply increasing. It is accelerating.</strong> December 2024 alone accounts for nearly one-fifth of all churn events in the dataset.</p>
+
+  <p class="reveal">The relationship between structured reasons and customer language was also interesting. While <em>Features</em> appears as the leading churn category, <em>Too Expensive</em> dominates free-text responses. That discrepancy may indicate a deeper <strong>value-perception issue</strong> rather than a purely feature-related problem.</p>
+
+  <p class="reveal">From a personal perspective, the project also served as a practical introduction to modern data-analysis workflows. Beyond the business insights, it provided hands-on experience with <strong>Python, Pandas, Plotly, and Streamlit</strong>, while reinforcing a lesson that applies equally to analytics and product design:</p>
+
+  <p class="reveal"><strong>Data rarely tells a story on its own.</strong> The real work lies in deciding which questions matter, what evidence supports them, and how that evidence should be communicated to the people making decisions.</p>
+
+  <div class="callout reveal">
+    <div class="callout-label">↗ Resources</div>
+    <p><strong>Live dashboard</strong> — <a href="https://duskostamenic.github.io/ravenstack_dashboard/" target="_blank" rel="noopener">duskostamenic.github.io/ravenstack_dashboard</a></p>
+    <p><strong>GitHub repository</strong> — <a href="https://github.com/DuskoStamenic/ravenstack_dashboard" target="_blank" rel="noopener">github.com/DuskoStamenic/ravenstack_dashboard</a></p>
+    <p><strong>Dataset</strong> — <a href="https://www.kaggle.com/datasets/rivalytics/saas-subscription-and-churn-analytics-dataset" target="_blank" rel="noopener">SaaS Subscription &amp; Churn Analytics Dataset</a> by Rivalytics</p>
+  </div>
+
+  <!-- Bottom navigation -->
+  <nav class="article-nav reveal">
+    <a href="../blog.html">← Back to all essays</a>
+  </nav>
+
+</article>
+
+</main>
+
+<footer>
+  <span>© 2026 Duško Stamenić — Decision Book</span>
+  <span>Rationale · Clarity · Structure</span>
+</footer>
+
+<script>
+  // Parallax pattern
+  const pattern = document.getElementById('pattern');
+  let targetY = 0, currentY = 0;
+  window.addEventListener('scroll', () => { targetY = window.scrollY * 0.15; }, { passive: true });
+  function animatePattern() {
+    currentY += (targetY - currentY) * 0.08;
+    pattern.style.backgroundPosition = `0 ${-currentY}px`;
+    requestAnimationFrame(animatePattern);
+  }
+  animatePattern();
+
+  // Reading progress bar
+  const progressBar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    progressBar.style.transform = `scaleX(${pct})`;
+  }, { passive: true });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.01 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.reveal').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        el.classList.add('in'); io.unobserve(el);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
