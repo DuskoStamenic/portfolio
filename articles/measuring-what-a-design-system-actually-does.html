@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Measuring What a Design System Actually Does — Decision Book</title>
+<meta name="description" content="Design systems are hard to defend without data. Here's how to measure adoption, usage, consistency, handoff time, and satisfaction — with real metrics any design team can track.">
+<link rel="canonical" href="https://duskostamenic.com/articles/measuring-what-a-design-system-actually-does.html">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://duskostamenic.com/articles/measuring-what-a-design-system-actually-does.html">
+<meta property="og:title" content="Measuring What a Design System Actually Does">
+<meta property="og:description" content="Design systems are hard to defend without data. Here's how to measure adoption, usage, consistency, handoff time, and satisfaction — with real metrics any design team can track.">
+<meta property="og:image" content="https://duskostamenic.com/og-image-blog.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Duško Stamenić — Decision Book">
+<meta property="article:published_time" content="2026-06-15T00:00:00+00:00">
+<meta property="article:author" content="Duško Stamenić">
+<meta property="article:section" content="Data Analysis">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://duskostamenic.com/articles/measuring-what-a-design-system-actually-does.html">
+<meta name="twitter:title" content="Measuring What a Design System Actually Does">
+<meta name="twitter:description" content="Design systems are hard to defend without data. Here's how to measure adoption, usage, consistency, handoff time, and satisfaction — with real metrics any design team can track.">
+<meta name="twitter:image" content="https://duskostamenic.com/og-image-blog.jpg">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Measuring What a Design System Actually Does",
+  "description": "Design systems are hard to defend without data. Here's how to measure adoption, usage, consistency, handoff time, and satisfaction — with real metrics any design team can track.",
+  "image": "https://duskostamenic.com/og-image-blog.jpg",
+  "datePublished": "2026-06-15",
+  "dateModified": "2026-06-15",
+  "author": {
+    "@type": "Person",
+    "name": "Duško Stamenić",
+    "url": "https://duskostamenic.com/",
+    "sameAs": [
+      "https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Duško Stamenić",
+    "url": "https://duskostamenic.com/",
+    "sameAs": [
+      "https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/"
+    ]
+  },
+  "articleSection": "Data Analysis",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://duskostamenic.com/articles/measuring-what-a-design-system-actually-does.html"
+  }
+}
+</script>
+
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
+<style>
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../instrument-serif/instrument-serif-latin-regular.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../instrument-serif/instrument-serif-latin-italic.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Sans';
+    font-weight: 100 700;
+    font-display: swap;
+    src: url("../ibm-plex-sans/ibm-plex-sans-latin-vf.woff2") format('woff2-variations');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("../ibm-plex-mono/ibm-plex-mono-latin-regular.woff2") format('woff2');
+  }
+  @font-face {
+    font-family: 'IBM Plex Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("../ibm-plex-mono/ibm-plex-mono-latin-500.woff2") format('woff2');
+  }
+</style>
+
+<style>
+  :root {
+    --bg:         oklch(0.96 0.002 80);
+    --bg-soft:    oklch(0.93 0.003 80);
+    --bg-deep:    oklch(0.18 0.004 60);
+    --bg-deep-2:  oklch(0.13 0.004 60);
+    --ink:        oklch(0.22 0.003 60);
+    --ink-soft:   oklch(0.45 0.003 60);
+    --ink-faint:  oklch(0.62 0.004 65);
+    --line:       oklch(0.82 0.003 70);
+    --line-soft:  oklch(0.88 0.002 70);
+    --clay:       oklch(0.30 0.005 70);
+    --clay-deep:  oklch(0.22 0.004 70);
+    --off-white:  oklch(0.985 0.006 80);
+
+    --serif: 'Instrument Serif', Georgia, serif;
+    --sans:  'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+    --mono:  'IBM Plex Mono', ui-monospace, monospace;
+
+    --max:    1240px;
+    --gutter: clamp(20px, 4vw, 56px);
+    --col:    720px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    font-feature-settings: 'kern', 'liga', 'ss01';
+  }
+
+  /* Background layers */
+  .pattern-layer {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    opacity: 0.047;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='96' height='83' viewBox='0 0 96 83'><g fill='none' stroke='%23000' stroke-width='0.7'><polygon points='24,1 72,1 96,41.5 72,82 24,82 0,41.5'/><polygon points='72,1 120,1 144,41.5 120,82 72,82 48,41.5' transform='translate(-48,0)'/></g></svg>");
+    background-size: 96px 83px;
+  }
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    opacity: 0.04; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* Reading progress bar */
+  .progress-bar {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 2px;
+    background: var(--clay-deep);
+    transform: scaleX(0);
+    transform-origin: left;
+    z-index: 100;
+    transition: transform 80ms linear;
+  }
+
+  main { position: relative; z-index: 2; }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* -------- Nav -------- */
+  nav.top {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 22px var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: oklch(0.85 0 0);
+    mix-blend-mode: difference;
+  }
+  nav.top .mark { display: flex; align-items: baseline; gap: 10px; }
+  nav.top .mark .sigil {
+    font-family: var(--serif);
+    font-size: 22px;
+    color: oklch(0.98 0 0);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-style: italic;
+    line-height: 1;
+  }
+  nav.top .mark .role { color: oklch(0.7 0 0); }
+  nav.top ul { display: flex; gap: 28px; list-style: none; }
+  nav.top a {
+    color: oklch(0.85 0 0);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 2px;
+  }
+  nav.top a::after {
+    content: ''; position: absolute; left: 0; right: 100%; bottom: 0;
+    height: 1px; background: oklch(0.98 0 0);
+    transition: right 400ms cubic-bezier(.7,0,.2,1);
+  }
+  nav.top a:hover::after { right: 0; }
+
+  /* -------- Article Hero -------- */
+  .article-hero {
+    padding: clamp(140px, 18vh, 210px) var(--gutter) 80px;
+    max-width: var(--max);
+    margin: 0 auto;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .eyebrow::before {
+    content: ''; width: 28px; height: 1px;
+    background: var(--ink-faint); display: inline-block;
+    flex-shrink: 0;
+  }
+  .cat-pill {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--clay-deep);
+    padding: 5px 10px;
+    border: 1px solid oklch(from var(--clay-deep) l c h / 0.35);
+    border-radius: 999px;
+    line-height: 1;
+  }
+  .eyebrow .sep { color: var(--line); }
+
+  .article-hero h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(44px, 7vw, 104px);
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    text-wrap: balance;
+    max-width: 20ch;
+  }
+  .article-hero h1 .ital { font-style: italic; color: var(--clay-deep); }
+
+  /* -------- Article Body -------- */
+  .article-body {
+    max-width: var(--col);
+    margin: 0 auto;
+    padding: 72px 0px 120px;
+  }
+
+  /* Context strip */
+  .article-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    margin-bottom: 60px;
+  }
+  .meta-item {
+    background: var(--bg);
+    padding: 16px 18px;
+  }
+  .meta-item .k {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 5px;
+  }
+  .meta-item .v {
+    font-family: var(--serif);
+    font-size: 16px;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+
+  /* Section labels */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+    margin-top: 60px;
+    margin-bottom: 36px;
+  }
+  .section-label:first-of-type { margin-top: 0; }
+
+  /* Subsection headings */
+  .article-body h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    text-wrap: balance;
+    margin-top: 52px;
+    margin-bottom: 22px;
+  }
+
+  /* Body paragraphs */
+  .article-body p {
+    font-family: var(--sans);
+    font-size: 20px;
+    line-height: 1.8;
+    color: oklch(0.28 0.003 60);
+    margin-bottom: 26px;
+  }
+  .article-body p:last-child { margin-bottom: 0; }
+
+  .article-body p strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  /* Inline code */
+  .article-body code {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    padding: 2px 7px;
+    border-radius: 3px;
+    color: var(--clay-deep);
+    white-space: nowrap;
+  }
+
+  /* Callout / prompt block */
+  .callout {
+    background: var(--bg-soft);
+    border: 1px solid var(--clay-deep);
+    padding: 28px 32px;
+    margin: 40px 0;
+  }
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--clay-deep);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .callout p {
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  /* Figures */
+  .article-figure {
+    margin: 52px 0;
+  }
+  .img-wrap {
+    background: var(--bg-soft);
+    border: 1px solid var(--line);
+    overflow: hidden;
+    position: relative;
+  }
+  .img-wrap img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+  .img-placeholder {
+    display: flex; align-items: center; justify-content: center;
+    aspect-ratio: 16/9;
+  }
+  .img-placeholder-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-align: center;
+    padding: 20px;
+    line-height: 1.7;
+  }
+  figcaption {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    margin-top: 14px;
+    padding-left: 2px;
+    line-height: 1.5;
+  }
+
+  /* Article bottom nav */
+  .article-nav {
+    border-top: 1px solid var(--line);
+    padding-top: 36px;
+    margin-top: 64px;
+    display: flex;
+    justify-content: center;
+  }
+  .article-nav a {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    text-decoration: none;
+    transition: color 300ms ease;
+  }
+  .article-nav a:hover { color: var(--ink); }
+
+  /* -------- Footer -------- */
+  footer {
+    background: var(--bg-deep-2);
+    color: oklch(0.62 0.015 60);
+    padding: 36px var(--gutter);
+    font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    display: flex; justify-content: space-between; gap: 20px;
+    flex-wrap: wrap;
+    position: relative; z-index: 2;
+  }
+  footer a { color: oklch(0.82 0.015 60); text-decoration: none; }
+  footer a:hover { color: var(--off-white); }
+
+  /* -------- Reveal animation -------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 800ms cubic-bezier(.2,.6,.2,1), transform 800ms cubic-bezier(.2,.6,.2,1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: 80ms; }
+  .reveal.d2 { transition-delay: 160ms; }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 640px) {
+    .article-meta { grid-template-columns: 1fr }
+    nav.top ul { display: none; }
+    .article-nav { flex-direction: column; gap: 36px; }
+    .article-body { padding: 72px var(--gutter) 120px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="pattern-layer" id="pattern"></div>
+<div class="grain"></div>
+<div class="progress-bar" id="progress"></div>
+
+<nav class="top">
+  <div class="mark">
+    <a href="../blog.html" style="text-decoration:none; display:flex; align-items:baseline; gap:10px;">
+      <span class="sigil">Duško Stamenić</span>
+      <span class="role">— Decision Book</span>
+    </a>
+  </div>
+  <ul>
+    <li><a href="https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/" target="_blank" rel="noopener">LinkedIn ↗</a></li>
+    <li><a href="../index.html">Portfolio</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<!-- -------- Hero -------- -->
+<header class="article-hero">
+  <div class="eyebrow reveal">
+    <span class="cat-pill">Data Analysis</span>
+    <span class="sep">·</span>
+    <span>5 min read</span>
+  </div>
+  <h1 class="reveal d1">Measuring What a Design System Actually <span class="ital">Does</span></h1>
+</header>
+
+<!-- -------- Body -------- -->
+<article class="article-body">
+
+  <!-- Context strip -->
+  <div class="article-meta reveal">
+    <div class="meta-item">
+      <div class="k">Context</div>
+      <div class="v">ActiveCollab</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Delivered</div>
+      <div class="v">May 2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Author</div>
+      <div class="v">Duško Stamenić</div>
+    </div>
+  </div>
+
+  <!-- Challenge Overview -->
+  <div class="section-label reveal">Challenge Overview</div>
+
+  <p class="reveal">Design systems are easy to sell as an idea. Harder to defend as an investment.</p>
+
+  <p class="reveal">When we redesigned the app, the pace was noticeably faster. Fewer debates about spacing, fewer inconsistencies caught in review, fewer components built from scratch. I knew the design system was part of the reason. But knowing something and being able to show it are two different things.</p>
+
+  <p class="reveal">That gap bothered me. Not because I needed to be right — but because <strong>"it feels faster"</strong> isn't an argument you can bring to a stakeholder meeting. If the system has value, that value should be visible. And if it's visible, it should be measurable.</p>
+
+  <p class="reveal">This is an attempt to show how. The data in the charts below is mocked — but the metrics are real, and the logic behind each one applies directly to any product team running a design system.</p>
+
+  <!-- Creation Arc -->
+  <div class="section-label reveal">Creation Arc</div>
+
+  <h2 class="reveal">Adoption by team</h2>
+
+  <p class="reveal">The first question worth asking is simple: are teams actually using the system?</p>
+
+  <p class="reveal">Adoption rate measures what percentage of UI components in a given team's codebase come from the design system, rather than being built ad hoc. <strong>A number like 84% for the Web team means that 84% of their components have a traceable origin in the system</strong> — the remaining 16% are either custom-built, hardcoded, or inherited from before the system existed. If the Backend team sits at 55%, the question isn't "why are they doing it wrong" — it's "what does the system not yet offer them, and is that a gap worth closing?"</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/26102118-9081-4e2f-b983-01adb8e8a833/screenshot_2026-06-11_at_14.08.40/w=1920,quality=90,fit=scale-down" alt="Adoption by team — horizontal progress bars showing Web 84%, Platform 78%, Mobile 71%, Growth 62%, Backend 55%" loading="lazy" width="1920" />
+    </div>
+    <figcaption>Adoption by team — mocked data illustrating per-team component coverage</figcaption>
+  </figure>
+
+  <h2 class="reveal">Component render frequency</h2>
+
+  <p class="reveal">Adoption tells you how much of the codebase uses the system. Render frequency tells you which components actually get used in production — and how often.</p>
+
+  <p class="reveal"><strong>Button at 2,300+ renders and Input close behind means these components carry real load.</strong> If either of them has inconsistencies or accessibility issues, the impact is proportionally large. Conversely, a component like Badge sitting at ~600 renders might be perfectly healthy — or it might be underused because it's hard to find or poorly documented. Render frequency doesn't give you the answer, but it tells you exactly where to look.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/1c13529e-0f05-4176-b545-5b8f160e5716/screenshot_2026-06-11_at_14.09.23/w=1920,quality=90,fit=scale-down" alt="Component render frequency — bar chart showing Button, Input, Modal, Card, Dropdown, Checkbox, Table, Badge by render count" loading="lazy" width="1920" />
+    </div>
+    <figcaption>Component render frequency — which components carry the most production load</figcaption>
+  </figure>
+
+  <h2 class="reveal">Violation breakdown</h2>
+
+  <p class="reveal">A design system only works if teams follow it. Violation tracking makes drift visible.</p>
+
+  <p class="reveal">The table breaks down violations by type — token drift, hardcoded values, and accessibility issues — across individual components. <strong>Color tokens showing 7 token drift violations and 4 hardcoded values is a Critical flag:</strong> it means the system's foundations are being bypassed most often. A component like Spacing tokens with fewer violations and an OK status suggests the system's guidance there is clear enough that teams don't feel the need to deviate. The goal isn't zero violations forever — it's knowing where the cracks are before they become structural problems.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/c70b660e-041c-4e83-bc83-f33199499dbf/screenshot_2026-06-11_at_14.08.14/w=1920,quality=90,fit=scale-down" alt="Violation breakdown by component — table showing token drift, hardcoded values, a11y issues and status per component" loading="lazy" width="1920" />
+    </div>
+    <figcaption>Violation breakdown by component — token drift, hardcoded values, and accessibility issues per component</figcaption>
+  </figure>
+
+  <h2 class="reveal">Handoff time by component</h2>
+
+  <p class="reveal">This is the metric that translates most directly into business language: time.</p>
+
+  <p class="reveal">Handoff time measures how many days pass between a component being finalized in design and it being implemented in code. Accordion at 2.5 days and Dropdown at 3 are reasonable baselines. <strong>Badge at 6 days is worth a closer look</strong> — is the component complex, or is the specification unclear? A well-maintained design system should compress handoff time over successive releases. If it doesn't, that's a sign that documentation, token coverage, or designer-developer alignment needs attention.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/5cdaef15-02eb-4840-ad3a-2b63fc42996d/screenshot_2026-06-11_at_14.07.39/w=1920,quality=90,fit=scale-down" alt="Handoff time by component in days — horizontal bar chart showing Accordion, Dropdown, Toast, Tabs, Badge" loading="lazy" width="1920" />
+    </div>
+    <figcaption>Handoff time by component — days from design sign-off to production implementation</figcaption>
+  </figure>
+
+  <h2 class="reveal">NPS by team</h2>
+
+  <p class="reveal">Every metric so far measures the system from the outside. NPS measures how people who use it actually feel about it.</p>
+
+  <p class="reveal">Tracking NPS by team reveals where the system earns trust and where it creates friction. Backend at 55 is the highest here — possibly because their lower adoption means they interact with the system less, and when they do, it works. <strong>The trend line matters more than any single score:</strong> a system that goes from 42 to 47 over three months is moving in the right direction, even if the absolute number isn't impressive yet. Satisfaction is a lagging indicator — it reflects decisions made months ago. Which makes it worth tracking consistently.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/baf8027a-6a50-424b-aede-c3fb67639eb9/screenshot_2026-06-11_at_14.06.41/w=1920,quality=90,fit=scale-down" alt="NPS by team and NPS trend — bar chart and line chart showing satisfaction scores across Web, Mobile, Backend teams over Jan–Mar" loading="lazy" width="1920" />
+    </div>
+    <figcaption>NPS by team and trend over time — satisfaction as a lagging signal of system health</figcaption>
+  </figure>
+
+  <h2 class="reveal">Support ticket log</h2>
+
+  <p class="reveal">Not every impact of a design system is visible in Figma or the codebase. Some of it shows up in the support queue.</p>
+
+  <p class="reveal">When a component behaves inconsistently across platforms, or an interaction pattern is ambiguous, users notice — and they file tickets. <strong>Tracking which components generate the most support load, and how quickly those tickets get resolved, connects design system health to something the entire business understands:</strong> how much friction users are experiencing, and how long it takes to fix it. A resolved Dropdown ticket in 2.5 days and an open Input issue since March tells a clearer story than any design review ever could.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img src="https://images.spr.so/cdn-cgi/imagedelivery/j42No7y-dcokJuNgXeA0ig/a3691d07-a505-42c4-adb1-7a3d98308ef1/screenshot_2026-06-11_at_14.06.00/w=1920,quality=90,fit=scale-down" alt="Support ticket log — table showing Dropdown, Modal, and Input components with opened date, resolution time in days, and status" loading="lazy" width="1920" />
+    </div>
+    <figcaption>Support ticket log — component issues tracked by team, resolution time, and status</figcaption>
+  </figure>
+
+  <!-- Takeaways -->
+  <div class="section-label reveal">Takeaways</div>
+
+  <p class="reveal">There's a version of this work where you spend years building and maintaining a design system, and the only proof of its value is that people stopped complaining as much. That's not nothing — but it's not enough.</p>
+
+  <p class="reveal">Designers who want to be taken seriously in business conversations need to speak the language those conversations happen in. Not <strong>"the system feels more consistent"</strong> but "violation density dropped 30% over two quarters." Not <strong>"handoff is going better"</strong> but "average implementation time is down to 3 days from 6." The metrics in this article aren't complicated — none of them require a data engineering team or a six-figure analytics tool. They require deciding that the work deserves to be measured, and then building the habit of measuring it.</p>
+
+  <p class="reveal">That shift in thinking matters beyond the design system itself. When you start framing your work in terms of adoption rates, resolution times, and satisfaction trends, you stop being the person who makes things look good and start being the person who can show <span class="ital">what good actually does</span>. That's a different kind of seat at the table — and it's one that's increasingly available to designers who are willing to think quantitatively about their own craft.</p>
+
+  <p class="reveal">The data in this article is mocked. But the questions it answers are real. Start with one metric. Track it for a quarter. See what it tells you.</p>
+
+  <!-- Bottom navigation -->
+  <nav class="article-nav reveal">
+    <a href="../blog.html">← Back to all essays</a>
+  </nav>
+
+</article>
+
+</main>
+
+<footer>
+  <span>© 2026 Duško Stamenić — Decision Book</span>
+  <span>Rationale · Clarity · Structure</span>
+</footer>
+
+<script>
+  // Parallax pattern
+  const pattern = document.getElementById('pattern');
+  let targetY = 0, currentY = 0;
+  window.addEventListener('scroll', () => { targetY = window.scrollY * 0.15; }, { passive: true });
+  function animatePattern() {
+    currentY += (targetY - currentY) * 0.08;
+    pattern.style.backgroundPosition = `0 ${-currentY}px`;
+    requestAnimationFrame(animatePattern);
+  }
+  animatePattern();
+
+  // Reading progress bar
+  const progressBar = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const pct = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight);
+    progressBar.style.transform = `scaleX(${pct})`;
+  }, { passive: true });
+
+  // Reveal on scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.01 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  requestAnimationFrame(() => {
+    document.querySelectorAll('.reveal').forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        el.classList.add('in'); io.unobserve(el);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
