@@ -13,6 +13,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://duskostamenic.com/articles/making-churn-visible.html</loc>
+    <lastmod>2026-06-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://duskostamenic.com/articles/a-musing-album.html</loc>
     <lastmod>2026-04-23</lastmod>
     <changefreq>monthly</changefreq>
@@ -31,7 +37,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://duskostamenic.com/articles/curb-cut-effect.html</loc>
+    <loc>https://duskostamenic.com/articles/accessibility-by-design.html</loc>
     <lastmod>2026-04-22</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
