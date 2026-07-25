@@ -1,40 +1,40 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Diamonds Are Forever — Decision Book</title>
-<meta name="description" content="On the double diamond — what it quietly gets right, what teams routinely skip, and how to keep the discovery half honest.">
-<link rel="canonical" href="https://duskostamenic.com/articles/diamonds-are-forever.html">
+<title>Accessibility by Design — and by Default — Decision Book</title>
+<meta name="description" content="When accessibility stops being a checklist and becomes a constraint that improves every other decision in the design system.">
+<link rel="canonical" href="https://duskostamenic.com/articles/accessibility-by-design.html">
 
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://duskostamenic.com/articles/diamonds-are-forever.html">
-<meta property="og:title" content="Diamonds Are Forever">
-<meta property="og:description" content="On the double diamond — what it quietly gets right, what teams routinely skip, and how to keep the discovery half honest.">
-<meta property="og:image" content="https://duskostamenic.com/Images/Diamonds%20Are%20Forever.png">
+<meta property="og:url" content="https://duskostamenic.com/articles/accessibility-by-design.html">
+<meta property="og:title" content="Accessibility by Design — and by Default">
+<meta property="og:description" content="When accessibility stops being a checklist and becomes a constraint that improves every other decision in the design system.">
+<meta property="og:image" content="https://duskostamenic.com/Images/Accessibility%20By%20Design%20-%20and%20By%20Default.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Duško Stamenić — Decision Book">
-<meta property="article:published_time" content="2024-07-01T00:00:00+00:00">
+<meta property="article:published_time" content="2022-02-01T00:00:00+00:00">
 <meta property="article:author" content="Duško Stamenić">
-<meta property="article:section" content="UX Research">
+<meta property="article:section" content="Design System">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="https://duskostamenic.com/articles/diamonds-are-forever.html">
-<meta name="twitter:title" content="Diamonds Are Forever">
-<meta name="twitter:description" content="On the double diamond — what it quietly gets right, what teams routinely skip, and how to keep the discovery half honest.">
-<meta name="twitter:image" content="https://duskostamenic.com/Images/Diamonds%20Are%20Forever.png">
+<meta name="twitter:url" content="https://duskostamenic.com/articles/accessibility-by-design.html">
+<meta name="twitter:title" content="Accessibility by Design — and by Default">
+<meta name="twitter:description" content="When accessibility stops being a checklist and becomes a constraint that improves every other decision in the design system.">
+<meta name="twitter:image" content="https://duskostamenic.com/Images/Accessibility%20By%20Design%20-%20and%20By%20Default.png">
 
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "Article",
-  "headline": "Diamonds Are Forever",
-  "description": "On the double diamond — what it quietly gets right, what teams routinely skip, and how to keep the discovery half honest.",
-  "image": "https://duskostamenic.com/Images/Diamonds%20Are%20Forever.png",
-  "datePublished": "2024-07-01",
-  "dateModified": "2024-07-01",
+  "headline": "Accessibility by Design — and by Default",
+  "description": "When accessibility stops being a checklist and becomes a constraint that improves every other decision in the design system.",
+  "image": "https://duskostamenic.com/Images/Accessibility%20By%20Design%20-%20and%20By%20Default.png",
+  "datePublished": "2022-02-01",
+  "dateModified": "2022-02-01",
   "author": {
     "@type": "Person",
     "name": "Duško Stamenić",
@@ -51,11 +51,11 @@
       "https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/"
     ]
   },
-  "articleSection": "UX Research",
+  "articleSection": "Design System",
   "inLanguage": "en",
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://duskostamenic.com/articles/diamonds-are-forever.html"
+    "@id": "https://duskostamenic.com/articles/accessibility-by-design.html"
   }
 }
 </script>
@@ -180,6 +180,7 @@
     color: var(--bg);
   }
 
+  /* -------- Grain -------- */
   .grain {
     position: fixed; inset: 0;
     pointer-events: none; z-index: 1000;
@@ -187,6 +188,7 @@
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   }
 
+  /* -------- Subtle pattern -------- */
   .pattern {
     position: fixed; inset: 0;
     pointer-events: none; z-index: 1;
@@ -198,6 +200,7 @@
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><circle cx='30' cy='30' r='1' fill='%23F0EDE8'/></svg>");
   }
 
+  /* -------- Custom Cursor -------- */
   .cursor-dot {
     position: fixed;
     width: 8px; height: 8px;
@@ -229,13 +232,18 @@
     border-color: var(--cyan);
     opacity: 1;
   }
-  .cursor-dot.clicking { width: 6px; height: 6px; }
-  .cursor-ring.clicking { width: 28px; height: 28px; }
+  .cursor-dot.clicking {
+    width: 6px; height: 6px;
+  }
+  .cursor-ring.clicking {
+    width: 28px; height: 28px;
+  }
 
   @media (pointer: coarse) {
     .cursor-dot, .cursor-ring { display: none; }
   }
 
+  /* -------- Layout -------- */
   main { position: relative; z-index: 2; }
 
   .wrap {
@@ -244,6 +252,7 @@
     padding: 0 var(--gutter);
   }
 
+  /* -------- Nav -------- */
   nav.top {
     position: fixed; top: 0; left: 0; right: 0;
     z-index: 100;
@@ -338,6 +347,7 @@
   }
   .mobile-link:hover { color: var(--text); }
 
+  /* -------- Article Hero -------- */
   .article-hero {
     padding: clamp(140px, 18vh, 210px) var(--gutter) 80px;
     max-width: var(--max);
@@ -384,12 +394,14 @@
     max-width: 20ch;
   }
 
+  /* -------- Article Body -------- */
   .article-body {
     max-width: 720px;
     margin: 0 auto;
     padding: 72px 0 120px;
   }
 
+  /* Context strip */
   .article-meta {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -417,6 +429,7 @@
     line-height: 1.2;
   }
 
+  /* Section labels */
   .section-label {
     font-family: var(--mono);
     font-size: 10px;
@@ -430,6 +443,7 @@
   }
   .section-label:first-of-type { margin-top: 0; }
 
+  /* Subsection headings */
   .article-body h2 {
     font-family: var(--display);
     font-weight: 500;
@@ -442,6 +456,7 @@
     margin-bottom: 22px;
   }
 
+  /* Body paragraphs */
   .article-body p {
     font-family: var(--body);
     font-size: 20px;
@@ -456,6 +471,16 @@
     font-style: italic;
   }
 
+  .article-body a {
+    color: var(--cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: color 0.3s ease;
+  }
+  .article-body a:hover { color: var(--text); }
+
+  /* Inline code */
   .article-body code {
     font-family: var(--mono);
     font-size: 13.5px;
@@ -467,6 +492,7 @@
     white-space: nowrap;
   }
 
+  /* Callout / prompt block */
   .callout {
     background: var(--bg-raised);
     border: 1px solid var(--border);
@@ -494,7 +520,93 @@
     font-weight: 700;
     font-style: italic;
   }
+  .callout a {
+    color: var(--cyan);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color 0.3s ease;
+  }
+  .callout a:hover { color: var(--text); }
 
+  /* Audio player */
+  .audio-player {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    padding: 20px 22px;
+    margin-bottom: 60px;
+  }
+  .audio-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 16px;
+  }
+  .audio-controls {
+    display: flex; align-items: center; gap: 16px;
+  }
+  .audio-play {
+    flex-shrink: 0;
+    width: 36px; height: 36px;
+    border-radius: 999px;
+    border: none;
+    background: var(--cyan);
+    color: var(--bg);
+    display: flex; align-items: center; justify-content: center;
+    cursor: none;
+    transition: background 200ms ease, transform 200ms ease;
+    padding: 0px 0px 0px 2px;
+  }
+  .audio-play:hover { background: var(--cyan-dim); }
+  .audio-play:active { transform: scale(0.95); }
+  .audio-play svg { display: block; }
+  .audio-rail {
+    flex: 1;
+    height: 2px;
+    background: var(--border);
+    cursor: pointer;
+    position: relative;
+  }
+  .audio-rail::before {
+    content: ''; position: absolute;
+    top: -10px; bottom: -10px; left: 0; right: 0;
+  }
+  .audio-fill {
+    height: 100%;
+    background: var(--cyan);
+    width: 0%;
+    transition: width 80ms linear;
+  }
+  .audio-time {
+    flex-shrink: 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    font-variant-numeric: tabular-nums;
+  }
+  .audio-speed {
+    flex-shrink: 0;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    background: transparent;
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    line-height: 1;
+    cursor: none;
+    transition: background 200ms ease, color 200ms ease;
+  }
+  .audio-speed:hover {
+    background: var(--cyan);
+    color: var(--bg);
+  }
+
+  /* Figures */
   .article-figure {
     margin: 52px 0;
   }
@@ -510,20 +622,6 @@
     object-fit: cover;
     display: block;
   }
-  .img-placeholder {
-    display: flex; align-items: center; justify-content: center;
-    aspect-ratio: 16/9;
-  }
-  .img-placeholder-label {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--text-faint);
-    text-align: center;
-    padding: 20px;
-    line-height: 1.7;
-  }
   figcaption {
     font-family: var(--mono);
     font-size: 11px;
@@ -534,6 +632,7 @@
     line-height: 1.5;
   }
 
+  /* Article bottom nav */
   .article-nav {
     border-top: 1px solid var(--border);
     padding-top: 36px;
@@ -553,6 +652,7 @@
   }
   .article-nav a:hover { color: var(--text); }
 
+  /* -------- Footer -------- */
   footer {
     background: var(--bg-raised);
     color: var(--text-faint);
@@ -569,6 +669,7 @@
   footer a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease; }
   footer a:hover { color: var(--cyan); }
 
+  /* -------- Reveal animation -------- */
   .reveal {
     opacity: 0;
     transform: translateY(20px);
@@ -578,6 +679,7 @@
   .reveal.d1 { transition-delay: 0.1s; }
   .reveal.d2 { transition-delay: 0.2s; }
 
+  /* -------- Reduced motion -------- */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
@@ -588,6 +690,7 @@
     .reveal { opacity: 1; transform: none; }
   }
 
+  /* -------- Responsive -------- */
   @media (max-width: 900px) {
     .article-meta { grid-template-columns: 1fr; }
     nav.top .nav-right { display: none; }
@@ -625,17 +728,20 @@
 
 <main>
 
+<!-- -------- Hero -------- -->
 <header class="article-hero">
   <div class="eyebrow reveal">
-    <span class="cat-pill">UX Research</span>
+    <span class="cat-pill">Design System</span>
     <span class="sep">&middot;</span>
-    <span>8 min read</span>
+    <span>5 min read</span>
   </div>
-  <h1 class="reveal d1">Diamonds Are <span class="ital">Forever</span></h1>
+  <h1 class="reveal d1">Accessibility by Design — and by Default</h1>
 </header>
 
+<!-- -------- Body -------- -->
 <article class="article-body">
 
+  <!-- Context strip -->
   <div class="article-meta reveal">
     <div class="meta-item">
       <div class="k">Context</div>
@@ -643,7 +749,7 @@
     </div>
     <div class="meta-item">
       <div class="k">Delivered</div>
-      <div class="v">July 2024</div>
+      <div class="v">February 2022</div>
     </div>
     <div class="meta-item">
       <div class="k">Author</div>
@@ -651,60 +757,63 @@
     </div>
   </div>
 
+  <!-- Audio player -->
+  <div class="audio-player reveal" id="audioPlayer">
+    <div class="audio-label">&#9654; Listen — narrated by ElevenLabs (Knox Dark)</div>
+    <div class="audio-controls">
+      <button class="audio-play" id="audioPlay" aria-label="Play">
+        <svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true">
+          <path d="M0 0 L12 7 L0 14 Z"/>
+        </svg>
+      </button>
+      <div class="audio-rail" id="audioRail">
+        <div class="audio-fill" id="audioFill"></div>
+      </div>
+      <span class="audio-time" id="audioTime">0:00 / 0:00</span>
+      <button class="audio-speed" id="audioSpeed" aria-label="Playback speed">1&times;</button>
+    </div>
+    <audio preload="metadata" src="audio/curb-cut-effect.mp3" id="audioEl"></audio>
+  </div>
+
+  <!-- Section 1 -->
   <div class="section-label reveal">Challenge Overview</div>
 
-  <p class="reveal">People often say that <strong>the map is not the territory</strong>, and they're right. Any framework we use in design, whether it's the Double Diamond or a tidy set of research methods, is just a map. It helps us stay aligned, speak a shared language, and avoid drifting into pure intuition. But a map always flattens reality. It simplifies. If we're not careful, we start treating the tool as the truth, and the truth is usually far more complicated.</p>
+  <p class="reveal">Implementing accessibility from the start often feels like a daunting task. It's not just about ticking boxes or following guidelines — it's about <strong>thinking through every interaction to ensure that people with diverse abilities can use your product comfortably</strong>. Many teams treat accessibility as an afterthought, which makes retrofitting features cumbersome and often incomplete. The real challenge is designing inclusively from the ground up, considering keyboard navigation, screen readers, color contrast, and cognitive accessibility <em>from day one</em>.</p>
 
-  <p class="reveal">That's why it helps to keep a framework close, but not cling to it too tightly. <strong>Design Thinking, for example, gives us a common lens for discussing problems. It's useful, but not sacred</strong>. And if we rely on the same tools over and over, they can quietly limit the way we see our users and the world around them.</p>
-
+  <!-- Section 2 -->
   <div class="section-label reveal">Creation Arc</div>
 
-  <h2 class="reveal">When Empathy Maps the Way</h2>
+  <h2 class="reveal">Finding Inspiration in the Physical World</h2>
 
-  <p class="reveal">Design methods usually flow into one another. You start with something basic, often quantitative, when you need demographic context. Tools like Hotjar can quickly show who's using a product, where they're from, and what they're browsing on. <strong>Numbers alone won't tell a full story, but they're enough to sketch an initial user persona.</strong></p>
+  <p class="reveal">Finding inspiration doesn't always require a manual or a textbook. Sometimes it's as simple as looking around. The curb cut — <strong>a small slope on sidewalks, designed for wheelchair users</strong> — ends up helping parents with strollers, delivery workers, cyclists, and even skateboarders. Automatic doors, ramps, and wider restrooms follow the same principle: they remove barriers not only for their intended users, but for everyone.</p>
 
-  <p class="reveal">Once a persona exists, it starts moving. <strong>Every user follows a path toward a goal, and that path becomes a journey map</strong>. It's a simple sequence of touchpoints between the person and the product. As you unpack it, pain points and opportunities begin to surface. <strong>Journey maps can even hint at red routes, user flows, or emotional cues</strong> that lead you straight into an empathy map.</p>
+  <p class="reveal">This is the <strong>curb cut effect</strong>: a solution aimed at one group quietly improves the experience for all. Observing these everyday examples helps internalize what inclusive design actually means. It's not a constraint imposed on the design — it's a multiplier. <strong>When you solve for the edge case, you often improve the common case too.</strong></p>
 
-  <p class="reveal">An empathy map captures what a person thinks, feels, hears, and does at different moments. Two people can follow the same journey yet experience it in completely different ways. <strong>That emotional divergence is where qualitative insight starts to matter.</strong></p>
+  <div class="callout reveal">
+    <div class="callout-label">Key Insight</div>
+    <p>Accessibility features built for the few end up serving the many.</p>
+    <p>Closed captions were designed for the deaf — they're now used in noisy gyms and quiet offices. <strong>Voice control</strong> was built for people with motor impairments — it became Siri and Alexa. <strong>High-contrast mode</strong> helps users with low vision — it's also easier to read outdoors in sunlight.</p>
+    <p>The pattern repeats. Design for constraint, and you design for everyone.</p>
+  </div>
 
-  <p class="reveal">From here, tools begin to overlap. <strong>Card sorting helps you work out information architecture</strong> based on users' mental models instead of your own assumptions. <strong>An affinity diagram clusters interview notes, quotes, and observations into themes</strong>. It reveals recurring behaviors or confusions, like when multiple users aren't sure where to begin a task. These clusters often point to deeper mental models that shape how people expect a system to behave. And yes, "affinity diagram" and "affinity map" are just two names for the same thing.</p>
+  <h2 class="reveal">Choosing the Right Tools</h2>
 
-  <p class="reveal">On long-running products, you eventually stop learning much from basic analytics. <strong>The meaningful insights tend to come from qualitative work: surveys, interviews, workshop discussions</strong>. Once you have that raw material, ideation tools like Brainstorming, Jobs-to-be-Done, or How Might We questions finally make sense. These moments are where early hypotheses emerge.</p>
+  <p class="reveal">When it comes to digital products, choosing the right tools can accelerate accessibility. Component libraries like <code>Shadcn UI</code> provide building blocks with solid accessibility foundations built in — semantic HTML, ARIA attributes, keyboard focus management. But here's the catch: <strong>just because the components are well-built doesn't guarantee your implementation will be fully accessible.</strong> The way you compose them, the context you place them in, and the content you fill them with all matter.</p>
 
-  <h2 class="reveal">Beyond Personas: The Power of Archetypes</h2>
+  <p class="reveal">Keyboard testing, screen-reader checks, and contrast verification are still essential steps. Whether you extend an existing library or build components from scratch, each decision carries weight. <strong>Accessibility is not a feature you add — it's a quality you maintain.</strong> Every merge, every sprint, every design review is an opportunity to either preserve it or erode it.</p>
 
-  <p class="reveal">Personas are often more useful for internal alignment than for making hard product decisions. They help stakeholders who aren't close to users step outside their own assumptions. They also shine during discovery, when research needs to be explained clearly to people who weren't there to observe it. But personas work best when they're simple and focused. <strong>Details like favorite coffee or music taste rarely matter. Needs, motivations, and frustrations do.</strong></p>
+  <h2 class="reveal">Validating the Implementation</h2>
 
-  <p class="reveal">Archetypes go a step further. <strong>Instead of describing fictional "types" of users, they describe behavioral missions</strong>. A mission may be functional, like finding a better deal, or emotional, like easing anxiety during a complicated process. A single person can jump between missions depending on context, timing, or even mood.</p>
+  <p class="reveal">No tool replaces manual testing. Navigating the product using only a keyboard reveals gaps that automated linters miss entirely: focus traps, illogical tab order, unlabeled interactive elements. Running a screen reader — VoiceOver on macOS, NVDA on Windows — exposes a completely different layer of the experience, one that visual designers rarely encounter. <strong>These sessions are uncomfortable at first, and that discomfort is the point.</strong> It builds the empathy that carries forward into every future design decision.</p>
 
-  <p class="reveal"><strong>By framing user behavior through missions, you can make sharper decisions.</strong> You can weigh whether a feature should serve a "health-conscious mission" or a "bargain-hunting mission." You can also anticipate seasonal shifts. Around Valentine's Day, indulgence tends to matter more than calorie tracking. These fluctuations help teams prioritize work in a more grounded way.</p>
-
-  <p class="reveal">When you combine behavioral archetypes with affinity-mapped insights, you start seeing how people mentally structure the world around your product. <strong>That mental model then becomes a guide for better UX decisions.</strong></p>
-
-  <h2 class="reveal">Jobs to Be Done: The Ultimate UX Research Method</h2>
-
-  <p class="reveal">Jobs to Be Done shifts the focus away from users as personas and toward users as <strong>people with goals. They don't "buy a product." They hire a tool to get something done</strong>. The "job" is stable over time. It's not tied to a specific interface or solution. A screwdriver isn't the job. Assembling furniture is. The same logic applies across industries.</p>
-
-  <p class="reveal">JTBD helps uncover deep motivations, frustrations and constraints, desired outcomes, alternative tools users consider, and the reasons they choose one option over another. <strong>Once you understand the job, innovation becomes less random</strong>. It becomes anchored in something real. That's why JTBD works for companies of all sizes. It clarifies needs, exposes opportunities, and reduces guesswork.</p>
-
-  <p class="reveal"><strong>Examples are easy to recognize:</strong> a student wanting to learn a language, a parent trying to help a child sleep, a couple planning a trip. These are jobs with emotional and social layers, not just functional ones.</p>
-
-  <h2 class="reveal">Step Beyond User Centered Design</h2>
-
-  <p class="reveal">Many people position Life Centered Design as the next step beyond user focus. I tend to think of it more as <strong>Lifestyle Centered Design</strong>. The pandemic accelerated this idea. <strong>People's routines changed. Their environment changed</strong>. Homes became offices, gyms, classrooms. Designing solely for the "user" became too narrow. <strong>Lifestyle tells you more. It includes identity, habits, environment, and what people want to signal to the world around them.</strong></p>
-
-  <p class="reveal">Take Mazda. Owning one isn't just buying a car. It's a statement about taste, tradition, and a specific emotional philosophy. "Kodo" design, inspired by nature and movement, shapes everything from the exterior lines of the car to the way factories treat materials and people. Pride and passion flow from designers to engineers to drivers.</p>
-
-  <p class="reveal">Look at tools like Notion. It started as note-taking software, then became a task manager, a website builder, and eventually a personal knowledge hub. <strong>They understood the broader jobs their users were trying to do</strong>. Airbnb did the same — introducing message translation, focusing on visuals over text, reinforcing safety features. They listened, then adapted.</p>
-
-  <p class="reveal">Apple does something similar. Every touchpoint — devices, software, the website, even the building — follows the same values. DuckDuckGo leans on privacy. The Browser Company openly lists its values on the homepage. These choices create <strong>ecosystems that reflect how people want to live, not just how they want to click.</strong> Users often enjoy these experiences without fully realizing why. The underlying design language quietly influences how they feel.</p>
-
+  <!-- Section 3 -->
   <div class="section-label reveal">Takeaways</div>
 
-  <p class="reveal">When teams rely heavily on personas and journey maps alone, they often skim the surface. <strong>Deeper insight comes from blending bottom-up analysis (affinity diagrams, interviews, real data) with top-down framing (archetypes, missions). That combination helps reconstruct genuine mental models, which are far more powerful for shaping products.</strong></p>
+  <p class="reveal">Accessibility isn't easy — there are no shortcuts if you want it done right. It requires attention, testing, and sometimes tough trade-offs. But the payoff is significant: <strong>products that are truly usable for everyone will ultimately benefit all users.</strong> Designing inclusively from the start saves time, reduces frustration, and fosters empathy within the team.</p>
 
-  <p class="reveal"><strong>Good design avoids assumptions.</strong> It leans on facts, not wishful thinking. We all project our own preferences onto products, often without noticing. Empathy that isn't grounded in research becomes imagination, not insight. So get to know your users. Understand how they think, how they feel, and how they live. <strong>With time, patterns emerge. And from those patterns, better products follow.</strong></p>
+  <p class="reveal">The curb cut effect is the clearest reminder of why this work matters. Every barrier you remove for someone who struggles with your product makes the experience smoother for someone who doesn't. <strong>Observing how accessibility features work in real life, leveraging well-designed components, and validating your own implementation</strong> make the challenge manageable — and more than worth it.</p>
 
+  <!-- Bottom navigation -->
   <nav class="article-nav reveal">
     <a href="../blog.html">&larr; Back to all essays</a>
   </nav>
@@ -722,6 +831,7 @@
 (function() {
   'use strict';
 
+  // -------- Custom Cursor --------
   var dot = document.getElementById('cursorDot');
   var ring = document.getElementById('cursorRing');
   var mouseX = -100, mouseY = -100;
@@ -767,6 +877,7 @@
     });
   }
 
+  // -------- Nav scroll state --------
   var nav = document.getElementById('nav');
   window.addEventListener('scroll', function() {
     if (window.scrollY > 80) {
@@ -776,6 +887,7 @@
     }
   }, { passive: true });
 
+  // -------- Theme toggle --------
   var themeToggle = document.getElementById('themeToggle');
   var root = document.documentElement;
   var savedTheme = localStorage.getItem('theme');
@@ -792,6 +904,7 @@
     localStorage.setItem('theme', next);
   });
 
+  // -------- Reveal on scroll --------
   var revealObserver = new IntersectionObserver(function(entries) {
     entries.forEach(function(e) {
       if (e.isIntersecting) {
@@ -805,6 +918,7 @@
     revealObserver.observe(el);
   });
 
+  // Hero elements: reveal immediately on load
   requestAnimationFrame(function() {
     document.querySelectorAll('.article-hero .reveal').forEach(function(el) {
       var r = el.getBoundingClientRect();
@@ -813,6 +927,62 @@
         revealObserver.unobserve(el);
       }
     });
+  });
+
+  // -------- Audio Player --------
+  var audio = document.getElementById('audioEl');
+  var playBtn = document.getElementById('audioPlay');
+  var rail = document.getElementById('audioRail');
+  var fill = document.getElementById('audioFill');
+  var timeEl = document.getElementById('audioTime');
+  var speedBtn = document.getElementById('audioSpeed');
+
+  var PLAY_ICON = '<svg width="12" height="14" viewBox="0 0 12 14" fill="currentColor" aria-hidden="true"><path d="M0 0 L12 7 L0 14 Z"/></svg>';
+  var PAUSE_ICON = '<svg width="10" height="12" viewBox="0 0 10 12" fill="currentColor" aria-hidden="true"><rect x="0" y="0" width="3" height="12"/><rect x="7" y="0" width="3" height="12"/></svg>';
+
+  var speeds = [1, 1.25, 1.5];
+  var speedIdx = 0;
+
+  function fmt(s) {
+    if (!isFinite(s)) return '0:00';
+    var m = Math.floor(s / 60);
+    var sec = Math.floor(s % 60).toString().padStart(2, '0');
+    return m + ':' + sec;
+  }
+  function updateTime() {
+    timeEl.textContent = fmt(audio.currentTime) + ' / ' + fmt(audio.duration);
+    var pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+    fill.style.width = pct + '%';
+  }
+
+  playBtn.addEventListener('click', function() {
+    if (audio.paused) audio.play(); else audio.pause();
+  });
+  audio.addEventListener('play', function() {
+    playBtn.innerHTML = PAUSE_ICON;
+    playBtn.setAttribute('aria-label', 'Pause');
+  });
+  audio.addEventListener('pause', function() {
+    playBtn.innerHTML = PLAY_ICON;
+    playBtn.setAttribute('aria-label', 'Play');
+  });
+  audio.addEventListener('loadedmetadata', updateTime);
+  audio.addEventListener('timeupdate', updateTime);
+  audio.addEventListener('ended', function() {
+    playBtn.innerHTML = PLAY_ICON;
+    playBtn.setAttribute('aria-label', 'Play');
+  });
+
+  rail.addEventListener('click', function(e) {
+    var rect = rail.getBoundingClientRect();
+    var ratio = (e.clientX - rect.left) / rect.width;
+    if (audio.duration) audio.currentTime = ratio * audio.duration;
+  });
+
+  speedBtn.addEventListener('click', function() {
+    speedIdx = (speedIdx + 1) % speeds.length;
+    audio.playbackRate = speeds[speedIdx];
+    speedBtn.textContent = speeds[speedIdx] + '\u00d7';
   });
 
 })();
