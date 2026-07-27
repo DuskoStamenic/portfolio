@@ -463,6 +463,80 @@
     color: var(--text);
   }
 
+  /* -------- Filter -------- */
+  .filter-band {
+    padding: 20px 0 0;
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+  .filter-band .wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 60px;
+  }
+  .filter-chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    height: 36px;
+    padding: 0 18px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s var(--ease);
+    white-space: nowrap;
+  }
+  .chip:hover {
+    border-color: var(--text-faint);
+    color: var(--text);
+  }
+  .chip.active {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    color: var(--bg);
+  }
+  .chip-count {
+    font-weight: 400;
+    opacity: 0.7;
+  }
+  .chip.active .chip-count {
+    opacity: 1;
+  }
+  .filter-select {
+    display: none;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-secondary);
+    cursor: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238A8694' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 36px;
+    width: 100%;
+  }
+  .filter-select:focus {
+    outline: none;
+    border-color: var(--cyan);
+  }
+
   /* -------- Section scaffolding -------- */
   section.band { padding: 120px 0; position: relative; }
 
@@ -710,6 +784,8 @@
     section.hero { min-height: auto; padding-top: clamp(100px, 14vh, 180px); }
     .hero-layout { grid-template-columns: 1fr; gap: 40px; }
     .hero-stats { grid-template-columns: 1fr; }
+    .filter-chips { display: none; }
+    .filter-select { display: block; }
     .band-head { grid-template-columns: 1fr; gap: 16px; }
     section.band { padding: 80px 0; }
     .essay-item { grid-template-columns: 1fr; gap: 28px; padding: 36px 28px; }
@@ -764,7 +840,7 @@
         <div class="hero-stats">
           <div class="stat">
             <div class="k">Essays</div>
-            <div class="v">22 articles,<br>6 categories</div>
+            <div class="v">22 articles,<br>5 categories</div>
           </div>
           <div class="stat">
             <div class="k">Experience</div>
@@ -777,6 +853,27 @@
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<section class="filter-band">
+  <div class="wrap">
+    <div class="filter-chips" role="radiogroup" aria-label="Filter by category">
+      <button class="chip active" data-filter="all" role="radio" aria-checked="true">All <span class="chip-count">22</span></button>
+      <button class="chip" data-filter="Product Design" role="radio" aria-checked="false">Product Design <span class="chip-count">6</span></button>
+      <button class="chip" data-filter="Build with AI" role="radio" aria-checked="false">Build with AI <span class="chip-count">4</span></button>
+      <button class="chip" data-filter="Design System" role="radio" aria-checked="false">Design System <span class="chip-count">6</span></button>
+      <button class="chip" data-filter="UX Research" role="radio" aria-checked="false">UX Research <span class="chip-count">3</span></button>
+      <button class="chip" data-filter="Data Analysis" role="radio" aria-checked="false">Data Analysis <span class="chip-count">3</span></button>
+    </div>
+    <select class="filter-select" aria-label="Filter by category">
+      <option value="all">All (22)</option>
+      <option value="Product Design">Product Design (6)</option>
+      <option value="Build with AI">Build with AI (4)</option>
+      <option value="Design System">Design System (6)</option>
+      <option value="UX Research">UX Research (3)</option>
+      <option value="Data Analysis">Data Analysis (3)</option>
+    </select>
   </div>
 </section>
 
@@ -815,12 +912,12 @@
         </div>
       </a>
 
-      <a class="essay-item reveal" href="articles/watch-it-flex.html">
-        <div class="essay-image"><img src="Images/Watch it flex.png" alt="Watch it Flex" loading="lazy" /></div>
+      <a class="essay-item reveal" href="articles/crafting-the-dashboard-blueprint.html">
+        <div class="essay-image"><img src="Images/Crafting the Dashboard Blueprint.png" alt="Crafting the Dashboard Blueprint" loading="lazy" /></div>
         <div class="essay-content">
-          <div class="essay-cat">UI Design</div>
-          <span class="essay-title">Watch it <span class="accent">Flex</span></span>
-          <p class="essay-desc">On responsive layout decisions, fluid tokens, and the quiet choreography that makes an interface feel native at every width.</p>
+          <div class="essay-cat">Product Design</div>
+          <span class="essay-title">Crafting the <span class="accent">Dashboard</span> Blueprint</span>
+          <p class="essay-desc">Starting from the question — not the chart. How hierarchy, grouping, and restraint decide whether a dashboard is useful.</p>
           <div class="essay-foot"><span>Read essay</span><span class="arrow">&rarr;</span></div>
         </div>
       </a>
@@ -948,7 +1045,7 @@
       <a class="essay-item reveal d1" href="articles/evaluating-new-product-feature-success.html">
         <div class="essay-image"><img src="Images/Evaluating New Product Feature Success.png" alt="Evaluating New Product Feature Success" loading="lazy" /></div>
         <div class="essay-content">
-          <div class="essay-cat">Product Design</div>
+          <div class="essay-cat">Data Analysis</div>
           <span class="essay-title">Evaluating New Product <span class="accent">Feature Success</span></span>
           <p class="essay-desc">A small framework for asking, a month after launch, whether the thing you shipped actually moved the needle you chose.</p>
           <div class="essay-foot"><span>Read essay</span><span class="arrow">&rarr;</span></div>
@@ -965,12 +1062,12 @@
         </div>
       </a>
 
-      <a class="essay-item reveal d1" href="articles/crafting-the-dashboard-blueprint.html">
-        <div class="essay-image"><img src="Images/Crafting the Dashboard Blueprint.png" alt="Crafting the Dashboard Blueprint" loading="lazy" /></div>
+      <a class="essay-item reveal d1" href="articles/watch-it-flex.html">
+        <div class="essay-image"><img src="Images/Watch it flex.png" alt="Watch it Flex" loading="lazy" /></div>
         <div class="essay-content">
-          <div class="essay-cat">UI Design</div>
-          <span class="essay-title">Crafting the <span class="accent">Dashboard</span> Blueprint</span>
-          <p class="essay-desc">Starting from the question — not the chart. How hierarchy, grouping, and restraint decide whether a dashboard is useful.</p>
+          <div class="essay-cat">Product Design</div>
+          <span class="essay-title">Watch it <span class="accent">Flex</span></span>
+          <p class="essay-desc">On responsive layout decisions, fluid tokens, and the quiet choreography that makes an interface feel native at every width.</p>
           <div class="essay-foot"><span>Read essay</span><span class="arrow">&rarr;</span></div>
         </div>
       </a>
@@ -978,7 +1075,7 @@
       <a class="essay-item reveal" href="articles/the-list-of-my-resources.html">
         <div class="essay-image"><img src="Images/The List of My Resources.png" alt="The List of My Resources" loading="lazy" /></div>
         <div class="essay-content">
-          <div class="essay-cat">Product Design</div>
+          <div class="essay-cat">UX Research</div>
           <span class="essay-title">The List of My <span class="accent">Resources</span></span>
           <p class="essay-desc">A living toolkit — the handful of books, plugins, and models I keep returning to when the work actually has to ship.</p>
           <div class="essay-foot"><span>Read essay</span><span class="arrow">&rarr;</span></div>
@@ -1097,7 +1194,7 @@
       ring.classList.remove('clicking');
     });
 
-    var hoverTargets = document.querySelectorAll('a, button, .essay-item, .btn');
+    var hoverTargets = document.querySelectorAll('a, button, .essay-item, .btn, .chip');
     hoverTargets.forEach(function(el) {
       el.addEventListener('mouseenter', function() {
         dot.classList.add('hovering');
@@ -1177,6 +1274,40 @@
     var next = current === 'light' ? 'dark' : current === 'dark' ? 'light' : (prefersDark ? 'light' : 'dark');
     root.setAttribute('data-theme', next);
     localStorage.setItem('theme', next);
+  });
+
+  // -------- Category filter --------
+  var chips = document.querySelectorAll('.chip');
+  var filterSelect = document.querySelector('.filter-select');
+  var essayItems = document.querySelectorAll('.essay-item');
+
+  function filterEssays(category) {
+    essayItems.forEach(function(item) {
+      var catEl = item.querySelector('.essay-cat');
+      if (!catEl) return;
+      var cat = catEl.textContent.trim();
+      if (category === 'all' || cat === category) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+
+  chips.forEach(function(chip) {
+    chip.addEventListener('click', function() {
+      chips.forEach(function(c) {
+        c.classList.remove('active');
+        c.setAttribute('aria-checked', 'false');
+      });
+      chip.classList.add('active');
+      chip.setAttribute('aria-checked', 'true');
+      filterEssays(chip.getAttribute('data-filter'));
+    });
+  });
+
+  filterSelect.addEventListener('change', function() {
+    filterEssays(this.value);
   });
 
 })();
