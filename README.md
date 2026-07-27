@@ -1,30 +1,29 @@
-# Duško Stamenić — Portfolio
+# Duško Stamenić — Portfolio & Decision Book
 
-Personal portfolio website for Duško Stamenić, Product Designer.
+Personal portfolio and long-form writing site for Duško Stamenić, Product Designer.
 
-Single-file site (`index.html`) with all styles, scripts, and SVG assets inline. No build step required.
+## Structure
 
-## Deploy to GitHub Pages
-
-1. Push this repo to GitHub
-2. Go to **Settings → Pages**
-3. Set source to **main branch**, root folder
-4. Your site will be live at `https://<username>.github.io/<repo>/`
-
-## Contact form setup (Formspree)
-
-The contact form uses [Formspree](https://formspree.io) to deliver messages to your inbox.
-
-1. Sign up at [formspree.io](https://formspree.io) (free tier)
-2. Create a new form and copy your form ID (e.g. `xpzvgqkd`)
-3. In `index.html`, replace `YOUR_FORM_ID` with your actual ID:
-   ```html
-   <form ... action="https://formspree.io/f/xpzvgqkd" ...>
-   ```
+- `index.html` — Homepage with featured writing and about section
+- `blog.html` — Decision Book (blog listing)
+- `articles/` — 22 standalone article pages, each self-contained with inline styles, scripts, and audio player
+- `Images/` — Article and OG images
+- `articles/audio/` — Audio versions of articles
 
 ## Fonts
 
-Loaded from Google Fonts CDN — no local assets needed:
-- Instrument Serif (headings)
-- IBM Plex Sans (body)
-- IBM Plex Mono (labels, metadata)
+Loaded from Google Fonts CDN:
+- Space Grotesk (headings)
+- DM Sans (body)
+- JetBrains Mono (labels, metadata)
+
+## Features
+
+- Dark / light theme toggle with system preference detection
+- Custom cursor (desktop only)
+- Scroll-triggered reveal animations
+- Audio player with playback speed control
+- Responsive layout, no build step required
+- Inline SVG grain and pattern textures
+- JSON-LD structured data for articles
+- The contact form uses [Formspree](https://formspree.io) to deliver messages to inbox.
