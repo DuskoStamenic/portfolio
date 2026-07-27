@@ -782,6 +782,7 @@
 
   /* -------- Responsive -------- */
   @media (max-width: 900px) {
+    .eyebrow { font-size: 10px; }
     section.hero { min-height: auto; padding-top: clamp(100px, 14vh, 180px); }
     .hero-layout { grid-template-columns: 1fr; gap: 40px; }
     .hero-stats { grid-template-columns: 1fr; }
@@ -860,12 +861,12 @@
 <section class="filter-band">
   <div class="wrap">
     <div class="filter-chips" role="radiogroup" aria-label="Filter by category">
-      <button class="chip active" data-filter="all" role="radio" aria-checked="true">All <span class="chip-count">22</span></button>
-      <button class="chip" data-filter="Product Design" role="radio" aria-checked="false">Product Design <span class="chip-count">6</span></button>
-      <button class="chip" data-filter="Build with AI" role="radio" aria-checked="false">Build with AI <span class="chip-count">4</span></button>
-      <button class="chip" data-filter="Design System" role="radio" aria-checked="false">Design System <span class="chip-count">6</span></button>
-      <button class="chip" data-filter="UX Research" role="radio" aria-checked="false">UX Research <span class="chip-count">3</span></button>
-      <button class="chip" data-filter="Data Analysis" role="radio" aria-checked="false">Data Analysis <span class="chip-count">3</span></button>
+      <button class="chip active" data-filter="all" role="radio" aria-checked="true">All <span class="chip-count">- 22</span></button>
+      <button class="chip" data-filter="Product Design" role="radio" aria-checked="false">Product Design <span class="chip-count">- 6</span></button>
+      <button class="chip" data-filter="Build with AI" role="radio" aria-checked="false">Build with AI <span class="chip-count">- 4</span></button>
+      <button class="chip" data-filter="Design System" role="radio" aria-checked="false">Design System <span class="chip-count">- 6</span></button>
+      <button class="chip" data-filter="UX Research" role="radio" aria-checked="false">UX Research <span class="chip-count">- 3</span></button>
+      <button class="chip" data-filter="Data Analysis" role="radio" aria-checked="false">Data Analysis <span class="chip-count">- 3</span></button>
     </div>
     <select class="filter-select" aria-label="Filter by category">
       <option value="all">All (22)</option>
