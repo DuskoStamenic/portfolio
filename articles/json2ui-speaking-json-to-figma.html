@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>JSON2UI: Speaking JSON to Figma — Decision Book</title>
+<meta name="description" content="A JSON schema, a Figma plugin, and a Claude skill become one source of truth for design tokens — and why page three is where judgment starts.">
+<link rel="canonical" href="https://duskostamenic.com/articles/json2ui-speaking-json-to-figma.html">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://duskostamenic.com/articles/json2ui-speaking-json-to-figma.html">
+<meta property="og:title" content="JSON2UI: Speaking JSON to Figma">
+<meta property="og:description" content="A JSON schema, a Figma plugin, and a Claude skill become one source of truth for design tokens — and why page three is where judgment starts.">
+<meta property="og:image" content="https://duskostamenic.com/Images/json2ui_app_shell.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Duško Stamenić — Decision Book">
+<meta property="article:published_time" content="2026-07-28T00:00:00+00:00">
+<meta property="article:author" content="Duško Stamenić">
+<meta property="article:section" content="Build with AI">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://duskostamenic.com/articles/json2ui-speaking-json-to-figma.html">
+<meta name="twitter:title" content="JSON2UI: Speaking JSON to Figma">
+<meta name="twitter:description" content="A JSON schema, a Figma plugin, and a Claude skill become one source of truth for design tokens — and why page three is where judgment starts.">
+<meta name="twitter:image" content="https://duskostamenic.com/Images/json2ui_app_shell.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "JSON2UI: Speaking JSON to Figma",
+  "description": "A JSON schema, a Figma plugin, and a Claude skill become one source of truth for design tokens — and why page three is where judgment starts.",
+  "image": "https://duskostamenic.com/Images/json2ui_app_shell.png",
+  "datePublished": "2026-07-28",
+  "dateModified": "2026-07-28",
+  "author": {
+    "@type": "Person",
+    "name": "Duško Stamenić",
+    "url": "https://duskostamenic.com/",
+    "sameAs": [
+      "https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Duško Stamenić",
+    "url": "https://duskostamenic.com/",
+    "sameAs": [
+      "https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/"
+    ]
+  },
+  "articleSection": "Build with AI",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://duskostamenic.com/articles/json2ui-speaking-json-to-figma.html"
+  }
+}
+</script>
+
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0B0B10;
+    --bg-raised: #12121A;
+    --bg-card: #16161F;
+    --bg-card-hover: #1C1C28;
+    --surface: #1E1E2A;
+    --text: #F0EDE8;
+    --text-secondary: #8A8694;
+    --text-faint: #807E8E;
+    --border: #2A2A36;
+    --border-subtle: #1E1E2A;
+    --cyan: #00E5C7;
+    --cyan-dim: #00B89E;
+    --cyan-glow: rgba(0, 229, 199, 0.15);
+    --coral: #FF6B4A;
+    --coral-dim: #E05A3C;
+    --coral-glow: rgba(255, 107, 74, 0.12);
+
+    --display: 'Space Grotesk', system-ui, sans-serif;
+    --body: 'DM Sans', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    --max: 1280px;
+    --gutter: clamp(24px, 5vw, 64px);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+      --bg: #EDEAE4;
+      --bg-raised: #E5E1D9;
+      --bg-card: #DDD9D1;
+      --bg-card-hover: #D5D0C8;
+      --surface: #CCC8BF;
+      --text: #2A2520;
+      --text-secondary: #5C5650;
+      --text-faint: #7A756F;
+      --border: #C4BFB6;
+      --border-subtle: #D0CBC3;
+      --cyan: #B84A32;
+      --cyan-dim: #A04028;
+      --cyan-glow: rgba(184, 74, 50, 0.08);
+      --coral: #D94A30;
+      --coral-dim: #C0402A;
+      --coral-glow: rgba(217, 74, 48, 0.06);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #EDEAE4;
+    --bg-raised: #E5E1D9;
+    --bg-card: #DDD9D1;
+    --bg-card-hover: #D5D0C8;
+    --surface: #CCC8BF;
+    --text: #2A2520;
+    --text-secondary: #5C5650;
+    --text-faint: #7A756F;
+    --border: #C4BFB6;
+    --border-subtle: #D0CBC3;
+    --cyan: #B84A32;
+    --cyan-dim: #A04028;
+    --cyan-glow: rgba(184, 74, 50, 0.08);
+    --coral: #D94A30;
+    --coral-dim: #C0402A;
+    --coral-glow: rgba(217, 74, 48, 0.06);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0B0B10;
+    --bg-raised: #12121A;
+    --bg-card: #16161F;
+    --bg-card-hover: #1C1C28;
+    --surface: #1E1E2A;
+    --text: #F0EDE8;
+    --text-secondary: #8A8694;
+    --text-faint: #807E8E;
+    --border: #2A2A36;
+    --border-subtle: #1E1E2A;
+    --cyan: #00E5C7;
+    --cyan-dim: #00B89E;
+    --cyan-glow: rgba(0, 229, 199, 0.15);
+    --coral: #FF6B4A;
+    --coral-dim: #E05A3C;
+    --coral-glow: rgba(255, 107, 74, 0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  @media (pointer: coarse) {
+    body { cursor: auto; }
+  }
+
+  ::selection {
+    background: var(--cyan);
+    color: var(--bg);
+  }
+
+  /* -------- Grain -------- */
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1000;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* -------- Subtle pattern -------- */
+  .pattern {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    opacity: 0.09;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><circle cx='30' cy='30' r='1' fill='%232A2520'/></svg>");
+  }
+  :root[data-theme="dark"] .pattern {
+    opacity: 0.09;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><circle cx='30' cy='30' r='1' fill='%23F0EDE8'/></svg>");
+  }
+
+  /* -------- Custom Cursor -------- */
+  .cursor-dot {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--cyan);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s var(--ease), height 0.3s var(--ease), background 0.3s var(--ease);
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--cyan);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s var(--ease), height 0.4s var(--ease), border-color 0.3s var(--ease), opacity 0.3s ease;
+    opacity: 0.5;
+  }
+  .cursor-dot.hovering {
+    width: 48px; height: 48px;
+    background: var(--cyan);
+    opacity: 0.15;
+  }
+  .cursor-ring.hovering {
+    width: 56px; height: 56px;
+    border-color: var(--cyan);
+    opacity: 1;
+  }
+  .cursor-dot.clicking {
+    width: 6px; height: 6px;
+  }
+  .cursor-ring.clicking {
+    width: 28px; height: 28px;
+  }
+
+  @media (pointer: coarse) {
+    .cursor-dot, .cursor-ring { display: none; }
+  }
+
+  /* -------- Layout -------- */
+  main { position: relative; z-index: 2; }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* -------- Nav -------- */
+  nav.top {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 24px var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.top.scrolled {
+    background: rgba(11, 11, 16, 0.85);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  :root[data-theme="light"] nav.top.scrolled {
+    background: rgba(237, 234, 228, 0.85);
+  }
+  nav.top.scrolled .sigil { color: var(--text); }
+  nav.top.scrolled a { color: var(--text-secondary); }
+  .nav-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    width: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  nav.top .mark {
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  nav.top .sigil {
+    font-family: var(--display);
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .nav-right { display: flex; align-items: center; gap: 24px; }
+  nav.top ul { display: flex; gap: 32px; list-style: none; }
+  nav.top a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    position: relative;
+    padding-bottom: 3px;
+    transition: color 0.3s ease;
+  }
+  nav.top a::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 100%; bottom: 0;
+    height: 1px;
+    background: var(--cyan);
+    transition: right 0.5s var(--ease);
+  }
+  nav.top a:hover { color: var(--text); }
+  nav.top a:hover::after { right: 0; }
+
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-faint);
+    cursor: none;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease, border-color 0.3s ease;
+    border-radius: 4px;
+  }
+  .theme-toggle:hover { color: var(--cyan); border-color: var(--cyan); }
+  :root[data-theme="light"] .theme-toggle { border-color: var(--border); }
+  .icon-moon { display: none; }
+  :root[data-theme="dark"] .icon-sun { display: none; }
+  :root[data-theme="dark"] .icon-moon { display: block; }
+  :root[data-theme="light"] .icon-sun { display: block; }
+  :root[data-theme="light"] .icon-moon { display: none; }
+
+  .mobile-link {
+    display: none;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .mobile-link:hover { color: var(--text); }
+
+  /* -------- Article Hero -------- */
+  .article-hero {
+    padding: clamp(140px, 18vh, 210px) var(--gutter) 80px;
+    max-width: var(--max);
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .eyebrow::before {
+    content: ''; width: 28px; height: 1px;
+    background: var(--text-faint); display: inline-block;
+    flex-shrink: 0;
+  }
+  .cat-pill {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    line-height: 1;
+  }
+  .eyebrow .sep { color: var(--border); }
+
+  .article-hero h1 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(44px, 7vw, 104px);
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    color: var(--text);
+    text-wrap: balance;
+    max-width: 20ch;
+  }
+  /* -------- Article Body -------- */
+  .article-body {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 0 120px;
+  }
+
+  /* Context strip */
+  .article-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 60px;
+  }
+  .meta-item {
+    background: var(--bg);
+    padding: 16px 18px;
+  }
+  .meta-item .k {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 5px;
+  }
+  .meta-item .v {
+    font-family: var(--display);
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  /* Section labels */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    margin-top: 60px;
+    margin-bottom: 36px;
+  }
+  .section-label:first-of-type { margin-top: 0; }
+
+  /* Subsection headings */
+  .article-body h2 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--text);
+    text-wrap: balance;
+    margin-top: 52px;
+    margin-bottom: 22px;
+  }
+
+  /* Body paragraphs */
+  .article-body p {
+    font-family: var(--body);
+    font-size: 20px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 26px;
+  }
+  .article-body p:last-child { margin-bottom: 0; }
+
+  .article-body p strong {
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  /* Inline code */
+  .article-body code {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 3px;
+    color: var(--cyan);
+    white-space: nowrap;
+  }
+
+  /* Figures */
+  .article-figure {
+    margin: 52px 0;
+  }
+  .img-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+    position: relative;
+  }
+  .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .img-placeholder {
+    display: flex; align-items: center; justify-content: center;
+    aspect-ratio: 16/9;
+  }
+  .img-placeholder-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-align: center;
+    padding: 20px;
+    line-height: 1.7;
+  }
+  figcaption {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    margin-top: 14px;
+    padding-left: 2px;
+    line-height: 1.5;
+  }
+
+  /* Article bottom nav */
+  .article-nav {
+    border-top: 1px solid var(--border);
+    padding-top: 36px;
+    margin-top: 64px;
+    display: flex;
+    justify-content: center;
+  }
+  .article-nav a {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .article-nav a:hover { color: var(--text); }
+
+  /* -------- Footer -------- */
+  footer {
+    background: var(--bg-raised);
+    color: var(--text-faint);
+    padding: 40px var(--gutter);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    display: flex; justify-content: space-between; gap: 24px;
+    flex-wrap: wrap;
+    position: relative; z-index: 2;
+    border-top: 1px solid var(--border-subtle);
+  }
+  footer a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease; }
+  footer a:hover { color: var(--cyan); }
+
+  /* -------- Reveal animation -------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: 0.1s; }
+  .reveal.d2 { transition-delay: 0.2s; }
+
+  /* -------- Reduced motion -------- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; }
+  }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 900px) {
+    .article-meta { grid-template-columns: 1fr; }
+    nav.top .nav-right { display: none; }
+    .mobile-link { display: block; }
+    .article-nav { flex-direction: column; gap: 36px; }
+    .article-body { padding: 72px var(--gutter) 120px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="pattern"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav class="top" id="nav">
+  <div class="nav-inner">
+    <div class="mark">
+      <span class="sigil">Duško Stamenić</span>
+    </div>
+    <div class="nav-right">
+      <ul>
+        <li><a href="../blog.html">Decision Book</a></li>
+        <li><a href="https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/" target="_blank" rel="noopener">LinkedIn &nearr;</a></li>
+      </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+    <a href="../blog.html" class="mobile-link">Decision Book</a>
+  </div>
+</nav>
+
+<main>
+
+<!-- -------- Hero -------- -->
+<header class="article-hero">
+  <div class="eyebrow reveal">
+    <span class="cat-pill">Build with AI</span>
+    <span class="sep">&middot;</span>
+    <span>5 min read</span>
+  </div>
+  <h1 class="reveal d1">JSON2UI: Speaking JSON to Figma</h1>
+</header>
+
+<!-- -------- Body -------- -->
+<article class="article-body">
+
+  <!-- Context strip -->
+  <div class="article-meta reveal">
+    <div class="meta-item">
+      <div class="k">Context</div>
+      <div class="v">Personal Project</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Delivered</div>
+      <div class="v">July 2026</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Author</div>
+      <div class="v">Duško Stamenić</div>
+    </div>
+  </div>
+
+  <div class="section-label reveal">Challenge Overview</div>
+
+  <h2 class="reveal">One File, Two Outputs</h2>
+  <p class="reveal">JSON has quietly become <strong>the language AI speaks best</strong>. It's structured, predictable, and easy for a model to both read and generate — which made it the obvious starting point for a tool I'd been wanting to build for a while: a way to go from a single source file to a real Figma design <em>and</em> a clickable prototype in Claude Code, without redoing the same layout twice.</p>
+  <p class="reveal">Figma already ships starter files for developers who want to build plugins. I took those, explained to Claude Code what the files were and what I wanted to make, and an hour later I had my first generic design rendering on the canvas. That part was easy. The harder problem — the one that actually mattered — was next.</p>
+
+  <div class="section-label reveal">Creation Arc</div>
+
+  <h2 class="reveal">From Generic Output to a Design System</h2>
+  <p class="reveal">A plugin that renders <em>a</em> design isn't useful to me. I needed it to render <strong>my</strong> design — pulling from the same tokens and patterns already defined in our design system, not inventing its own. That meant building a proper Claude skill rather than a one-off prompt. It took two days to define a handful of key shell components, which was enough to start experimenting. The first real test case was a CRM.</p>
+
+  <p class="reveal">The skill — I named it <strong>JSON2UI</strong> — works alongside a Figma plugin I also built, so that the same JSON file can be parsed by both. That's the actual point of the whole exercise: <strong>one source of truth</strong> for designers and developers, instead of a Figma file on one side and a component library on the other, slowly drifting apart.</p>
+
+  <p class="reveal">The plugin expects a specific schema — <code>screen</code>, <code>theme</code>, and a root node of type <code>frame</code> with layout properties set, matching a JSON Schema Renderer spec I'd built earlier. Every node has to use a valid type — frame, text, button, badge — and, critically, every property that has a matching token has to reference the token's <strong>variable ID</strong>, not a raw value.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="../Images/json2ui_tokens.png"
+        alt="JSON2UI token mapping — variable IDs replace raw values for colors, spacing, and typography"
+        loading="lazy"
+      />
+    </div>
+    <figcaption>Token discipline in action — every design property references a variable ID from the design system, never a raw value.</figcaption>
+  </figure>
+
+  <h2 class="reveal">Teaching the Skill to Read Its Own Tokens</h2>
+  <p class="reveal">Getting the plugin to actually read tokens from our design system, rather than assuming its own defaults, was the real unlock. It meant adapting the plugin itself, not just the skill — but once it worked, it paid off twice: theme switching became trivial, and just as important, it meant I could <strong>show the result to developers</strong> and have it mean something, since they're pulling from the exact same tokens in their React components.</p>
+
+  <p class="reveal">I connected the skill to our icon registry next, so components could reference real icons instead of placeholder squares. Then I updated the skill's process directly — after the "read the token reference" step, I added a new one: read the app shell template at <code>references/app-shell.json</code> whenever generating a full page, so every screen inherits the same navigation and layout scaffolding instead of reinventing it.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="../Images/json2ui_app_shell.png"
+        alt="CRM dashboard screen generated from a single JSON file using the JSON2UI app shell template"
+        loading="lazy"
+      />
+    </div>
+    <figcaption>An early JSON2UI output — tokens, icons, and layout pulled from the same source file the plugin and the skill both read.</figcaption>
+  </figure>
+
+  <p class="reveal">Tables were the one component that fought back the whole way. My first instinct was to point Claude at a Tailwind UI reference for the markup, but it couldn't parse the embedded code cleanly — it still produced something usable, just not from the reference I intended. The fix that actually worked was structural: wrap every table cell in its own frame with a fixed width and layout, then place the text or badge inside that frame, rather than trying to lay out a whole row at once.</p>
+
+  <p class="reveal">Token usage was its own problem, separate from the design one. I was burning through a lot of it running everything in Claude Cowork, so I switched to <strong>Claude Code with Plan First mode</strong> for this workflow — having it plan the JSON structure before generating it cut token consumption dramatically.</p>
+
+  <h2 class="reveal">Where the Real Decisions Start</h2>
+  <p class="reveal">By the third completed page, the pattern was obvious: everything looked like everything else. Each screen was technically correct — right tokens, right components, right layout rules — and yet they all read as the same page wearing different labels. That's exactly where a tool like this stops being able to help. Deciding which needs are shared across screens and which ones deserve a different treatment is where user feedback meets business priorities, and it's not something a skill file can encode for you. That judgment call is the job.</p>
+
+  <div class="section-label reveal">Takeaways</div>
+
+  <h2 class="reveal">What This Actually Solves</h2>
+  <p class="reveal">With Claude Code, I ended up with my first working Figma plugin — a tool that reads tokens and patterns from a predefined design system and turns them into a real starting screen, not a placeholder. That's a genuinely good starting point, because it removes the thing most designers dread most: <strong>the blank screen with nothing on it</strong>.</p>
+  <p class="reveal">What it doesn't solve, and isn't meant to, is the part that comes after the first draft — noticing when three screens in a row have started to look the same, and knowing which one actually needs to be different. That's still a design decision, not a rendering problem, and no amount of token discipline changes that.</p>
+
+  <!-- Bottom navigation -->
+  <nav class="article-nav reveal">
+    <a href="../blog.html">&larr; Back to all essays</a>
+  </nav>
+
+</article>
+
+</main>
+
+<footer>
+  <span>&copy; 2026 Duško Stamenić — Decision Book</span>
+  <span>Rationale &middot; Clarity &middot; Structure</span>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // -------- Custom Cursor --------
+  var dot = document.getElementById('cursorDot');
+  var ring = document.getElementById('cursorRing');
+  var mouseX = -100, mouseY = -100;
+  var ringX = -100, ringY = -100;
+  var isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+  if (!isTouch) {
+    document.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.left = mouseX + 'px';
+      dot.style.top = mouseY + 'px';
+    });
+
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      ring.style.left = ringX + 'px';
+      ring.style.top = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.addEventListener('mousedown', function() {
+      dot.classList.add('clicking');
+      ring.classList.add('clicking');
+    });
+    document.addEventListener('mouseup', function() {
+      dot.classList.remove('clicking');
+      ring.classList.remove('clicking');
+    });
+
+    var hoverTargets = document.querySelectorAll('a, button');
+    hoverTargets.forEach(function(el) {
+      el.addEventListener('mouseenter', function() {
+        dot.classList.add('hovering');
+        ring.classList.add('hovering');
+      });
+      el.addEventListener('mouseleave', function() {
+        dot.classList.remove('hovering');
+        ring.classList.remove('hovering');
+      });
+    });
+  }
+
+  // -------- Nav scroll state --------
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 80) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }, { passive: true });
+
+  // -------- Theme toggle --------
+  var themeToggle = document.getElementById('themeToggle');
+  var root = document.documentElement;
+  var savedTheme = localStorage.getItem('theme');
+
+  if (savedTheme) {
+    root.setAttribute('data-theme', savedTheme);
+  }
+
+  themeToggle.addEventListener('click', function() {
+    var current = root.getAttribute('data-theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var next = current === 'light' ? 'dark' : current === 'dark' ? 'light' : (prefersDark ? 'light' : 'dark');
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+
+  // -------- Reveal on scroll --------
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        revealObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    revealObserver.observe(el);
+  });
+
+  // Hero elements: reveal immediately on load
+  requestAnimationFrame(function() {
+    document.querySelectorAll('.article-hero .reveal').forEach(function(el) {
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        el.classList.add('in');
+        revealObserver.unobserve(el);
+      }
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
