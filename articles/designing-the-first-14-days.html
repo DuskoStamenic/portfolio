@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Designing the First 14 Days — Decision Book</title>
+<meta name="description" content="How ActiveCollab's onboarding was rebuilt from scratch — competitive research, tested hypotheses, and a redesigned first-run flow that lifted trial-to-paid conversion.">
+<link rel="canonical" href="https://duskostamenic.com/articles/designing-the-first-14-days.html">
+
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://duskostamenic.com/articles/designing-the-first-14-days.html">
+<meta property="og:title" content="Designing the First 14 Days">
+<meta property="og:description" content="How ActiveCollab's onboarding was rebuilt from scratch — competitive research, tested hypotheses, and a redesigned first-run flow that lifted trial-to-paid conversion.">
+<meta property="og:image" content="https://duskostamenic.com/Images/designing-the-first-14-days.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_US">
+<meta property="og:site_name" content="Duško Stamenić — Decision Book">
+<meta property="article:published_time" content="2023-03-01T00:00:00+00:00">
+<meta property="article:author" content="Duško Stamenić">
+<meta property="article:section" content="Product Design">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="https://duskostamenic.com/articles/designing-the-first-14-days.html">
+<meta name="twitter:title" content="Designing the First 14 Days">
+<meta name="twitter:description" content="How ActiveCollab's onboarding was rebuilt from scratch — competitive research, tested hypotheses, and a redesigned first-run flow that lifted trial-to-paid conversion.">
+<meta name="twitter:image" content="https://duskostamenic.com/Images/designing-the-first-14-days.png">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Designing the First 14 Days",
+  "description": "How ActiveCollab's onboarding was rebuilt from scratch — competitive research, tested hypotheses, and a redesigned first-run flow that lifted trial-to-paid conversion.",
+  "image": "https://duskostamenic.com/Images/designing-the-first-14-days.png",
+  "datePublished": "2023-03-01",
+  "dateModified": "2023-03-01",
+  "author": {
+    "@type": "Person",
+    "name": "Duško Stamenić",
+    "url": "https://duskostamenic.com/",
+    "sameAs": [
+      "https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/"
+    ]
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Duško Stamenić",
+    "url": "https://duskostamenic.com/",
+    "sameAs": [
+      "https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/"
+    ]
+  },
+  "articleSection": "Product Design",
+  "inLanguage": "en",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://duskostamenic.com/articles/designing-the-first-14-days.html"
+  }
+}
+</script>
+
+<link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0B0B10;
+    --bg-raised: #12121A;
+    --bg-card: #16161F;
+    --bg-card-hover: #1C1C28;
+    --surface: #1E1E2A;
+    --text: #F0EDE8;
+    --text-secondary: #8A8694;
+    --text-faint: #807E8E;
+    --border: #2A2A36;
+    --border-subtle: #1E1E2A;
+    --cyan: #00E5C7;
+    --cyan-dim: #00B89E;
+    --cyan-glow: rgba(0, 229, 199, 0.15);
+    --coral: #FF6B4A;
+    --coral-dim: #E05A3C;
+    --coral-glow: rgba(255, 107, 74, 0.12);
+
+    --display: 'Space Grotesk', system-ui, sans-serif;
+    --body: 'DM Sans', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    --max: 1280px;
+    --gutter: clamp(24px, 5vw, 64px);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) {
+      --bg: #EDEAE4;
+      --bg-raised: #E5E1D9;
+      --bg-card: #DDD9D1;
+      --bg-card-hover: #D5D0C8;
+      --surface: #CCC8BF;
+      --text: #2A2520;
+      --text-secondary: #5C5650;
+      --text-faint: #7A756F;
+      --border: #C4BFB6;
+      --border-subtle: #D0CBC3;
+      --cyan: #B84A32;
+      --cyan-dim: #A04028;
+      --cyan-glow: rgba(184, 74, 50, 0.08);
+      --coral: #D94A30;
+      --coral-dim: #C0402A;
+      --coral-glow: rgba(217, 74, 48, 0.06);
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #EDEAE4;
+    --bg-raised: #E5E1D9;
+    --bg-card: #DDD9D1;
+    --bg-card-hover: #D5D0C8;
+    --surface: #CCC8BF;
+    --text: #2A2520;
+    --text-secondary: #5C5650;
+    --text-faint: #7A756F;
+    --border: #C4BFB6;
+    --border-subtle: #D0CBC3;
+    --cyan: #B84A32;
+    --cyan-dim: #A04028;
+    --cyan-glow: rgba(184, 74, 50, 0.08);
+    --coral: #D94A30;
+    --coral-dim: #C0402A;
+    --coral-glow: rgba(217, 74, 48, 0.06);
+  }
+  :root[data-theme="dark"] {
+    --bg: #0B0B10;
+    --bg-raised: #12121A;
+    --bg-card: #16161F;
+    --bg-card-hover: #1C1C28;
+    --surface: #1E1E2A;
+    --text: #F0EDE8;
+    --text-secondary: #8A8694;
+    --text-faint: #807E8E;
+    --border: #2A2A36;
+    --border-subtle: #1E1E2A;
+    --cyan: #00E5C7;
+    --cyan-dim: #00B89E;
+    --cyan-glow: rgba(0, 229, 199, 0.15);
+    --coral: #FF6B4A;
+    --coral-dim: #E05A3C;
+    --coral-glow: rgba(255, 107, 74, 0.12);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  @media (pointer: coarse) {
+    body { cursor: auto; }
+  }
+
+  ::selection {
+    background: var(--cyan);
+    color: var(--bg);
+  }
+
+  /* -------- Grain -------- */
+  .grain {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1000;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  /* -------- Subtle pattern -------- */
+  .pattern {
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 1;
+    opacity: 0.09;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><circle cx='30' cy='30' r='1' fill='%232A2520'/></svg>");
+  }
+  :root[data-theme="dark"] .pattern {
+    opacity: 0.09;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='60' height='60'><circle cx='30' cy='30' r='1' fill='%23F0EDE8'/></svg>");
+  }
+
+  /* -------- Custom Cursor -------- */
+  .cursor-dot {
+    position: fixed;
+    width: 8px; height: 8px;
+    background: var(--cyan);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s var(--ease), height 0.3s var(--ease), background 0.3s var(--ease);
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1.5px solid var(--cyan);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: width 0.4s var(--ease), height 0.4s var(--ease), border-color 0.3s var(--ease), opacity 0.3s ease;
+    opacity: 0.5;
+  }
+  .cursor-dot.hovering {
+    width: 48px; height: 48px;
+    background: var(--cyan);
+    opacity: 0.15;
+  }
+  .cursor-ring.hovering {
+    width: 56px; height: 56px;
+    border-color: var(--cyan);
+    opacity: 1;
+  }
+  .cursor-dot.clicking {
+    width: 6px; height: 6px;
+  }
+  .cursor-ring.clicking {
+    width: 28px; height: 28px;
+  }
+
+  @media (pointer: coarse) {
+    .cursor-dot, .cursor-ring { display: none; }
+  }
+
+  /* -------- Layout -------- */
+  main { position: relative; z-index: 2; }
+
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+  }
+
+  /* -------- Nav -------- */
+  nav.top {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 24px var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    transition: background 0.4s ease, backdrop-filter 0.4s ease;
+  }
+  nav.top.scrolled {
+    background: rgba(11, 11, 16, 0.85);
+    backdrop-filter: blur(20px) saturate(1.4);
+    -webkit-backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+  :root[data-theme="light"] nav.top.scrolled {
+    background: rgba(237, 234, 228, 0.85);
+  }
+  nav.top.scrolled .sigil { color: var(--text); }
+  nav.top.scrolled a { color: var(--text-secondary); }
+  .nav-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    width: 100%;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  nav.top .mark {
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  nav.top .sigil {
+    font-family: var(--display);
+    font-size: 18px;
+    color: var(--text);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    font-weight: 600;
+    line-height: 1;
+  }
+  .nav-right { display: flex; align-items: center; gap: 24px; }
+  nav.top ul { display: flex; gap: 32px; list-style: none; }
+  nav.top a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    position: relative;
+    cursor: none;
+    transition: color 0.3s ease;
+  }
+  nav.top a::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 100%; bottom: 0;
+    height: 1px;
+    background: var(--cyan);
+    transition: right 0.5s var(--ease);
+  }
+  nav.top a:hover { color: var(--text); }
+  nav.top a:hover::after { right: 0; }
+
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-faint);
+    cursor: none;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease, border-color 0.3s ease;
+    border-radius: 4px;
+  }
+  .theme-toggle:hover { color: var(--cyan); border-color: var(--cyan); }
+  :root[data-theme="light"] .theme-toggle { border-color: var(--border); }
+  .icon-moon { display: none; }
+  :root[data-theme="dark"] .icon-sun { display: none; }
+  :root[data-theme="dark"] .icon-moon { display: block; }
+  :root[data-theme="light"] .icon-sun { display: block; }
+  :root[data-theme="light"] .icon-moon { display: none; }
+
+  .mobile-link {
+    display: none;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  .mobile-link:hover { color: var(--text); }
+
+  /* -------- Article Hero -------- */
+  .article-hero {
+    padding: clamp(140px, 18vh, 210px) var(--gutter) 80px;
+    max-width: var(--max);
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    display: flex; align-items: center; gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 36px;
+  }
+  .eyebrow::before {
+    content: ''; width: 28px; height: 1px;
+    background: var(--text-faint); display: inline-block;
+    flex-shrink: 0;
+  }
+  .cat-pill {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    line-height: 1;
+  }
+  .eyebrow .sep { color: var(--border); }
+
+  .article-hero h1 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(44px, 7vw, 104px);
+    line-height: 0.94;
+    letter-spacing: -0.025em;
+    color: var(--text);
+    text-wrap: balance;
+    max-width: 20ch;
+  }
+
+  /* -------- Article Body -------- */
+  .article-body {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 72px 0 120px;
+  }
+
+  /* Context strip */
+  .article-meta {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-bottom: 60px;
+  }
+  .meta-item {
+    background: var(--bg);
+    padding: 16px 18px;
+  }
+  .meta-item .k {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 5px;
+  }
+  .meta-item .v {
+    font-family: var(--display);
+    font-size: 16px;
+    color: var(--text);
+    line-height: 1.2;
+  }
+
+  /* Section labels */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    border-top: 1px solid var(--border);
+    padding-top: 14px;
+    margin-top: 60px;
+    margin-bottom: 36px;
+  }
+  .section-label:first-of-type { margin-top: 0; }
+
+  /* Subsection headings */
+  .article-body h2 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(22px, 2.2vw, 30px);
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--text);
+    text-wrap: balance;
+    margin-top: 52px;
+    margin-bottom: 22px;
+  }
+
+  /* Body paragraphs */
+  .article-body p {
+    font-family: var(--body);
+    font-size: 20px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 26px;
+  }
+  .article-body p:last-child { margin-bottom: 0; }
+
+  .article-body p strong {
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  /* Inline code */
+  .article-body code {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    padding: 2px 7px;
+    border-radius: 3px;
+    color: var(--cyan);
+    white-space: nowrap;
+  }
+
+  /* Callout / prompt block */
+  .callout {
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    padding: 28px 32px;
+    margin: 40px 0;
+  }
+  .callout-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .callout p {
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout p strong {
+    font-weight: 700;
+    font-style: italic;
+  }
+
+  /* Figures */
+  .article-figure {
+    margin: 52px 0;
+  }
+  .img-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
+    overflow: hidden;
+    position: relative;
+  }
+  .img-wrap img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    display: block;
+  }
+  figcaption {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    margin-top: 14px;
+    padding-left: 2px;
+    line-height: 1.5;
+  }
+
+  /* Article bottom nav */
+  .article-nav {
+    border-top: 1px solid var(--border);
+    padding-top: 36px;
+    margin-top: 64px;
+    display: flex;
+    justify-content: center;
+  }
+  .article-nav a {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    text-decoration: none;
+    cursor: none;
+    transition: color 0.3s ease;
+  }
+  .article-nav a:hover { color: var(--text); }
+
+  /* -------- Footer -------- */
+  footer {
+    background: var(--bg-raised);
+    color: var(--text-faint);
+    padding: 40px var(--gutter);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    display: flex; justify-content: space-between; gap: 24px;
+    flex-wrap: wrap;
+    position: relative; z-index: 2;
+    border-top: 1px solid var(--border-subtle);
+  }
+  footer a { color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease; }
+  footer a:hover { color: var(--cyan); }
+
+  /* -------- Reveal animation -------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s var(--ease-out), transform 0.9s var(--ease-out);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+  .reveal.d1 { transition-delay: 0.1s; }
+  .reveal.d2 { transition-delay: 0.2s; }
+
+  /* -------- Reduced motion -------- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; }
+  }
+
+  /* -------- Responsive -------- */
+  @media (max-width: 900px) {
+    .article-meta { grid-template-columns: 1fr; }
+    .nav-inner { padding: 0; }
+    nav.top .nav-right ul { display: none; }
+    .mobile-link { display: block; }
+    .article-nav { flex-direction: column; gap: 36px; }
+    .article-body { padding: 72px var(--gutter) 120px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="grain"></div>
+<div class="pattern"></div>
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<nav class="top" id="nav">
+  <div class="nav-inner">
+    <div class="mark">
+      <span class="sigil">Duško Stamenić</span>
+    </div>
+    <div class="nav-right">
+      <ul>
+        <li><a href="../blog.html">Decision Book</a></li>
+        <li><a href="https://www.linkedin.com/in/du%C5%A1ko-stameni%C4%87-910035164/" target="_blank" rel="noopener">LinkedIn &nearr;</a></li>
+      </ul>
+      <a href="../blog.html" class="mobile-link">Decision Book</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+        <svg class="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- -------- Hero -------- -->
+<header class="article-hero">
+  <div class="eyebrow reveal">
+    <span class="cat-pill">Product Design</span>
+    <span class="sep">&middot;</span>
+    <span>8 min read</span>
+  </div>
+  <h1 class="reveal d1">Designing the First 14 Days</h1>
+</header>
+
+<!-- -------- Body -------- -->
+<article class="article-body">
+
+  <!-- Context strip -->
+  <div class="article-meta reveal">
+    <div class="meta-item">
+      <div class="k">Context</div>
+      <div class="v">ActiveCollab</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Delivered</div>
+      <div class="v">March 2023</div>
+    </div>
+    <div class="meta-item">
+      <div class="k">Author</div>
+      <div class="v">Duško Stamenić</div>
+    </div>
+  </div>
+
+  <!-- Challenge Overview -->
+  <div class="section-label reveal">Challenge Overview</div>
+
+  <p class="reveal">When I picked up the onboarding project, ActiveCollab's trial had a thirty-day runway and nothing built into it to spend that time well. A new sign-up landed straight in an empty task list — the same screen a longtime user would see after clearing their to-do list, except this was the very first thing anyone encountered. There was no welcome moment, no cue for where to start, and nothing connecting the blank workspace in front of someone to the value the product was supposed to deliver. The trial wasn't hostile, exactly. It was <strong>indifferent, and indifference has a cost you can read directly in the funnel</strong>: only 4.6% of trials converted to paid accounts, and the ones that did took more than thirty days to get there — longer than the trial itself was designed to run.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="../Images/onboarding_research.png"
+        alt="Competitive research across thirteen productivity and project-management apps — onboarding patterns, shared structures, and the places where products diverged"
+        loading="lazy"
+        width="1800"
+      />
+    </div>
+    <figcaption>Product teams combining many research methods to discover where the real success hides.</figcaption>
+  </figure>
+
+  <p class="reveal">Neither number was much of a mystery once you looked at what a new user actually experienced. Nothing in that first session, or in the days after it, was doing the job an onboarding flow is supposed to do — <strong>turning curiosity into a habit, and a habit into a decision to pay</strong>. The brief that came out of this was easy to state and harder to execute: close every one of those early gaps, lift trial-to-paid conversion off its floor, and shorten the distance between sign-up and a first real sense of value.</p>
+
+  <!-- Creation Arc -->
+  <div class="section-label reveal">Creation Arc</div>
+
+  <h2 class="reveal">Benchmarking the onboarding landscape</h2>
+  <p class="reveal">Before redesigning anything, we spent time understanding how other tools handled the same problem, mapping and recording onboarding across thirteen productivity and project-management apps to find shared patterns and the places where products diverged. What that comparison made clear was that none of the strong onboarding experiences lived in a single screen. Each one was a system: a step-by-step setup sequence inside the product, timed lifecycle emails nudging people back toward activation, lightweight tutorials and feature pointers, self-serve documentation for people who preferred to explore on their own, and, behind all of it, support agents and a sales team picking up wherever the automated parts left off. Redesigning ActiveCollab's onboarding was never going to be a matter of fixing one screen. It meant <strong>treating the whole first month as a single, connected experience</strong>.</p>
+
+  <h2 class="reveal">Mapping the first month, touchpoint by touchpoint</h2>
+  <p class="reveal">To make that connected experience visible, we charted every interaction a new user had across marketing, product, and lifecycle emails, organized by team and by day. The picture that emerged <strong>split roughly into four phases</strong>. On day zero and one, marketing owned the moment — the campaign or blog post that brought someone in, the homepage, the first screens inside the product. From day two through day nine, ownership shifted to a joint effort between marketing and product, using lifecycle emails to pull people back toward the actions that mattered. Around day ten through thirteen, the strongest conversion signals appeared — webinar sign-ups, intent-driven emails, requests to schedule a call — and sales took the lead. By day fourteen through thirty, sales and product worked together to close the loop, sending the prompts aimed at turning a trial into a paying account.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="../Images/Onboarding_journey_map.png"
+        alt="First-month journey map — marketing, product, and lifecycle touchpoints organized by team and by day, with ownership handoffs between them made visible"
+        loading="lazy"
+        width="1800"
+      />
+    </div>
+    <figcaption>The first month mapped touchpoint by touchpoint, with handoffs between teams made explicit.</figcaption>
+  </figure>
+
+  <p class="reveal">Laying the whole month out this way did something simple but important: it showed exactly where the handoffs between teams were happening, and <strong>where a user could fall through the cracks between them</strong>.</p>
+
+  <h2 class="reveal">Turning research into testable assumptions</h2>
+  <p class="reveal">Every design decision that followed traced back to a specific hypothesis, <strong>written from the point of view of either an account Owner or a trial user</strong>. A dedicated welcome moment for clients, so an empty task list wasn't the first thing anyone saw. Custom invite messages, so an Owner could hand a new teammate some context instead of a blank, generic invite. Two-factor authentication, so clients felt confident their data was safe from the first login. Richer sample projects, so trial users could see more of what the product could do than just the basics. The option to choose what got imported from competitor apps, so testers weren't forced to bring over every client and team member just to try the app. And a custom color scheme, so a workspace could actually look like it belonged to the organization using it, rather than a generic trial account.</p>
+
+  <p class="reveal"><strong>None of these were guesses dressed up as strategy</strong>. Each one answered a specific question the research had raised, and each one could be tested and measured on its own.</p>
+
+  <h2 class="reveal">Pre-app onboarding screens</h2>
+  <p class="reveal">Across the competitive set, the pre-app onboarding screens converged on a nearly identical sequence: enter your name, email, and password; describe your company; invite your team; start your first project. That convergence was itself useful information — it told us where the industry had already settled on a pattern, and <strong>where ActiveCollab had room to differ</strong>.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="../Images/Onboarding_pre-app_onboarding.png"
+        alt="A typical pre-app onboarding step — company profile capture before entering the product"
+        loading="lazy"
+        width="1800"
+      />
+    </div>
+    <figcaption>A typical pre-app step — company profile capture</figcaption>
+  </figure>
+
+  <h2 class="reveal">First contact with the product</h2>
+  <p class="reveal">Once someone was inside the product, the strongest onboarding flows we studied shared three moves. A welcome screen greeted new users with something warmer than a blank interface — a small, deliberate moment of delight before the real work began. A feature pointer guide used lightweight tooltips to highlight the handful of controls that actually mattered, rather than explaining everything at once. And a short introductory video, rarely longer than two or three minutes, set expectations before people started clicking around on their own. Together, the three moves did the same job a good host does at the door of a party: <strong>orient the guest, point them toward something worth doing, then get out of the way</strong>.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="../Images/Onboarding_welcome_screen.png"
+        alt="The welcome screen shown to new users at their first contact with the product — a warm, celebratory moment before the real work begins"
+        loading="lazy"
+        width="1800"
+      />
+    </div>
+    <figcaption>The welcome screen — a warm and celebratory delighter</figcaption>
+  </figure>
+
+  <h2 class="reveal">Retention is a psychology problem before it's a metrics problem</h2>
+  <p class="reveal">Every product decision either <strong>builds a habit loop or quietly breaks one</strong>, so I used the Hook Model as a lens for the redesign and then checked what it predicted against the data. New teams were signing up but stalling before they reached a core project-management workflow, because setup felt like configuration rather than progress. So we rebuilt onboarding around progressive disclosure and contextual triggers — surfacing one decision at a time, prompting the next step only when it was relevant, and routing people toward a real task as quickly as possible. What came out of it was a shorter path to a completed first task and an onboarding flow that <strong>taught the product instead of interrogating the user</strong>.</p>
+
+  <p class="reveal">Progressive disclosure meant revealing complexity gradually, so the interface never outpaced what a new user actually understood yet. Contextual triggers meant prompting the right next step exactly when it became useful, instead of front-loading every decision. Quick wins meant getting someone to a small, visible success early, since <strong>momentum is far easier to sustain than to create</strong>. And habit loops meant designing recurring touchpoints — notifications, recaps, shared views — that pulled teams back into their daily workflow long after onboarding itself had ended.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="../Images/Onboarding_blank_slate.png"
+        alt="The blank-slate state of the workspace, redesigned as part of the onboarding flow so a new user is routed toward a real first task"
+        loading="lazy"
+        width="1800"
+      />
+    </div>
+    <figcaption>Blank slate as part of the onboarding flow</figcaption>
+  </figure>
+
+  <h2 class="reveal">Defining what success would look like</h2>
+  <p class="reveal">Two kinds of numbers mattered for this project, and it was worth being explicit about which one was the target and which were early warning signs. The direct indicator, the north star for the whole effort, was <strong>trial-to-paid conversion</strong> — the goal was to move it from 4.6% up to 6%, alongside cutting the time to convert to under twenty days. Everything else sat downstream of that: a drop in early churn and more in-app activity during the trial itself served as indirect signals that the flow was working before the conversion number had time to catch up.</p>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="../Images/Onboarding_metrics.png"
+        alt="Metrics overview — the direct indicator of trial-to-paid conversion alongside the indirect signals of early churn and in-app activity during the trial"
+        loading="lazy"
+        width="1800"
+      />
+    </div>
+    <figcaption>The direct and indirect indicators tracked for the project</figcaption>
+  </figure>
+
+  <h2 class="reveal">Testing what we designed</h2>
+  <p class="reveal">Two rounds of testing shaped the flow's final form. The first was an A/B test that cut the pre-app sequence from four screens to three, removing the "invite your team" step entirely to see whether trimming friction at the door would get people into the real interface faster. We'd already identified other, better places inside the app to prompt team invites, so removing it here wasn't a loss — it just <strong>moved the moment to where it made more sense</strong>.</p>
+
+  <p class="reveal">The second was moderated usability testing aimed at a bigger question: <strong>did people still need a guided tour</strong> once the rest of the flow had been simplified? They didn't. Session after session, people moved through the product with no hesitation and no navigation confusion. One line from those sessions stuck with the team:</p>
+
+  <div class="callout reveal">
+    <p>"Users didn't need to be shown where things were — they already knew."</p>
+  </div>
+
+  <p class="reveal">We still kept a handful of short tutorial videos in place, not to compensate for confusion, but to <strong>show off the parts of the product whose depth and interconnection wouldn't be obvious from a first look alone</strong>.</p>
+
+  <h2 class="reveal">A new design system, a new onboarding</h2>
+
+  <figure class="article-figure reveal">
+    <div class="img-wrap">
+      <img
+        src="../Images/Onboarding_changes.png"
+        alt="The refreshed onboarding flow, rebuilt to match ActiveCollab's renewed design system"
+        loading="lazy"
+        width="1800"
+      />
+    </div>
+    <figcaption>Onboarding rebuilt to match ActiveCollab's refreshed design system</figcaption>
+  </figure>
+
+  <p class="reveal">When ActiveCollab's design system went through its own refresh, onboarding was rebuilt to match it — and it kept evolving from there, shaped by whatever the usage data and user feedback turned up next. The refreshed flow nudged daily trial engagement gently upward, and trial-to-paid conversion reached the original 6% target before settling into a natural fluctuation around it. What stayed most consistent, though, wasn't a number at all — it was the qualitative feedback, which kept confirming that <strong>the product simply felt easy to move through, session after session</strong>.</p>
+
+  <!-- Takeaways -->
+  <div class="section-label reveal">Takeaways</div>
+
+  <p class="reveal">A few things about this project held up well beyond the specific numbers. Simplicity turned out to be what earned users' trust to explore the product's real depth later — an easy first impression didn't hide complexity so much as it gave people permission to find it on their own terms, once they were ready. And <strong>removing friction consistently outperformed adding guidance</strong>: cutting a screen and retiring the guided tour did more for the experience than any additional instructional layer we tried, which is worth remembering whenever the instinct in a redesign is to add rather than subtract. Perceived ease mattered just as much as actual feature depth — users rated the product as simple to use even as it grew more capable underneath that surface, a reminder that <strong>how a product feels to a new user and how much it can actually do are two different design problems</strong>, and neither should be solved at the expense of the other.</p>
+
+  <p class="reveal">Maybe the clearest lesson, though, was that <strong>onboarding is never really finished</strong>. Every time the design system changed underneath it, the first-run flow needed to be revisited and re-tested, because <strong>the promises a product makes in its first fifteen minutes have to keep pace with what the product has become</strong>.</p>
+
+  <!-- Bottom navigation -->
+  <nav class="article-nav reveal">
+    <a href="../blog.html">&larr; Back to all essays</a>
+  </nav>
+
+</article>
+
+</main>
+
+<footer>
+  <span>&copy; 2026 Duško Stamenić — Decision Book</span>
+  <span>Rationale &middot; Clarity &middot; Structure</span>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // -------- Custom Cursor --------
+  var dot = document.getElementById('cursorDot');
+  var ring = document.getElementById('cursorRing');
+  var mouseX = -100, mouseY = -100;
+  var ringX = -100, ringY = -100;
+  var isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
+  if (!isTouch) {
+    document.addEventListener('mousemove', function(e) {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      dot.style.left = mouseX + 'px';
+      dot.style.top = mouseY + 'px';
+    });
+
+    function animateRing() {
+      ringX += (mouseX - ringX) * 0.12;
+      ringY += (mouseY - ringY) * 0.12;
+      ring.style.left = ringX + 'px';
+      ring.style.top = ringY + 'px';
+      requestAnimationFrame(animateRing);
+    }
+    animateRing();
+
+    document.addEventListener('mousedown', function() {
+      dot.classList.add('clicking');
+      ring.classList.add('clicking');
+    });
+    document.addEventListener('mouseup', function() {
+      dot.classList.remove('clicking');
+      ring.classList.remove('clicking');
+    });
+
+    var hoverTargets = document.querySelectorAll('a, button');
+    hoverTargets.forEach(function(el) {
+      el.addEventListener('mouseenter', function() {
+        dot.classList.add('hovering');
+        ring.classList.add('hovering');
+      });
+      el.addEventListener('mouseleave', function() {
+        dot.classList.remove('hovering');
+        ring.classList.remove('hovering');
+      });
+    });
+  }
+
+  // -------- Nav scroll state --------
+  var nav = document.getElementById('nav');
+  window.addEventListener('scroll', function() {
+    if (window.scrollY > 80) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }, { passive: true });
+
+  // -------- Theme toggle --------
+  var themeToggle = document.getElementById('themeToggle');
+  var root = document.documentElement;
+  var savedTheme = localStorage.getItem('theme');
+
+  if (savedTheme) {
+    root.setAttribute('data-theme', savedTheme);
+  }
+
+  themeToggle.addEventListener('click', function() {
+    var current = root.getAttribute('data-theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var next = current === 'light' ? 'dark' : current === 'dark' ? 'light' : (prefersDark ? 'light' : 'dark');
+    root.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  });
+
+  // -------- Reveal on scroll --------
+  var revealObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        revealObserver.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(function(el) {
+    revealObserver.observe(el);
+  });
+
+  // Hero elements: reveal immediately on load
+  requestAnimationFrame(function() {
+    document.querySelectorAll('.article-hero .reveal').forEach(function(el) {
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        el.classList.add('in');
+        revealObserver.unobserve(el);
+      }
+    });
+  });
+
+})();
+</script>
+
+</body>
+</html>
